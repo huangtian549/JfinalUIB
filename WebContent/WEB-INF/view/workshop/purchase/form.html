@@ -1,0 +1,118 @@
+
+<input type="hidden" name ="purchase.customer_ids" value="${escapeXml(customerIds!)}" />
+<div class="control-group">
+	<label class="control-label">网址</label>
+	<div class="controls">
+		<input type="text" name="purchase.website" value="${escapeXml(purchase.website!)}" 
+			class="span8" maxlength="100" vMin="1" vType="letterNumber"  placeholder="1-100位字母数字">
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">美元价格</label>
+	<div class="controls">
+		<input type="text" name="purchase.priceUS" value="${escapeXml(purchase.priceUS!)}" 
+			class="span8" maxlength="25" vMin="0" vType="length"  >
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">人民币价格</label>
+	<div class="controls">
+		<input type="text" name="purchase.priceCN" value="${escapeXml(purchase.priceCN!)}" 
+			class="span8" maxlength="25" vMin="0" vType="length"  >
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">购买日期</label>
+	<div class="controls">
+		<input id="endDate" type="text" name="purchase.purchaseDate" value="${escapeXml(purchase.purchaseDate!)}" onClick="WdatePicker()" readonly/>
+		<span class="help-inline"> </span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">是否付款</label>
+	<div class="controls">
+		<select name="purchase.isPay" class="combox">
+			<option value="1" ${purchase.isPay! == "1" ? "selected='selected'":"" }>已经付款</option>
+			<option value="0" ${purchase.isPay! != "1" ? "selected='selected'":"" }>未付款</option>
+		</select>
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">快递日期</label>
+	<div class="controls">
+		<input id="endDate" type="text" name="purchase.deliverDate" value="${escapeXml(purchase.deliverDate!)}" onClick="WdatePicker()" readonly/>
+		<span class="help-inline"> </span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">是否支付运费</label>
+	<div class="controls">
+		<select name="purchase.isPayDeliverFee" class="combox">
+			<option value="1" ${purchase.isPayDeliverFee! == "1" ? "selected='selected'":"" }>支付运费</option>
+			<option value="0" ${operator.isPayDeliverFee! != "1" ? "selected='selected'":"" }>未支付运费</option>
+		</select>
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">运费价格</label>
+	<div class="controls">
+		<input type="text" name="purchase.deliverFee" value="${escapeXml(purchase.deliverFee!)}" 
+			class="span8" maxlength="25" vMin="0" vType="length"  >
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">备注</label>
+            <div class="controls">
+                  <textarea class="input-xxlarge" rows="3" name ="purchase.description">${escapeXml(purchase.description!)}</textarea>
+             </div>
+</div>
+                  <input type="hidden" name="image" id="image" />
+                 <div class="control-group" >
+                 	  <label class="control-label">上传聊天记录</label>
+                 	  
+                  		<div class="controls" >
+                               <div class="ibox-content" >
+                            <div id="uploader" class="wu-example">
+                                <div class="queueList">
+                                    <div id="dndArea" class="placeholder">
+                                        <div id="filePicker"></div>
+                                        <p>或将照片拖到这里，最多可选6张</p>
+                                    </div>
+                                </div>
+                                <div class="statusBar" style="display:none;">
+                                    <div class="progress">
+                                        <span class="text">0%</span>
+                                        <span class="percentage"></span>
+                                    </div>
+                                    <div class="info"></div>
+                                    <div class="btns">
+                                        <div id="filePicker2"></div>
+                                        <div class="uploadBtn">开始上传</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                 </div>
+                 
+                 
+        <script type="text/javascript">
+	     var BASE_URL = "${cxt!}/jsfile/webuploader";
+        </script>
+        <script src="${cxt!}/jsfile/webuploader/webuploader.min.js"></script>
+
+        <script src="${cxt!}/jsfile/webuploader/upload.js"></script>

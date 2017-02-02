@@ -51,10 +51,7 @@ public class Blog extends BaseModel<Blog> {
 	 */
 	public static final String sqlId_splitPageFrom = "test.blog.splitPageFrom";
 
-	private String ids;
-	private String title;
-	private String content;
-	private String createtime;
+	
 	
 	public void setIds(String ids){
 		set(column_ids, ids);

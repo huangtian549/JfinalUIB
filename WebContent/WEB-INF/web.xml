@@ -55,7 +55,12 @@
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
-	
+	<filter-mapping>
+		<filter-name>JFinal</filter-name>
+		<url-pattern>/workshop/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
 	<error-page>  
 	 	<error-code>404</error-code>  
 	 	<location>/ui/metrolab/404.html</location>  

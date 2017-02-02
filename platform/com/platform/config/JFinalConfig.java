@@ -12,6 +12,7 @@ import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
+import com.jfinal.core.JFinal;
 import com.jfinal.ext.handler.UrlSkipHandler;
 import com.jfinal.i18n.I18nInterceptor;
 import com.jfinal.kit.PathKit;
@@ -61,6 +62,14 @@ import com.platform.tools.ToolString;
 public class JFinalConfig extends com.jfinal.config.JFinalConfig {
 	
 	private static final Log log = Log.getLog(JFinalConfig.class);
+	
+	/**
+	 * 建议使用 JFinal 手册推荐的方式启动项目
+	 * 运行此 main 方法可以启动项目，此main方法可以放置在任意的Class类定义中，不一定要放于此
+	 */
+	public static void main(String[] args) {
+		JFinal.start("WebContent", 8080, "/", 5);
+	}
 	
 	/**
 	 * 配置常量
@@ -219,7 +228,7 @@ public class JFinalConfig extends com.jfinal.config.JFinalConfig {
 		plugins.add(new FileRenamePlugin());
 
 		log.info("configPlugin QuartzPlugin 配置Quartz插件");
-		plugins.add(new QuartzPlugin());
+//		plugins.add(new QuartzPlugin());
 	}
 
 	/**
@@ -272,14 +281,14 @@ public class JFinalConfig extends com.jfinal.config.JFinalConfig {
 	 * 系统启动完成后执行
 	 */
 	public void afterJFinalStart() {
-		log.info("afterJFinalStart 启动操作日志入库线程");
-		ThreadSysLog.startSaveDBThread();
+//		log.info("afterJFinalStart 启动操作日志入库线程");
+//		ThreadSysLog.startSaveDBThread();
 
-		log.info("afterJFinalStart 系统负载");
-		QuartzPlugin.addJob("ResourcesJob", "0 0/2 * * * ?", ResourcesJob.class);
-
-		log.info("afterJFinalStart 数据清理");
-		QuartzPlugin.addJob("DataClearJob", "0 0 2 * * ?", DataClearJob.class);
+//		log.info("afterJFinalStart 系统负载");
+//		QuartzPlugin.addJob("ResourcesJob", "0 0/2 * * * ?", ResourcesJob.class);
+//
+//		log.info("afterJFinalStart 数据清理");
+//		QuartzPlugin.addJob("DataClearJob", "0 0 2 * * ?", DataClearJob.class);
 	}
 	
 	/**
@@ -289,11 +298,12 @@ public class JFinalConfig extends com.jfinal.config.JFinalConfig {
 		log.info("beforeJFinalStop 释放日志入库线程");
 		ThreadSysLog.setThreadRun(false);
 
-		log.info("beforeJFinalStop 系统负载");
-		QuartzPlugin.deleteJob("ResourcesJob");
+//		log.info("beforeJFinalStop 系统负载");
+//		QuartzPlugin.deleteJob("ResourcesJob");
+//		
+//		log.info("beforeJFinalStop 数据清理");
+//		QuartzPlugin.deleteJob("DataClearJob");
 		
-		log.info("beforeJFinalStop 数据清理");
-		QuartzPlugin.deleteJob("DataClearJob");
 	}
 
 }

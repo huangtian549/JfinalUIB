@@ -19,6 +19,7 @@ import org.beetl.core.BeetlKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.platform.dto.DataBase;
+import com.platform.tools.ToolString;
 
 /**
  * 代码生成处理器基类
@@ -120,7 +121,12 @@ public abstract class BaseHandler {
 		paraMap.put("tableName", tableName);
 		paraMap.put("pkName", pkName);
 		paraMap.put("namespace", basePath + "." + classNameSmall);
-
+		
+		for (ColumnDto columnDto : colunmList) {
+			String columnName = columnDto.getColumn_name();
+			columnDto.setColumn_name(columnName);
+		}
+		
 		paraMap.put("colunmList", colunmList);
 		paraMap.put("dataTypes", getJataTypeList(tableName));
 		

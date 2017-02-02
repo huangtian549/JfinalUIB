@@ -78,11 +78,12 @@ public class MultipartRequest extends HttpServletRequestWrapper {
 		
 		uploadPath = uploadPath.trim();
 		if (uploadPath.startsWith("/") || uploadPath.startsWith("\\")) {
-			if (baseUploadPath.equals("/")) {
-				return uploadPath;
-			} else {
-				return baseUploadPath + uploadPath;
-			}
+			return uploadPath;
+//			if (baseUploadPath.equals("/")) {
+//				return uploadPath;
+//			} else {
+//				return baseUploadPath + uploadPath;
+//			}
 		} else {
 			return baseUploadPath + File.separator + uploadPath;
 		}

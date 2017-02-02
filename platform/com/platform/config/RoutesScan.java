@@ -50,7 +50,7 @@ public class RoutesScan extends Routes {
 				}else{
 					add(controllerKey, controller);
 				}
-				log.debug("Controller注册： controller = " + controller + ", " + controllerKey);
+				log.info("Controller注册： controller = " + controller + ", " + controllerKey);
 			}
 		}
 	}

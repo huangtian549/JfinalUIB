@@ -1,0 +1,100 @@
+
+<div class="control-group">
+	<label class="control-label">姓名</label>
+	<div class="controls">
+		<input type="text" class="span8" name="customer.name" value="${escapeXml(customer.name!)}" 
+			maxlength="10" vMin="2" vType="length" onblur="platform_verify.onblurVali(this);" placeholder="2-10位任意字符">
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">微信</label>
+	<div class="controls">
+		<input type="text" class="span8" name="customer.wechat" value="${escapeXml(customer.wechat!)}" 
+			maxlength="10" vMin="2" vType="length" onblur="platform_verify.onblurVali(this);" placeholder="2-10位任意字符">
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">地址</label>
+            <div class="controls">
+                  <textarea class="input-xxlarge" rows="3" name ="customer.address">${escapeXml(customer.address!)}</textarea>
+             </div>
+</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		
+	});
+	
+	/**
+	 * 用户添加和编辑页面js
+	 */
+	var platform_user_form = function() {
+		"use strict";
+		
+		/**
+		 * 验证用户名是否存在
+		 * @param userName
+		 */
+		var valiUserName = function(userName, userIds){
+			var param = {"userName" : userName, "userIds" : userIds};
+			var result = common_ajax.ajaxFunc("/platform/login/valiUserName", param);
+			return result;
+		}
+		
+		/**
+		 * 验证邮箱是否存在
+		 * @param mailBox
+		 */
+		var valiMailBox = function(mailBox, userInfoIds){
+			var param = {"mailBox" : mailBox, "userInfoIds" : userInfoIds};
+			var result = common_ajax.ajaxFunc("/platform/login/valiMailBox", param);
+			return result;
+		}
+		
+		/**
+		 * 验证身份证是否存在
+		 * @param idcard
+		 */
+		var valiIdcard = function(idcard, userInfoIds){
+			var param = {"idcard" : idcard, "userInfoIds" : userInfoIds};
+			var result = common_ajax.ajaxFunc("/platform/login/valiIdcard", param);
+			return result;
+		}
+		
+		/**
+		 *验证手机号是否存在
+		 * @param mailBox
+		 */
+		var valiMobile = function(mobile, userInfoIds){
+			var param = {"mobile" : mobile, "userInfoIds" : userInfoIds};
+			var result = common_ajax.ajaxFunc("/platform/login/valiMobile", param);
+			return result;
+		}
+		
+		var dataVali = function (form, isAdd){
+			var usernameNode = $("#usernameId");
+			var mailboxNode = $("#mailboxId");
+			var idcardNode = $("#idcardId");
+			var mobileNode = $("#mobileId");
+			
+			
+			var errorCount = platform_verify.formVali(form);
+			if(errorCount != 0){
+				common_modals.alert("有" + errorCount + "处错误，请修正！");
+		 		return false;
+			}
+			
+			common_ajax.ajaxFormMainPanel("editForm");
+		}
+	
+		return {
+			submitValiFunc: dataVali
+		};
+		
+	}();
+
+</script>

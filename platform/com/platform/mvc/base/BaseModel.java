@@ -238,6 +238,22 @@ public abstract class BaseModel<M extends Model<M>> extends Model<M> {
 		
 		return super.save();
 	}
+	
+	/**
+	 * 重写save方法，自动赋值，生成UUID值
+	 */
+	public boolean save(boolean autoPK) {
+//		String[] pkArr = getTable().getPrimaryKey();
+//		for (String pk : pkArr) {
+//			this.set(pk, ToolRandoms.getUuid(true)); // 设置主键值
+//		}
+		
+		if(getTable().hasColumnLabel(column_version)){ // 是否需要乐观锁控制
+			this.set(column_version, Long.valueOf(0)); // 初始化乐观锁版本号
+		}
+		
+		return super.save();
+	}
 
 	/**
 	 * 重写save方法，单主键，自定义主键值

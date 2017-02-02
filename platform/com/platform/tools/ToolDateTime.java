@@ -38,6 +38,9 @@ public abstract class ToolDateTime {
 	public static final int pattern_ymd_hms_length = 19; 
 	
 	public static final String pattern_ymd_hms_s = "yyyy-MM-dd HH:mm:ss:SSS"; // pattern_ymd timeMillisecond
+	
+	public static final String SHORT_DATE_FORMAT_NO_DASH = "yyyyMMdd";
+	
 	public static final int pattern_ymd_hms_s_length = 23;
 
 	/**
@@ -210,6 +213,22 @@ public abstract class ToolDateTime {
 		return date;
 	}
 
+	/**
+	 * Return the String representation of the Date against the given format.
+	 * 
+	 * @param date the date to format
+	 * @param format the date format pattern
+	 * @return the format Date String.
+	 */
+	public static String getDateString(Date date, String format) {
+		if (date == null) {
+			return null;
+		}
+
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.format(date);
+	}
+	
 	/**
 	 * 两个日期的时间差，返回"X天X小时X分X秒"
 	 * 
