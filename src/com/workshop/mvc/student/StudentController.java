@@ -3,19 +3,17 @@ package com.workshop.mvc.student;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 import com.jfinal.aop.Before;
 import com.jfinal.log.Log;
+import com.jfinal.upload.UploadFile;
 import com.platform.annotation.Controller;
 import com.platform.constant.ConstantInit;
 import com.platform.mvc.base.BaseController;
 import com.platform.mvc.base.BaseModel;
 import com.platform.tools.ToolDateTime;
-import com.platform.tools.ToolWord;
+import com.platform.tools.ToolString;
 
 /**
  * XXX 管理	
@@ -37,10 +35,6 @@ public class StudentController extends BaseController {
 	private static final Log log = Log.getLog(StudentController.class);
 	
 	private StudentService studentService;
-	
-	private static String allowSuffix = "jpg,png,gif,jpeg,doc,docx";
-	
-	String destDir = "/home/data/workshop/";
 	
 	/**
 	 * 列表
@@ -65,53 +59,20 @@ public class StudentController extends BaseController {
 	}
 	
 	
-//	public void uploadFile() {
-//		String dateString = ToolDateTime.getDateString(new Date(), ToolDateTime.SHORT_DATE_FORMAT_NO_DASH);
-//		dateString = "workshop/"  + dateString;
-//		
-//		List<UploadFile> files = getFiles("/home/data/" + dateString + File.separator, 10 * 1024 * 1024, ToolString.encoding); // 10M
-//		if (files != null) {
-//			log.info("size:" + files.size());
-//		}
-//		renderText(files.get(0).getUploadPath() + files.get(0).getFileName() + ",");
-//	}
-	
-	public void uploadFile(MultipartFile file,HttpServletRequest request) throws Exception {
-        String picUrl = "";
-        try {
-                String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
-                String fileOriginalName = file.getOriginalFilename();
-                int length = allowSuffix.indexOf(suffix);
-                if(length == -1){
-                    throw new Exception("请上传允许格式的文件");
-                }
-                if(file.getSize() > 5000000L){
-                    throw new Exception("您上传的文件大小已经超出范围");
-                }
-                 
-                File destFile = new File(destDir  + "/");
-                if(!destFile.exists()){
-                    destFile.mkdirs();
-                }
-                File f = new File(destFile.getAbsoluteFile()+"/"+fileOriginalName);
-                if (f.exists()) {
-                	Date date = new Date();
-            		String dateString = ToolDateTime.getDateString(new Date(), ToolDateTime.SHORT_DATE_FORMAT_NO_DASH);
-                	f = new File(destFile.getAbsoluteFile()+"/" + dateString + fileOriginalName);
-				}
-                String fileNameNew = f.getName();
-                file.transferTo(f);
-                f.createNewFile();
-                
-                //转换成html
-                ToolWord.convertWord2Html(f.getAbsolutePath(), destDir + "html/");
-                
-               picUrl = "/data/workshop/" + fileNameNew;
-        } catch (Exception e) {
-            throw e;
-        }
-        renderText(picUrl);;
-    }
+	public void uploadFile() {
+		String dateString = ToolDateTime.getDateString(new Date(), ToolDateTime.SHORT_DATE_FORMAT_NO_DASH);
+		dateString = "workshop/"  + dateString;
+		
+		List<UploadFile> files = getFiles("/home/data/" + dateString + File.separator, 10 * 1024 * 1024, ToolString.encoding); // 10M
+		if (files != null) {
+			log.info("size:" + files.size());
+		}
+		String filePath = files.get(0).getUploadPath() + files.get(0).getFileName() + ",";
+		filePath = filePath.replaceFirst("/home", "");
+		renderText(filePath);
+		
+//		return files.get(0).getUploadPath() + files.get(0).getFileName() + ",";
+	}
 	
 	/**
 	 * 准备更新

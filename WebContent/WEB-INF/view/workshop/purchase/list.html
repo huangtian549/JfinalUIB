@@ -1,5 +1,5 @@
 
-<form id="splitPage" action="${cxt!}/platform/role" method="POST" class="form-horizontal">
+<form id="splitPage" action="${cxt!}/workshop/purchase" method="POST" class="form-horizontal">
 
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
@@ -34,10 +34,8 @@
 					</div>
 					<div class="widget-body form switch-form">
 						${i18nMap["admin.role.property.numbers"]}
-						<input class="medium" type="text" name="_query.numbers" value='${escapeXml(splitPage.queryParam["ids"])}' maxlength="50">
+						<input class="medium" type="text" name="_query.description" value='${escapeXml(splitPage.queryParam["description"])}' maxlength="50">
 
-						${i18nMap["admin.role.property.name"]}
-						<input class="medium" type="text" name="_query.names" value='${escapeXml(splitPage.queryParam["ids"])}' maxlength="20">
 
 						<button type="button" class="btn btn-danger" onclick='common_ajax.ajaxFormMainPanel("splitPage");'>${i18nMap["admin.common.select"]}</button>
 						<button type="reset" class="btn btn-inverse">${i18nMap["admin.common.reset"]}</button>
@@ -53,11 +51,6 @@
 				<!-- BEGIN EXAMPLE TABLE widget-->
 				<div class="widget red">
 
-					<%
-						var edit = authUrl("/platform/role/edit");
-						var delete = authUrl("/platform/role/delete");
-						var operator = authUrl("/platform/role/operatorTree.html");
-					%>
 
 					<div class="widget-title">
 						<h4>
@@ -67,19 +60,24 @@
 
 					<div class="widget-body">
 						<span class="tools"> 
-							<% if(authUrl("/platform/role/add.html")){ %>
-							<button type="button" class="btn btn-small btn-warning" onclick="common_ajax.ajaxMainPanel('/platform/role/toUrl?toUrl=/platform/role/add.html');">
+							<button type="button" class="btn btn-small btn-warning" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toUrl?toUrl=/workshop/purchase/toAdd/${customerIds!}');">
 								<i class="icon-plus icon-white"></i>
 								${i18nMap["admin.role.add"]}
 							</button> 
-							<% } %> 
-							
-							<% if(delete == true){ %>
-							<button type="button" class="btn btn-small btn-danger" data-table="dataTable" data-url="/platform/role/delete?csrfToken=${csrfToken!}" onclick="common_modals.deleteList(this)">
+							<button type="button" class="btn btn-small btn-danger" category="isPay" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
 								<i class="icon-remove icon-white"></i>
-								${i18nMap["admin.common.delete"]}
+								付款
 							</button> 
-							<% } %>
+							
+							<button type="button" class="btn btn-small btn-danger" category="isSend" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-remove icon-white"></i>
+								收到物品
+							</button> 
+							
+							<button type="button" class="btn btn-small btn-danger" category="isPayDeliverFee" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-remove icon-white"></i>
+								支付运费
+							</button> 
 						</span>
 
                        	<div class="space15"></div>
@@ -90,46 +88,64 @@
 									<th style="width: 8px;">
 										<input type="checkbox" class="group-checkable" name="checkAll" onchange="common_common.checkFunc('dataTable', this.checked);" class="flat-grey selectall">
 									</th>
-									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'numbers')">
-										${i18nMap["admin.role.property.numbers"]}	${orderBy("numbers")}
-									</th>
-									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'names')">
-										${i18nMap["admin.role.property.name"]}	${orderBy("names")}
-									</th>
+									<th class="hidden-phone">微信</th>
+									<th class="hidden-phone">网址</th>
+									<th class="hidden-phone">美元价格</th>
+									<th class="hidden-phone">人民币价格</th>
+									<th class="hidden-phone">描述</th>
+									<th class="hidden-phone">购买日期</th>
+									<th class="hidden-phone">是否付款</th>
+									<th class="hidden-phone">是否收到</th>
+									<th class="hidden-phone">快递费</th>
+									<th class="hidden-phone">快递日期</th>
+									<th class="hidden-phone">是否支付运费</th>
+									<th class="hidden-phone">图片</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
 							</thead>
 							<tbody>
-								<% for(role in list){ %>
+								<% for(purchase in splitPage.list){ %>
 								<tr class="odd gradeX">
 									<td>
-										<input type="checkbox" class="checkboxes" name="checkIds" value="${role.ids!}" class="flat-grey foocheck">
+										<input type="checkbox" class="checkboxes" name="checkIds" value="${purchase.ids!}" class="flat-grey foocheck">
 									</td>
 									<td class="hidden-phone">
-										<span class="label label-success">${escapeXml(role["numbers"]!)}</span>
+										<span class="label label-success">${escapeXml(purchase.wechat!) }</span>
 									</td>
-									<td class="hidden-phone">${escapeXml(role["names"]!) }</td>
 									<td class="hidden-phone">
-										<% if(edit == true && role["numbers"]! != "SuperAdmin"){ %>
-											<button type="button" class="btn btn-small btn-inverse" onclick="common_ajax.ajaxMainPanel('/platform/role/edit/${escapeXml(role.ids!)}');">
+										<span class="label label-success">${escapeXml(purchase.website!) }</span>
+									</td>
+									<td class="hidden-phone">${escapeXml(purchase.priceUS!) }</td>
+									<td class="hidden-phone">${escapeXml(purchase.priceCN!) }</td>
+									<td class="hidden-phone">${escapeXml(purchase.description!) }</td>
+									<td class="hidden-phone">${escapeXml(purchase.purchaseDate!) }</td>
+									<% if(purchase.isPay != 1){ %>
+										<td style="clear;background-color:#FF0000;" bgcolor="red">${purchase.isPay == 1 ? "是":"否"}</td>
+									<% }else{ %>
+										<td class="hidden-phone">${purchase.isPay == 1 ? "是":"否"}</td>
+									<% } %>
+									
+									<% if(purchase.isSend != 1){ %>
+										<td style="clear;background-color:#00FF7F;" bgcolor="red">${purchase.isSend == 1 ? "是":"否"}</td>
+									<% }else{ %>
+										<td class="hidden-phone">${purchase.isSend == 1 ? "是":"否"}</td>
+									<% } %>
+									
+									<td class="hidden-phone">${escapeXml(purchase.deliverFee!) }</td>
+									<td class="hidden-phone">${escapeXml(purchase.deliverDate!) }</td>
+									<td class="hidden-phone">${purchase.isPayDeliverFee == 1 ? "是":"否"}</td>
+									<td class="hidden-phone">${ShowPic(purchase.pic!)}</td>
+									<td class="hidden-phone">
+											<button type="button" class="btn btn-small btn-inverse" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/edit/${escapeXml(purchase.ids!)}');">
 												<i class="icon-refresh icon-white"></i>
 												${i18nMap["admin.common.edit"]}
 											</button> 
-										<% } %>
 										
-										<% if(operator == true){ %>
-											<button type="button" class="btn btn-small btn-success" onclick="common_ajax.ajaxMainPanel('/platform/roleOperator?_query.roleIds=${escapeXml(role.ids!)}');">
-												<i class="icon-ok icon-white"></i>
-												${i18nMap["admin.role.list.table.operator"]}
-											</button> 
-										<% } %>
 										
-										<% if(delete == true && role["numbers"]! != "SuperAdmin"){ %>
-											<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/platform/role/delete/${role.ids!}?csrfToken=${csrfToken!}">
+											<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/workshop/purchase/delete/${purchase.ids!}?csrfToken=${csrfToken!}">
 												<i class="icon-remove icon-white"></i>
 												${i18nMap["admin.common.delete"]}
 											</button> 
-										<% } %>
 									</td>
 								</tr>
 								<% } %>
@@ -156,5 +172,19 @@
 	jQuery(document).ready(function() {
 
 	});
+	
+	var updateList = function(button) {
+		var table = $(button).attr("data-table");
+		var url = $(button).attr("data-url");
+		var category = $(button).attr("category");
+		var ids = common_common.getCheckFunc(table);
+		if(ids != ""){
+			var data = {'ids' : ids, 'customerIds' : ${customerIds!}, "column" : category};
+			common_ajax.ajaxMainPanel(url, data);
+			
+		}else{
+			//"请选择操作数据！"
+		}
+	};
 </script>
 

@@ -1,5 +1,5 @@
 
-<form id="splitPage" action="${cxt!}/platform/role" method="POST" class="form-horizontal">
+<form id="splitPage" action="${cxt!}/workshop/purchase" method="POST" class="form-horizontal">
 
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
@@ -30,11 +30,6 @@
 				<!-- BEGIN EXAMPLE TABLE widget-->
 				<div class="widget red">
 
-					<%
-						var edit = authUrl("/platform/role/edit");
-						var delete = authUrl("/platform/role/delete");
-						var operator = authUrl("/platform/role/operatorTree.html");
-					%>
 
 					<div class="widget-title">
 						<h4>
@@ -44,19 +39,29 @@
 
 					<div class="widget-body">
 						<span class="tools"> 
-							<% if(authUrl("/platform/role/add.html")){ %>
-							<button type="button" class="btn btn-small btn-warning" onclick="common_ajax.ajaxMainPanel('/platform/role/toUrl?toUrl=/platform/role/add.html');">
+							<button type="button" class="btn btn-small btn-warning" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toAdd/${customerIds!}');">
 								<i class="icon-plus icon-white"></i>
-								${i18nMap["admin.role.add"]}
+								添加购买记录
 							</button> 
-							<% } %> 
-							
-							<% if(delete == true){ %>
-							<button type="button" class="btn btn-small btn-danger" data-table="dataTable" data-url="/platform/role/delete?csrfToken=${csrfToken!}" onclick="common_modals.deleteList(this)">
+							<button type="button" class="btn btn-small btn-danger" category="isPay" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
 								<i class="icon-remove icon-white"></i>
-								${i18nMap["admin.common.delete"]}
+								付款
 							</button> 
-							<% } %>
+							
+							<button type="button" class="btn btn-small btn-danger" category="isSend" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-remove icon-white"></i>
+								收到物品
+							</button> 
+							
+							<button type="button" class="btn btn-small btn-danger" category="isPayDeliverFee" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-remove icon-white"></i>
+								支付运费
+							</button> 
+							
+							
+								<span class="label label-success">待付款项${escapeXml(sum!) }</span>
+								
+							
 						</span>
 
                        	<div class="space15"></div>
@@ -64,22 +69,29 @@
 						<table class="table table-striped table-bordered" id="dataTable">
 							<thead>
 								<tr>
+									<th style="width: 8px;">
+										<input type="checkbox" class="group-checkable" name="checkAll" onchange="common_common.checkFunc('dataTable', this.checked);" class="flat-grey selectall">
+									</th>
 									<th class="hidden-phone">网址</th>
 									<th class="hidden-phone">美元价格</th>
 									<th class="hidden-phone">人民币价格</th>
 									<th class="hidden-phone">描述</th>
 									<th class="hidden-phone">购买日期</th>
 									<th class="hidden-phone">是否付款</th>
-									<th class="hidden-phone">是否发货</th>
+									<th class="hidden-phone">是否收到</th>
 									<th class="hidden-phone">快递费</th>
 									<th class="hidden-phone">快递日期</th>
 									<th class="hidden-phone">是否支付运费</th>
+									<th class="hidden-phone">图片</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
 							</thead>
 							<tbody>
 								<% for(purchase in list){ %>
 								<tr class="odd gradeX">
+									<td>
+										<input type="checkbox" class="checkboxes" name="checkIds" value="${purchase.ids!}" class="flat-grey foocheck">
+									</td>
 									<td class="hidden-phone">
 										<span class="label label-success">${escapeXml(purchase.website!) }</span>
 									</td>
@@ -87,11 +99,22 @@
 									<td class="hidden-phone">${escapeXml(purchase.priceCN!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.description!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.purchaseDate!) }</td>
-									<td class="hidden-phone">${purchase.isPay == 1 ? "是":"否"}</td>
-									<td class="hidden-phone">${purchase.isSend == 1 ? "是":"否"}</td>
+									<% if(purchase.isPay != 1){ %>
+										<td style="clear;background-color:#FF0000;" bgcolor="red">${purchase.isPay == 1 ? "是":"否"}</td>
+									<% }else{ %>
+										<td class="hidden-phone">${purchase.isPay == 1 ? "是":"否"}</td>
+									<% } %>
+									
+									<% if(purchase.isSend != 1){ %>
+										<td style="clear;background-color:#00FF7F;" bgcolor="red">${purchase.isSend == 1 ? "是":"否"}</td>
+									<% }else{ %>
+										<td class="hidden-phone">${purchase.isSend == 1 ? "是":"否"}</td>
+									<% } %>
+									
 									<td class="hidden-phone">${escapeXml(purchase.deliverFee!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.deliverDate!) }</td>
 									<td class="hidden-phone">${purchase.isPayDeliverFee == 1 ? "是":"否"}</td>
+									<td class="hidden-phone">${ShowPic(purchase.pic!)}</td>
 									<td class="hidden-phone">
 											<button type="button" class="btn btn-small btn-inverse" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/edit/${escapeXml(purchase.ids!)}');">
 												<i class="icon-refresh icon-white"></i>
@@ -99,7 +122,7 @@
 											</button> 
 										
 										
-											<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/workshop/purchase/delete/${purchase.ids!}?csrfToken=${csrfToken!}">
+											<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/workshop/purchase/delete/${purchase.ids!}-${customerIds!}?csrfToken=${csrfToken!}">
 												<i class="icon-remove icon-white"></i>
 												${i18nMap["admin.common.delete"]}
 											</button> 
@@ -126,5 +149,19 @@
 	jQuery(document).ready(function() {
 
 	});
+	
+	var updateList = function(button) {
+		var table = $(button).attr("data-table");
+		var url = $(button).attr("data-url");
+		var category = $(button).attr("category");
+		var ids = common_common.getCheckFunc(table);
+		if(ids != ""){
+			var data = {'ids' : ids, 'customerIds' : ${customerIds!}, "column" : category};
+			common_ajax.ajaxMainPanel(url, data);
+			
+		}else{
+			//"请选择操作数据！"
+		}
+	};
 </script>
 

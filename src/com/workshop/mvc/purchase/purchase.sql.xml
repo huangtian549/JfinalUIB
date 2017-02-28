@@ -2,14 +2,25 @@
 
 <sql-statement namespace="workshop.purchase">
 	
+	<!-- 分页select -->
+	<sql id="splitPageSelect">
+		<![CDATA[ 
+        	select 
+				p.*, c.wechat
+    	]]>
+	</sql>
+	
 	<!-- 分页查询：from -->
 	<sql id="splitPageFrom">
 		<![CDATA[ 
         	from 
-        		dg_purchase
+        		dg_purchase p, dg_customer c
 			
-			where 1=1 
-				
+			where p.customer_ids = c.ids 
+			<% if(!isEmpty(description)){ %>
+					and description like #'%$description$%'# 
+			<% } %>	
+			order by p.ids desc	
     	]]>
 	</sql>
 	

@@ -107,7 +107,7 @@ public class GlobalHandler extends Handler {
 		reqSysLog.set(Syslog.column_actionhaoshi, haoshi - renderTime);
 		
 		log.debug("日志添加到入库队列");
-		if(reqSysLog.getSyslog().equals("1")){
+		if("1".equals(reqSysLog.getSyslog())){
 			ThreadSysLog.add(reqSysLog);
 		}
 	}

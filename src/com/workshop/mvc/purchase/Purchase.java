@@ -116,6 +116,13 @@ public class Purchase extends BaseModel<Purchase> {
 	 * sqlId : workshop.purchase.splitPageFrom
 	 * 描述：分页from
 	 */
+	public static final String sqlId_splitPageSelect = "workshop.purchase.splitPageSelect";
+	
+	
+	/**
+	 * sqlId : workshop.purchase.splitPageFrom
+	 * 描述：分页from
+	 */
 	public static final String sqlId_splitPageFrom = "workshop.purchase.splitPageFrom";
 
 	private Integer ids;

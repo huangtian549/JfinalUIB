@@ -29,20 +29,18 @@
 				</div>
 				<div class="widget-body form">
 
-					<form id="editForm" action="${cxt!}/platform/user/update" method="POST" class="form-horizontal" enctype="multipart/form-data">
+					<form id="editForm" action="${cxt!}/workshop/customer/update" method="POST" class="form-horizontal" >
 						<input type="hidden" name="csrfToken" value="${csrfToken!}">
 						
-						<input type="hidden" id="userIds" name="user.ids" value="${escapeXml(user.ids!)}"> 
-						<input type="hidden" name="user.version" value="${user.version!}"> 
+						<input type="hidden" id="customerIds" name="customer.ids" value="${escapeXml(customer.ids!)}"> 
 						
-						<input type="hidden" id="userInfoIds" name="userInfo.ids" value="${escapeXml(userInfo.ids!)}"> 
-						<input type="hidden" name="userInfo.version" value="${userInfo.version!}"> 
+						<input type="hidden" name="customer.version" value="${customer.version!}"> 
 						
-						<% include("/platform/user/form.html", {"operatorType" : "update"}){} %>
+						<% include("/workshop/customer/form.html", {"operatorType" : "update"}){} %>
 
 						<div class="control-group">
 							<div class="controls">
-								<% if(authUrl("/platform/user/update")){ %>
+								<% if(authUrl("/workshop/customer/update")){ %>
 								<button type="button" class="btn btn-success" onclick="platform_user_form.submitValiFunc(this.form, false);">
 									<i class="icon-ok icon-white"></i>${i18nMap["admin.common.submit"]}
 								</button>

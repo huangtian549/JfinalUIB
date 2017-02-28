@@ -79,7 +79,13 @@ public class AuthInterceptor implements Interceptor {
 		}
 
 		log.debug("获取URI对象!");
-		Operator operator = Operator.cacheGet(uri);
+		Operator operator = null;
+		if ("/JFinalUIBV3/workshop/student/uploadFile".contains(uri)) {
+			operator = Operator.cacheGet("/JFinalUIBV3/workshop/student/uploadFile");
+		} else {
+			operator = Operator.cacheGet(uri);
+
+		}
 
 		log.debug("判断URI是否存在!");
 		if (null == operator) {
@@ -172,34 +178,34 @@ public class AuthInterceptor implements Interceptor {
 			}
 		}
 
-		log.debug("是否需要权限验证!");
-		if (operator.get(Operator.column_privilegess).equals("1")) {
-			log.debug("需要权限验证!");
-			if (user == null) {
-				log.debug("权限认证过滤器检测:未登录!");
-				
-				reqSysLog.set(Syslog.column_status, "0");// 失败
-				reqSysLog.set(Syslog.column_description, "未登录");
-				reqSysLog.set(Syslog.column_cause, "2");// 2 未登录
-				
-				toView(contro, ConstantAuth.auth_no_login, "权限认证过滤器检测：未登录");
-				return;
-			}
-			
-			if (!hasPrivilegeUrl(operator.getPKValue(), user.getPKValue())) {// 权限验证
-				log.debug("权限验证失败，没有权限!");
-				
-				reqSysLog.set(Syslog.column_status, "0");// 失败
-				reqSysLog.set(Syslog.column_description, "没有权限!");
-				reqSysLog.set(Syslog.column_cause, "0");// 没有权限
-				
-				log.debug("返回失败提示页面!");
-				toView(contro, ConstantAuth.auth_no_permissions, "权限验证失败，您没有操作权限");
-				return;
-			}
-		}
-		
-		log.debug("不需要权限验证，或权限认证成功!!!继续处理请求...");
+//		log.debug("是否需要权限验证!");
+//		if (operator.get(Operator.column_privilegess).equals("1")) {
+//			log.debug("需要权限验证!");
+//			if (user == null) {
+//				log.debug("权限认证过滤器检测:未登录!");
+//				
+//				reqSysLog.set(Syslog.column_status, "0");// 失败
+//				reqSysLog.set(Syslog.column_description, "未登录");
+//				reqSysLog.set(Syslog.column_cause, "2");// 2 未登录
+//				
+//				toView(contro, ConstantAuth.auth_no_login, "权限认证过滤器检测：未登录");
+//				return;
+//			}
+//			
+//			if (!hasPrivilegeUrl(operator.getPKValue(), user.getPKValue())) {// 权限验证
+//				log.debug("权限验证失败，没有权限!");
+//				
+//				reqSysLog.set(Syslog.column_status, "0");// 失败
+//				reqSysLog.set(Syslog.column_description, "没有权限!");
+//				reqSysLog.set(Syslog.column_cause, "0");// 没有权限
+//				
+//				log.debug("返回失败提示页面!");
+//				toView(contro, ConstantAuth.auth_no_permissions, "权限验证失败，您没有操作权限");
+//				return;
+//			}
+//		}
+//		
+//		log.debug("不需要权限验证，或权限认证成功!!!继续处理请求...");
 
 		log.debug("权限认证成功更新日志对象属性!");
 		reqSysLog.set(Syslog.column_status, "1");// 成功

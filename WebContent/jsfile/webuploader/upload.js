@@ -151,7 +151,7 @@
             swf: '../../dist/Uploader.swf',
             chunked: false,
             chunkSize: 512 * 1024,
-            server: '/workshop/student/uploadFile',
+            server: '/JFinalUIBV3/workshop/student/uploadFile',
             // runtimeOrder: 'flash',
 
             // accept: {

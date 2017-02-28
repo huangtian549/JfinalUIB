@@ -1,4 +1,4 @@
-<form id="splitPage" action="${cxt!}/platform/user" method="POST" class="form-horizontal">
+<form id="splitPage" action="${cxt!}/workshop/customer" method="POST" class="form-horizontal">
 
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
@@ -33,14 +33,8 @@
 					</div>
 					<div class="widget-body form switch-form">
 						${i18nMap["admin.user.property.userName"]} 
-						<input class="medium" type="text" name="_query.userName" value='${escapeXml(splitPage.queryParam["userName"])}' maxlength="20">
+						<input class="medium" type="text" name="_query.name" value='${escapeXml(splitPage.queryParam["name"])}' maxlength="20">
 
-						${i18nMap["admin.user.property.email"]} 
-						<input class="medium" type="text" name="_query.email" value='${escapeXml(splitPage.queryParam["email"])}' maxlength="40">
-
-						${i18nMap["admin.user.property.birthday"]} 
-		                <input class="medium" type="text" name="_query.birthday" value='${escapeXml(splitPage.queryParam["birthday"])}' onClick="WdatePicker({minDate:'1900-01-01', maxDate:'%y-%M-%d'})" readonly>
-		                
 						<button type="button" class="btn btn-danger" onclick='common_ajax.ajaxFormMainPanel("splitPage");'>${i18nMap["admin.common.select"]}</button>
 						<button type="reset" class="btn btn-inverse">${i18nMap["admin.common.reset"]}</button>
 					</div>
@@ -84,21 +78,21 @@
 									<th style="width: 8px;">
 										<input type="checkbox" class="group-checkable" name="checkAll" onchange="common_common.checkFunc('dataTable', this.checked);" class="flat-grey selectall">
 									</th>
-									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'd.names')">
+									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'ids')">
+										id
+										${orderBy("ids")}
+									</th>
+									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'name')">
 										姓名
-										${orderBy("d.names")}
+										${orderBy("d.name")}
 									</th>
-									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'userName')">
+									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'wechat')">
 										微信
-										${orderBy("userName")}
+										${orderBy("wechat")}
 									</th>
-									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'names')">
-										手机 
-										${orderBy("names")}
-									</th>
-									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'email')">
+									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'address')">
 										地址 
-										${orderBy("email")}
+										${orderBy("address")}
 									</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
@@ -109,25 +103,25 @@
 									<td>
 										<input type="checkbox" class="checkboxes" name="checkIds" value="${user.ids!}" class="flat-grey foocheck">
 									</td>
+									<td class="hidden-phone">${escapeXml(user.ids!) }</td>
 									<td class="hidden-phone">${escapeXml(user.name!) }</td>
 									<td class="hidden-phone">${escapeXml(user.wechat!) }</td>
-									<td class="hidden-phone">${escapeXml(user.mobile!) }</td>
-									<td class="hidden-phone">${escapeXml(user.address!) }</td>
+									<td class="hidden-phone">${user.address!}</td>
 									<td class="hidden-phone">
 											<button type="button" class="btn btn-small btn-inverse" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toAdd/${user.ids!}');">
 												<i class="icon-refresh icon-white"></i>
-												购买
+												添加购买
 											</button> 
 											
 											<button type="button" class="btn btn-small" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/listByCustomer/${user.ids!}');">
 												<i class="icon-eye-open"></i> 
 												查看购买记录
 											</button> 
+											<br/>
 										
-										
-											<button type="button" class="btn btn-small btn-success" onclick="common_modals.groupSelectDialog('${user.ids!}')">
+											<button type="button" class="btn btn-small btn-success" onclick="common_ajax.ajaxMainPanel('/workshop/customer/edit/${user.ids!}');">
 												<i class="icon-ok icon-white"></i>
-												${i18nMap["admin.user.list.table.group"]}
+												修改客户
 											</button> 
 										
 										<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/workshop/customer/delete/${user.ids!}?csrfToken=${csrfToken!}">

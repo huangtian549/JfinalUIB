@@ -16,6 +16,7 @@ import com.platform.beetl.func.AuthUrl;
 import com.platform.beetl.func.EscapeXml;
 import com.platform.beetl.func.I18nFormat;
 import com.platform.beetl.func.OrderBy;
+import com.platform.beetl.func.ShowPic;
 import com.platform.beetl.tag.DictTag;
 import com.platform.beetl.tag.ParamTag;
 import com.platform.constant.ConstantInit;
@@ -49,6 +50,7 @@ public abstract class ToolBeetl {
 		mainGT.registerFunction("orderBy", new OrderBy());
 		mainGT.registerFunction("escapeXml", new EscapeXml());
 		mainGT.registerFunction("i18nFormat", new I18nFormat());
+		mainGT.registerFunction("ShowPic", new ShowPic());
 		mainGT.registerTag("dict", DictTag.class);
 		mainGT.registerTag("param", ParamTag.class);
 		mainGT.registerFormat("dateFormat", new DateFormat());

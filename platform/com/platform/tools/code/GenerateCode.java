@@ -14,7 +14,7 @@ import com.platform.tools.code.handler.MySQLHandler;
 
 public class GenerateCode {
 
-	public static String[] tableArr = {"dg_customer","dg_purchase"};
+	public static String[] tableArr = {"dg_purchase"};
 	
 	public static String tablePrefix = "dg_";
 	
