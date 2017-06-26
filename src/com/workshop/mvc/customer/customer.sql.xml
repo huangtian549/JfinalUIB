@@ -16,4 +16,9 @@
     	]]>
 	</sql>
 	
+	<sql id="search">
+		<![CDATA[ 
+        	select ids,name,wechat,address from dg_customer where 100 = 100 and name like CONCAT('%', ?, '%') or wechat like CONCAT('%', ?, '%')
+    	]]>
+	</sql>
 </sql-statement>

@@ -4,9 +4,12 @@ import com.platform.annotation.Controller;
 import com.platform.constant.ConstantInit;
 import com.platform.mvc.base.BaseController;
 import com.platform.mvc.base.BaseModel;
+import com.platform.tools.ToolDateTime;
 import com.platform.tools.ToolString;
+import com.workshop.mvc.customer.Customer;
 import com.jfinal.log.Log;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.jfinal.aop.Before;
@@ -58,6 +61,9 @@ public class PurchaseController extends BaseController {
 				}
 			}
 		}
+		Integer customerIds = getParaToInt();
+		Customer customer = Customer.dao.findById(customerIds);
+		setAttr("address", customer.getAddress());
 		setAttr("list", list);
 		setAttr("customerIds", getPara());
 		setAttr("sum", sum);
@@ -82,6 +88,7 @@ public class PurchaseController extends BaseController {
 	@Before(PurchaseValidator.class)
 	public void save() {
 		Purchase purchase = getModel(Purchase.class);
+		purchase.setPurchaseDate(new java.sql.Date(new java.util.Date().getTime()));
 		purchase.save(true);
 		forwardAction("/workshop/purchase/listByCustomer/" + purchase.getCustomer_ids());
 	}
@@ -117,9 +124,9 @@ public class PurchaseController extends BaseController {
 		for (String id : idsArr) {
 			Purchase.dao.findByIdLoadColumns(id, "ids," + column).set(column, 1).update();
 		}
-		String id = getPara("customerIds") == null ? ids : getPara("customerIds");
-		String action = "/workshop/purchase/listByCustomer/" + id;
-		forwardAction(action);
+		String id = getPara("customerIds") ;
+		forwardAction("/workshop/purchase/backOff");
+			
 	}
 	public void updateMultiToAll() {
 		String ids = getPara("ids");
@@ -128,9 +135,33 @@ public class PurchaseController extends BaseController {
 		for (String id : idsArr) {
 			Purchase.dao.findByIdLoadColumns(id, "ids," + column).set(column, 1).update();
 		}
+		forwardAction("/workshop/purchase/backOff");
 	}
 	
 
+	public void copy() {
+		setAttr("purchaseId", getPara());
+		Purchase purchase = Purchase.dao.findById(getPara());
+		setAttr("purchase", purchase);
+		setAttr("customerIds", purchase.getCustomer_ids());
+		render("/workshop/purchase/copy.html");
+	}
+	
+	@Before(PurchaseValidator.class)
+	public void submitcopy() {
+		Purchase purchase = getModel(Purchase.class);
+		purchase.setPurchaseDate(new java.sql.Date(new java.util.Date().getTime()));
+		String customerIds = getPara("customerIds");
+		if (customerIds != null && customerIds.length() > 0) {
+			String[] arr = customerIds.split(",");
+			for (int i = 0; i < arr.length; i++) {
+				purchase.setIds(null); //在存入一条记录后，ids这个字段会放入这条记录的ids，这样下一条记录就会就不会自动生成ids，就会造成主键冲突
+				purchase.setCustomer_ids(Integer.parseInt(arr[i]));
+				purchase.save(true);
+			}
+		}
+		forwardAction("/workshop/purchase/backOff");
+	}
 
 	/**
 	 * 查看
@@ -147,8 +178,7 @@ public class PurchaseController extends BaseController {
 	public void delete() {
 		purchaseService.baseDelete(Purchase.table_name, getPara(0) == null ? ids : getPara(0));
 		String id = getPara(1) == null ? ids : getPara(1);
-		String action = "/workshop/purchase/listByCustomer/" + id;
-		System.out.println(action);
+		String action = "/workshop/purchase/backOff";
 		forwardAction(action);
 	}
 	

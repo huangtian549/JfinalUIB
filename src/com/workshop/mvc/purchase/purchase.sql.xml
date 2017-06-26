@@ -27,7 +27,7 @@
 	
 	<sql id="listByCustomer">
 		<![CDATA[ 
-        	select * from dg_purchase where customer_ids = ? order by ids asc
+        	select * from dg_purchase where customer_ids = ? order by ids desc
     	]]>
 	</sql>
 	

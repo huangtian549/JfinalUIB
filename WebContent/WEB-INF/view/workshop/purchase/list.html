@@ -60,9 +60,9 @@
 
 					<div class="widget-body">
 						<span class="tools"> 
-							<button type="button" class="btn btn-small btn-warning" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toUrl?toUrl=/workshop/purchase/toAdd/${customerIds!}');">
+							<button type="button" class="btn btn-small btn-danger" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toAdd/${customerIds!}');">
 								<i class="icon-plus icon-white"></i>
-								${i18nMap["admin.role.add"]}
+								添加购买记录
 							</button> 
 							<button type="button" class="btn btn-small btn-danger" category="isPay" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
 								<i class="icon-remove icon-white"></i>
@@ -89,16 +89,11 @@
 										<input type="checkbox" class="group-checkable" name="checkAll" onchange="common_common.checkFunc('dataTable', this.checked);" class="flat-grey selectall">
 									</th>
 									<th class="hidden-phone">微信</th>
-									<th class="hidden-phone">网址</th>
-									<th class="hidden-phone">美元价格</th>
 									<th class="hidden-phone">人民币价格</th>
 									<th class="hidden-phone">描述</th>
 									<th class="hidden-phone">购买日期</th>
 									<th class="hidden-phone">是否付款</th>
-									<th class="hidden-phone">是否收到</th>
-									<th class="hidden-phone">快递费</th>
-									<th class="hidden-phone">快递日期</th>
-									<th class="hidden-phone">是否支付运费</th>
+									<th class="hidden-phone">是否购买</th>
 									<th class="hidden-phone">图片</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
@@ -110,12 +105,10 @@
 										<input type="checkbox" class="checkboxes" name="checkIds" value="${purchase.ids!}" class="flat-grey foocheck">
 									</td>
 									<td class="hidden-phone">
-										<span class="label label-success">${escapeXml(purchase.wechat!) }</span>
+										<button type="button" class="btn btn-small btn-success" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/listByCustomer/${purchase.customer_ids!}');">
+												${escapeXml(purchase.wechat!) }
+											</button> 
 									</td>
-									<td class="hidden-phone">
-										<span class="label label-success">${escapeXml(purchase.website!) }</span>
-									</td>
-									<td class="hidden-phone">${escapeXml(purchase.priceUS!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.priceCN!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.description!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.purchaseDate!) }</td>
@@ -131,18 +124,19 @@
 										<td class="hidden-phone">${purchase.isSend == 1 ? "是":"否"}</td>
 									<% } %>
 									
-									<td class="hidden-phone">${escapeXml(purchase.deliverFee!) }</td>
-									<td class="hidden-phone">${escapeXml(purchase.deliverDate!) }</td>
-									<td class="hidden-phone">${purchase.isPayDeliverFee == 1 ? "是":"否"}</td>
 									<td class="hidden-phone">${ShowPic(purchase.pic!)}</td>
 									<td class="hidden-phone">
 											<button type="button" class="btn btn-small btn-inverse" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/edit/${escapeXml(purchase.ids!)}');">
 												<i class="icon-refresh icon-white"></i>
 												${i18nMap["admin.common.edit"]}
 											</button> 
+											
+											<button type="button" class="btn btn-small btn-inverse" purchase-id="${purchase.ids!}" data-method="notice" onclick="copyRecord(this)">
+												<i class="icon-refresh icon-white"></i>
+												复制
+											</button> 
 										
-										
-											<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/workshop/purchase/delete/${purchase.ids!}?csrfToken=${csrfToken!}">
+											<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/workshop/purchase/delete/${purchase.ids!}-${customerIds!}?csrfToken=${csrfToken!}">
 												<i class="icon-remove icon-white"></i>
 												${i18nMap["admin.common.delete"]}
 											</button> 
@@ -168,23 +162,41 @@
 
 </form>
 
+<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/fancybox/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="${cxt!}/ui/layer/layer.js"/>
+
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-
+		$(".fancybox1").fancybox({
+			'titleShow'     : true
+  		});   
 	});
-	
 	var updateList = function(button) {
 		var table = $(button).attr("data-table");
 		var url = $(button).attr("data-url");
 		var category = $(button).attr("category");
 		var ids = common_common.getCheckFunc(table);
 		if(ids != ""){
-			var data = {'ids' : ids, 'customerIds' : ${customerIds!}, "column" : category};
+			var data = {'ids' : ids,  "column" : category};
 			common_ajax.ajaxMainPanel(url, data);
-			
 		}else{
 			//"请选择操作数据！"
 		}
 	};
+	
+	  
+	
+	  
+	var copyRecord = function(button) {
+		  var purchaseIds = $(button).attr("purchase-id");
+		  var index =layer.open({
+			  type: 2,
+			  area: ['700px', '530px'],
+			  fixed: false, //不固定
+			  maxmin: true,
+			  content: '${cxt!}/workshop/purchase/copy/'+purchaseIds
+		  });
+	  };
+	  
 </script>
 

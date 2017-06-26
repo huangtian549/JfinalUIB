@@ -176,7 +176,7 @@ var common_ajax = function() {
 	 * @param callback 回调
 	 */
 	var ajaxFormMainPanel = function(formId, callback){
-		var result = ajaxForm(formId, callback);
+		var result = ajaxForm(formId, null,callback);
 		$("#main-content").html(result);
 	};
 
@@ -189,6 +189,13 @@ var common_ajax = function() {
 				ajaxFormMainPanel(formId, callback);
 			}
 		});
+	};
+	
+	 var loadScript = function (url) {
+		 var script = document.createElement("script");
+		 script.type = "text/javascript";
+		 script.src = url;
+		 document.body.appendChild(script);
 	};
 	
 	return {

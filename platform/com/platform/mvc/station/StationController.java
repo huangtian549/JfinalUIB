@@ -12,7 +12,7 @@ import com.platform.mvc.base.BaseController;
  * 岗位管理
  * @author 董华健
  */
-@Controller("/platform/station")
+@Controller("/platform/station1")
 public class StationController extends BaseController {
 
 	@SuppressWarnings("unused")

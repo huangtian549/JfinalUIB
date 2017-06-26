@@ -9,12 +9,10 @@
 			<div class="span12">
 				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 				<ul class="breadcrumb">
-					<li>
-						<a href="javascript:void(0)" onclick="common_ajax.ajaxMainPanel('/platform/index/content');">${i18nMap["admin.common.mainPage"]}</a>
-						<span class="divider">/</span>
-					</li>
-					<li><a href="#">用户权限</a> <span class="divider">/</span></li>
-					<li class="active">${i18nMap["admin.role.common.name"]}</li>
+					<li><a href="javascript:void(0)" onclick="common_ajax.ajaxMainPanel('/platform/index/content');">${i18nMap["admin.common.mainPage"]}</a> <span class="divider">/</span></li>
+				<li><a href="#">客户管理</a> <span class="divider">/</span></li>
+				<li><a href="javascript:void(0)" onclick="common_ajax.ajaxMainPanel('/workshop/customer/backOff');">客户列表</a> <span class="divider">/</span></li>
+				<li class="active">购买记录</li>
 				</ul>
 				<!-- END PAGE TITLE & BREADCRUMB-->
 			</div>
@@ -39,27 +37,29 @@
 
 					<div class="widget-body">
 						<span class="tools"> 
-							<button type="button" class="btn btn-small btn-warning" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toAdd/${customerIds!}');">
+							<button type="button" class="btn btn-small btn-danger" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toAdd/${customerIds!}');">
 								<i class="icon-plus icon-white"></i>
 								添加购买记录
 							</button> 
-							<button type="button" class="btn btn-small btn-danger" category="isPay" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
+							<button type="button" class="btn btn-small btn-info" category="isPay" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
 								<i class="icon-remove icon-white"></i>
 								付款
 							</button> 
 							
-							<button type="button" class="btn btn-small btn-danger" category="isSend" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
+							<button type="button" class="btn btn-small btn-info" category="isSend" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
 								<i class="icon-remove icon-white"></i>
 								收到物品
 							</button> 
 							
-							<button type="button" class="btn btn-small btn-danger" category="isPayDeliverFee" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
+							<button type="button" class="btn btn-small btn-info" category="isPayDeliverFee" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
 								<i class="icon-remove icon-white"></i>
 								支付运费
 							</button> 
 							
 							
-								<span class="label label-success">待付款项${escapeXml(sum!) }</span>
+								<span class="label label-important">待付款项${escapeXml(sum!) }</span>
+								
+								<span class="label label-success">${escapeXml(address!) }</span>
 								
 							
 						</span>
@@ -82,6 +82,8 @@
 									<th class="hidden-phone">快递费</th>
 									<th class="hidden-phone">快递日期</th>
 									<th class="hidden-phone">是否支付运费</th>
+									<th class="hidden-phone">快递方式</th>
+									<th class="hidden-phone">单号</th>
 									<th class="hidden-phone">图片</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
@@ -113,7 +115,17 @@
 									
 									<td class="hidden-phone">${escapeXml(purchase.deliverFee!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.deliverDate!) }</td>
-									<td class="hidden-phone">${purchase.isPayDeliverFee == 1 ? "是":"否"}</td>
+									<td class="hidden-phone">
+									<% if(purchase.isPayDeliverFee == 0){ %>
+										未支付
+									<% }else if(purchase.isPayDeliverFee == 1){ %>
+										支付
+									<% }else{ %>
+										包邮
+									<% } %>
+									</td>
+									<td class="hidden-phone">${escapeXml(purchase.deliverMethod!) }</td>
+									<td class="hidden-phone">${escapeXml(purchase.trackNum!) }</td>
 									<td class="hidden-phone">${ShowPic(purchase.pic!)}</td>
 									<td class="hidden-phone">
 											<button type="button" class="btn btn-small btn-inverse" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/edit/${escapeXml(purchase.ids!)}');">
@@ -144,9 +156,12 @@
 	</div>
 
 </form>
-
+	<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/fancybox/jquery.fancybox.min.js"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
+		$(".fancybox1").fancybox({
+			'titleShow'     : true
+  		});   
 
 	});
 	

@@ -18,6 +18,7 @@
 <!-- end: The fav icon -->
 
 <link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/fancybox/jquery.fancybox.min.css" />
 <link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap-fileupload.css" />
 <link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/font-awesome/css/font-awesome.css" />
@@ -29,6 +30,8 @@
 <link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/fancybox/source/jquery.fancybox.css" />
 <link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/uniform/css/uniform.default.css"/>
 
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/toastr/toastr.min.css" />
+
 <!-- start: artdialog -->
 <link rel="stylesheet" type="text/css" href="${cxt!}/jsfile/artdialog/css/ui-dialog.css" />
 <!-- end: artdialog -->
@@ -39,6 +42,8 @@
 
 <link rel="stylesheet" type="text/css" href="${cxt!}/jsfile/webuploader/webuploader.css">
 <link rel="stylesheet" type="text/css" href="${cxt!}/jsfile/webuploader/webuploader-demo.css">
+
+
 
 
 <!-- start: common js -->
@@ -77,13 +82,17 @@
 
 	<!-- BEGIN JAVASCRIPTS -->
 	<!-- Load javascripts at bottom, this will reduce page load time /ui/metrolab/js/jquery-1.8.3.min.js-->
-	<script type="text/javascript" src="${cxt!}/jsfile/jquery/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/jquery/jquery-1.12.4.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/jquery/bootstrap-suggest.js"></script>
 	<script type="text/javascript" src="${cxt!}/jsfile/jquery/jquery.form.js"></script>
 	<script type="text/javascript" src="${cxt!}/ui/metrolab/js/jquery.nicescroll.js"></script>
+	<script type="text/javascript" src="${cxt!}/ui/metrolab/js/toastr.min.js"></script>
 	<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/jquery-slimscroll/jquery-ui-1.9.2.custom.min.js"></script>
 	<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
 	<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/bootstrap/js/bootstrap.min.js"></script>
+	
+	
 
 	<!-- ie8 fixes -->
 	<!--[if lt IE 9]>
@@ -111,6 +120,9 @@
 	<script type="text/javascript" src="${cxt!}/jsfile/ztree/js/jquery.ztree.excheck.min.js"></script>
 	<script type="text/javascript" src="${cxt!}/jsfile/ztree/js/jquery.ztree.exedit.min.js"></script>
 
+	<script src="//cdn.bootcss.com/tether/1.2.0/js/tether.min.js"></script>
+	
+	
 	<!-- echarts -->
 	<script type="text/javascript" src="${cxt!}/jsfile/echarts/echarts.min.js"></script>
 	
@@ -122,8 +134,7 @@
 	
 	<!-- My97DatePicker -->
 	<script type="text/javascript" src="${cxt!}/jsfile/my97datepicker/WdatePicker.js"></script>
-	
-	
+	<script type="text/javascript" src="${cxt!}/ui/layer/layer.js"/>
 
 	<!-- END JAVASCRIPTS -->
 </body>

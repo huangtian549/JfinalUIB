@@ -21,6 +21,8 @@ public class Purchase extends BaseModel<Purchase> {
 	private static final Log log = Log.getLog(Purchase.class);
 	
 	public static final Purchase dao = new Purchase();
+	
+	public static final String sqlId_splitPageSelect = "workshop.purchase.splitPageSelect";
 
 	/**
 	 * 表名称
@@ -111,12 +113,29 @@ public class Purchase extends BaseModel<Purchase> {
 	 */
 	public static final String column_version = "version";
 	
+	/**
+	 * 字段描述： 
+	 * 字段类型：varchar(100)  长度：100
+	 */
+	public static final String column_deliverMethod = "deliverMethod";
 	
 	/**
-	 * sqlId : workshop.purchase.splitPageFrom
-	 * 描述：分页from
+	 * 字段描述： 
+	 * 字段类型：varchar(100)  长度：100
 	 */
-	public static final String sqlId_splitPageSelect = "workshop.purchase.splitPageSelect";
+	public static final String column_trackNum = "trackNum";
+	
+	/**
+	 * 字段描述： 
+	 * 字段类型：varchar(255)  长度：255
+	 */
+	public static final String column_remark1 = "remark1";
+	
+	/**
+	 * 字段描述： 
+	 * 字段类型：varchar(255)  长度：255
+	 */
+	public static final String column_remark2 = "remark2";
 	
 	
 	/**
@@ -139,6 +158,10 @@ public class Purchase extends BaseModel<Purchase> {
 	private Date deliverDate;
 	private Integer isPayDeliverFee;
 	private Integer version;
+	private String deliverMethod;
+	private String trackNum;
+	private String remark1;
+	private String remark2;
 	
 	public void setIds(Integer ids){
 		set(column_ids, ids);
@@ -223,6 +246,30 @@ public class Purchase extends BaseModel<Purchase> {
 	}
 	public Integer getVersion() {
 		return get(column_version);
+	}
+	public void setDeliverMethod(String deliverMethod){
+		set(column_deliverMethod, deliverMethod);
+	}
+	public String getDeliverMethod() {
+		return get(column_deliverMethod);
+	}
+	public void setTrackNum(String trackNum){
+		set(column_trackNum, trackNum);
+	}
+	public String getTrackNum() {
+		return get(column_trackNum);
+	}
+	public void setRemark1(String remark1){
+		set(column_remark1, remark1);
+	}
+	public String getRemark1() {
+		return get(column_remark1);
+	}
+	public void setRemark2(String remark2){
+		set(column_remark2, remark2);
+	}
+	public String getRemark2() {
+		return get(column_remark2);
 	}
 	
 }

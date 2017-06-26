@@ -1,122 +1,73 @@
 
 <input type="hidden" name ="purchase.customer_ids" value="${escapeXml(customerIds!)}" />
-<div class="control-group">
-	<label class="control-label">网址</label>
-	<div class="controls">
-		<input type="text" name="purchase.website" value="${escapeXml(purchase.website!)}" 
-			class="span8" maxlength="100" vMin="1" vType="letterNumber"  placeholder="1-100位字母数字">
-		<span class="help-inline"></span>
-	</div>
-</div>
 
 <div class="control-group">
-	<label class="control-label">美元价格</label>
+	<label class="control-label">购买价格(美元)</label>
 	<div class="controls">
 		<input type="text" name="purchase.priceUS" value="${escapeXml(purchase.priceUS!)}" 
 			class="span8" maxlength="25" size="25" vMin="0" vType="length"  id="priceUS">
-			<button type="button" class="btn btn-success" onclick="addTax()">
-									<i class="icon-ok icon-white"></i>加上税
-								</button>
-			<input type="text" id="huilv" value="7" 
-			class="span8" maxlength="25" size="25" vMin="0" vType="length" placeholder="汇率" >
-			<button type="button" class="btn btn-success" onclick="addFee()">
-									<i class="icon-ok icon-white"></i>乘汇率
-								</button>
 		<span class="help-inline"></span>
 	</div>
 </div>
-
 <div class="control-group">
-	<label class="control-label">人民币价格</label>
+	<label class="control-label">出售价格(人民币)</label>
 	<div class="controls">
 		<input type="text" name="purchase.priceCN" value="${escapeXml(purchase.priceCN!)}" id="priceCN"
-			class="span8" maxlength="25" vMin="0" vType="length"  >
+			class="span4" maxlength="25" vMin="0" vType="length"  >
 		<span class="help-inline"></span>
 	</div>
 </div>
 
-<div class="control-group">
-	<label class="control-label">购买日期</label>
-	<div class="controls">
-		<input id="endDate" type="text" name="purchase.purchaseDate" value="${escapeXml(purchase.purchaseDate!)}" onClick="WdatePicker()" readonly/>
-		<span class="help-inline"> </span>
-	</div>
-</div>
 
 <div class="control-group">
 	<label class="control-label">是否付款</label>
 	<div class="controls">
 		<select name="purchase.isPay" class="combox">
-			<option value="1" ${purchase.isPay! == 1 ? "selected='selected'":"" }>已经付款</option>
-			<option value="0" ${purchase.isPay! != 1 ? "selected='selected'":"" }>未付款</option>
+			<option value="1" ${purchase.isPay! != 0 ? "selected='selected'":"" }>已经付款</option>
+			<option value="0" ${purchase.isPay! == 0 ? "selected='selected'":"" }>未付款</option>
 		</select>
 		<span class="help-inline"></span>
 	</div>
 </div>
 
 <div class="control-group">
-	<label class="control-label">是否收到</label>
+	<label class="control-label">是否购买</label>
 	<div class="controls">
 		<select name="purchase.isSend" class="combox">
-			<option value="1" ${purchase.isSend! == 1 ? "selected='selected'":"" }>已经收到</option>
-			<option value="0" ${purchase.isSend! != 1 ? "selected='selected'":"" }>未收到</option>
+			<option value="1" ${purchase.isSend! == 1 ? "selected='selected'":"" }>已经购买</option>
+			<option value="0" ${purchase.isSend! != 1 ? "selected='selected'":"" }>未购买</option>
 		</select>
 		<span class="help-inline"></span>
 	</div>
 </div>
 
-<div class="control-group">
-	<label class="control-label">快递日期</label>
-	<div class="controls">
-		<input id="endDate" type="text" name="purchase.deliverDate" value="${escapeXml(purchase.deliverDate!)}" onClick="WdatePicker()" readonly/>
-		<span class="help-inline"> </span>
-	</div>
-</div>
+
+
 
 <div class="control-group">
-	<label class="control-label">是否支付运费</label>
-	<div class="controls">
-		<select name="purchase.isPayDeliverFee" class="combox">
-			<option value="1" ${purchase.isPayDeliverFee! == 1 ? "selected='selected'":"" }>支付运费</option>
-			<option value="0" ${operator.isPayDeliverFee! != 1 ? "selected='selected'":"" }>未支付运费</option>
-		</select>
-		<span class="help-inline"></span>
-	</div>
-</div>
-
-<div class="control-group">
-	<label class="control-label">运费价格</label>
-	<div class="controls">
-		<input type="text" name="purchase.deliverFee" value="${escapeXml(purchase.deliverFee!)}" 
-			class="span8" maxlength="25" vMin="0" vType="length"  >
-		<span class="help-inline"></span>
-	</div>
-</div>
-
-<div class="control-group">
-    <label class="control-label">备注</label>
+    <label class="control-label">物品描述</label>
             <div class="controls">
                   <textarea class="input-xxlarge" rows="3" name ="purchase.description">${escapeXml(purchase.description!)}</textarea>
              </div>
 </div>
 
-<div class="control-group">
-    <label class="control-label">图片地址</label>
-            <div class="controls">
-                  <input type="text" name="purchase.pic" id="image" value="${escapeXml(purchase.pic!)}" readonly/>
-             </div>
-</div>
+
+                  <input type="hidden" name="purchase.pic" id="image" value="${escapeXml(purchase.pic!)}" readonly/>
+
                   
-                 <div class="control-group" >
-                 	  <label class="control-label">上传聊天记录</label>
+                 <div class="control-group span10" >
+                 	  <label class="control-label">上传图片</label>
                  	  
                   		<div class="controls" >
                                <div class="ibox-content" >
                             <div id="uploader" class="wu-example">
                                 <div class="queueList">
-                                    <div id="dndArea" class="placeholder">
-                                        <div id="filePicker"></div>
-                                        <p>或将照片拖到这里，最多可选6张</p>
+                                    <div id="dndArea" class="placeholder" >
+                                        <div id="filePicker" ></div>
+                                        <p>有三种方式添加图片：
+                                        1.使用"点击选择图片按钮" 
+                                        2.把图片拖到这个方框中 
+                                        3.复制图片或者用截图软件截取图片，点击这个方框中粘贴(ctr+v)</p>
                                     </div>
                                 </div>
                                 <div class="statusBar" style="display:none;">
@@ -135,9 +86,91 @@
                         </div>
                  </div>
                  
-                 
+			
+<div class="control-group">
+	<label class="control-label"></label>
+	<div class="controls">
+		<button type="button" class="btn btn-success" id="show">
+			显示额外信息
+		</button>
+		<button type="button" class="btn btn-success" id="hide">
+			隐藏额外信息
+		</button>
+	</div>
+</div>   						
+						            
+ <div id="additionDiv">
+ 
+
+<div class="control-group">
+	<label class="control-label">快递方式</label>
+	<div class="controls">
+		<input type="text" name="purchase.deliverMethod" value="${escapeXml(purchase.deliverMethod!)}" id="deliverMethod"
+			class="span8" maxlength="250" vMin="0" vType="length"  >
+		<span class="help-inline"></span>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">跟踪单号</label>
+	<div class="controls">
+		<input type="text" name="purchase.trackNum" value="${escapeXml(purchase.trackNum!)}" id="trackNum"
+			class="span8" maxlength="250" vMin="0" vType="length"  >
+		<span class="help-inline"></span>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">快递日期</label>
+	<div class="controls">
+		<input id="endDate" type="text" name="purchase.deliverDate" value="${escapeXml(purchase.deliverDate!)}" onClick="WdatePicker()" readonly/>
+		<span class="help-inline"> </span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">是否支付运费</label>
+	<div class="controls">
+		<select name="purchase.isPayDeliverFee" class="combox">
+			<option value="2" ${operator.isPayDeliverFee! == 2 ? "selected='selected'":"" }>包邮</option>
+			<option value="0" ${operator.isPayDeliverFee! == 0 ? "selected='selected'":"" }>未支付运费</option>
+			<option value="1" ${purchase.isPayDeliverFee! == 1 ? "selected='selected'":"" }>支付运费</option>
+		</select>
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">运费价格</label>
+	<div class="controls">
+		<input type="text" name="purchase.deliverFee" value="${escapeXml(purchase.deliverFee!)}" 
+			class="span8" maxlength="25" vMin="0" vType="length"  >
+		<span class="help-inline"></span>
+	</div>
+</div>
+     
+ <div class="control-group">
+ 
+ </div>            
+</div>                 
         <script type="text/javascript">
 	     var BASE_URL = "${cxt!}/jsfile/webuploader";
+	     
+	     $(document).ready(function(){
+	    	 $("#additionDiv").hide();
+	    	  $("#show").show();
+	    	  $("#hide").hide();
+	     });
+	     
+	     $("#hide").click(function(){
+	    	  $("#additionDiv").hide();
+	    	  $("#show").show();
+	    	  $("#hide").hide();
+	    	});
+
+	    	$("#show").click(function(){
+	    	  $("#additionDiv").show();
+	    	  $("#hide").show();
+	    	  $("#show").hide();
+	    	});
 	     
 	     function addTax(){
 	    	 var priceUS = $("#priceUS").val();
@@ -156,6 +189,6 @@
 	    	 $("#priceCN").val(priceCN);
 	     }
         </script>
-        <script src="${cxt!}/jsfile/webuploader/webuploader.min.js"></script>
+        <script src="${cxt!}/jsfile/webuploader/webuploader.js"></script>
 
         <script src="${cxt!}/jsfile/webuploader/upload.js"></script>

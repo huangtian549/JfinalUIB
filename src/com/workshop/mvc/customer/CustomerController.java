@@ -4,9 +4,15 @@ import com.platform.annotation.Controller;
 import com.platform.constant.ConstantInit;
 import com.platform.mvc.base.BaseController;
 import com.platform.mvc.base.BaseModel;
-
+import com.platform.mvc.dept.Department;
 import com.jfinal.log.Log;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.jfinal.aop.Before;
+import com.jfinal.json.FastJson;
 
 /**
  * XXX 管理	
@@ -37,6 +43,31 @@ public class CustomerController extends BaseController {
 		render("/workshop/customer/list.html");
 	}
 	
+	
+	public void search() {
+		String name = getPara("name");
+		String callback = getPara("callback");
+		String sql = getSql("workshop.customer.search");
+		List<Customer> customerList = Customer.dao.find(sql, name, name);
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (customerList != null) {
+			String customers[ ][ ] = new String[customerList.size()][4];
+			for (int i = 0; i < customerList.size(); i++) {
+					customers[i][0] = String.valueOf(customerList.get(i).getIds());
+					customers[i][1] = customerList.get(i).getName();
+					customers[i][2] = customerList.get(i).getWechat();
+					customers[i][3] = customerList.get(i).getAddress();
+					
+			}
+			map.put("result", customers);
+		}else{
+			map.put("result", new Customer[0]);
+			
+		}
+		FastJson fastJson = new FastJson();
+		String json = fastJson.toJson(map);
+		renderJson(callback + "(" + json + ")");
+	}
 	/**
 	 * 保存
 	 */

@@ -55,15 +55,15 @@ public class GenerateCode {
 			
 			List<ColumnDto> columnList = handler.getColunm(tableName);
 			
-			handler.sql(classNameSmall, tableName);
+//			handler.sql(classNameSmall, tableName);
 			
 			handler.model(className, classNameSmall, null, tableName, "ids", columnList);
 			
-			handler.validator(className, classNameSmall);
+//			handler.validator(className, classNameSmall);
 			
-			handler.controller(className, classNameSmall, tableName);
+//			handler.controller(className, classNameSmall, tableName);
 			
-			handler.service(className, classNameSmall);
+//			handler.service(className, classNameSmall);
 			
 			System.out.println("generate table:" + tableName);
 		}
