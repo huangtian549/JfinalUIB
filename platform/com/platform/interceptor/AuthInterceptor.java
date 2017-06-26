@@ -80,8 +80,8 @@ public class AuthInterceptor implements Interceptor {
 
 		log.debug("获取URI对象!");
 		Operator operator = null;
-		if ("/JFinalUIBV3/workshop/student/uploadFile".contains(uri)) {
-			operator = Operator.cacheGet("/JFinalUIBV3/workshop/student/uploadFile");
+		if ("/daigou/workshop/student/uploadFile".contains(uri)) {
+			operator = Operator.cacheGet("/daigou/workshop/student/uploadFile");
 		} else {
 			operator = Operator.cacheGet(uri);
 
