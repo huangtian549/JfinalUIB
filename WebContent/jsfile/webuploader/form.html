@@ -1,0 +1,59 @@
+
+<link rel="stylesheet" type="text/css" href="webuploader.css">
+<link rel="stylesheet" type="text/css" href="webuploader-demo.css">
+
+
+                  
+                 <div class="control-group" >
+                 	  <label class="control-label">上传聊天记录</label>
+                 	  
+                  		<div class="controls" >
+                               <div class="ibox-content" >
+                            <div id="uploader" class="wu-example">
+                                <div class="queueList">
+                                    <div id="dndArea" class="placeholder">
+                                        <div id="filePicker"></div>
+                                        <p>或将照片拖到这里，最多可选6张</p>
+                                    </div>
+                                </div>
+                                <div class="statusBar" style="display:none;">
+                                    <div class="progress">
+                                        <span class="text">0%</span>
+                                        <span class="percentage"></span>
+                                    </div>
+                                    <div class="info"></div>
+                                    <div class="btns">
+                                        <div id="filePicker2"></div>
+                                        <div class="uploadBtn">开始上传</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                 </div>
+                 
+                 
+        <script type="text/javascript">
+	     var BASE_URL = "webuploader";
+	     
+	     function addTax(){
+	    	 var priceUS = $("#priceUS").val();
+	    	 if(priceUS != null){
+	    		 priceUS = priceUS * 1.053;
+	    		 priceUS = priceUS.toFixed(2);
+	    		 $("#priceUS").val(priceUS);
+	    	 }
+	     }
+	     
+	     function addFee(){
+	    	 var priceUS = $("#priceUS").val();
+	    	 var huilv = $("#huilv").val();
+	    	 var priceCN = priceUS * huilv;
+	    	 priceCN = priceCN.toFixed(2);
+	    	 $("#priceCN").val(priceCN);
+	     }
+        </script>
+        <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+        <script src="webuploader.js"></script>
+
+        <script src="upload.js"></script>

@@ -1,0 +1,164 @@
+
+<link id="bscss" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/font-awesome/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/toastr/toastr.min.css" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/fancybox/jquery.fancybox.min.css" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap-fileupload.css" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/css/style-responsive.css" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/css/style-default.css" id="style_color" />
+<link rel="stylesheet" type="text/css" href="${cxt!}/ui/metrolab/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" />
+
+<link rel="stylesheet" type="text/css" href="${cxt!}/jsfile/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="${cxt!}/jsfile/webuploader/webuploader-demo.css">
+ <script type="text/javascript" src="${cxt!}/jsfile/jquery/jquery-1.12.4.js"></script>
+ <script type="text/javascript" src="${cxt!}/ui/layer/layer.js"></script>
+ <!-- BEGIN PAGE CONTENT-->
+	<div class="row-fluid">
+		<div class="span12">
+			<!-- BEGIN VALIDATION STATES-->
+			<div class="widget red">
+				<div class="widget-title">
+					<h4>
+						<i class=" icon-key"></i> 添加购买记录
+					</h4>
+				</div>
+				<div class="widget-body form">
+
+					<form id="editForm" action="${cxt!}/workshop/purchase/submitcopy" method="POST" class="form-horizontal">
+						<input type="hidden" name="csrfToken" value="${csrfToken!}">
+						<input type="text" name ="customerIds" id="customerIds" value="" />
+						<div class="control-group">
+							<label class="control-label">选择客户</label>
+							<div class="controls">
+								<div class="input-group" id="costomerDiv"></div>
+									<div class="input-group">
+										<input type="text" class="input-large" id="taobao">
+											<div class="input-group-btn">
+												 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+												  	<span class="caret"></span>
+												 </button>
+												 <ul class="dropdown-menu dropdown-menu-right" role="menu">
+												 </ul>
+											</div>
+									<!-- /btn-group -->
+									</div>
+								<span class="help-inline"></span>
+								</div>
+							</div>
+						    <% include("/workshop/purchase/form.html"){} %>
+ 							
+ 							<div class="control-group">
+							<div class="controls">
+								<% if(authUrl("/workshop/purchase/save")){ %>
+								<button type="button" class="btn btn-success" onclick="common_ajax.ajaxFormMainPanel('editForm',function(){
+									toastr.warning('保存成功！重新打开列表页面就可以看到');
+									setTimeout('parent.layer.closeAll()', 4000 );
+								});">
+									<i class="icon-ok icon-white"></i>${i18nMap["admin.common.submit"]}
+								</button>
+								<% } %>
+							</div>
+						</div>
+ 					</form>
+
+				</div>
+			</div>
+			<!-- END VALIDATION STATES-->
+		</div>
+	</div>
+    <script type="text/javascript" src="${cxt!}/jsfile/jquery/jquery.form.js"></script>
+   
+    <script src="//cdn.bootcss.com/tether/1.2.0/js/tether.min.js"></script>
+    <script id="bsjs" src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     <script type="text/javascript" src="${cxt!}/jsfile/jquery/bootstrap-suggest.js"></script>
+     <script type="text/javascript" src="${cxt!}/ui/metrolab/js/toastr.min.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/string.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/ajax.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/common.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/splitPage.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/verify.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/artdialog/dist/dialog-min.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/modals.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/windows.js"></script>
+	
+	
+     <script type="text/javascript">
+     
+     var localePram = "${localePram!}"; // 用户选择的语言环境，或者默认展示的语言环境
+     var customers = [];
+     
+     
+     
+$("#taobao").bsSuggest({
+    indexId: 2,             //data.value 的第几个数据，作为input输入框的内容
+    indexKey: 1,            //data.value 的第几个数据，作为input输入框的内容
+    allowNoKeyword: false,  //是否允许无关键字时请求数据。为 false 则无输入时不执行过滤请求
+    multiWord: true,        //以分隔符号分割的多关键字支持
+    separator: ",",         //多关键字支持时的分隔符，默认为空格
+    getDataMethod: "url",   //获取数据的方式，总是从 URL 获取
+    showHeader: true,       //显示多个字段的表头
+    autoDropup: true,       //自动判断菜单向上展开
+    effectiveFieldsAlias:{Id: "编号", Keyword: "名字", Count:"微信"},
+    url: '${cxt!}/workshop/customer/search?name=', /*优先从url ajax 请求 json 帮助数据，注意最后一个参数为关键字请求参数*/
+    jsonp: 'callback',               //如果从 url 获取数据，并且需要跨域，则该参数必须设置
+    // url 获取数据时，对数据的处理，作为 fnGetData 的回调函数
+    fnProcessData: function(json){
+    	var index, len, data = {value: []};
+
+        if(! json || ! json.result || ! json.result.length) {
+            return false;
+        }
+
+        len = json.result.length;
+
+        for (index = 0; index < len; index++) {
+            data.value.push({
+                "Id": json.result[index][0],
+                "Keyword": json.result[index][1],
+                "Count": json.result[index][2]
+           
+            });
+        }
+        return data;
+    }
+}).on('onDataRequestSuccess', function (e, result) {
+}).on('onSetSelectValue', function (e, keyword, data) {
+	console.log('onSetSelectValue: ', keyword, data);
+	if(customers.indexOf(data.Id) == -1){
+		$("#costomerDiv").append('<button type="button" class="btn btn-small btn-danger" data-id="' + data.Id+'" onclick="deleteCustomer(this)"><i class="icon-remove icon-white"></i>' + data.Keyword + '</button>');
+		customers.push(data.Id);
+		var ids = $("#customerIds").val();
+		if (ids != ''){
+			$("#customerIds").val(ids + ',' + data.Id);
+		}else{
+			$("#customerIds").val(data.Id);
+		}
+			
+		
+	}else{
+		toastr.warning("已经添加过" + data.Keyword);
+	}
+	$("#taobao").val("");
+	
+}).on('onUnsetSelectValue', function () {
+});
+
+
+var deleteCustomer = function(button) {
+	layer.alert('内容');
+	var customerId = $(button).attr("data-id");
+	customers.pop(customerId);
+	$(button).remove();
+};
+
+var callback = function(button) {
+	window.close();
+};
+</script>
+
+
+    
+   

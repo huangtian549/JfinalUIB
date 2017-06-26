@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>My page</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="jquery.fancybox.min.css">
+</head>
+<body>
+dfdsfsdfsdafasfa
+
+<p>
+  <h2>First test(Image gallery)</h2>
+  <a class="fancybox1" rel="group" href="http://farm8.staticflickr.com/7367/16426879675_e32ac817a8_b.jpg"><img src="http://farm8.staticflickr.com/7367/16426879675_e32ac817a8_m.jpg" alt="" /></a>
+  <a class="fancybox1" rel="group" href="http://farm8.staticflickr.com/7308/15783866983_27160395b9_b.jpg"><img src="http://farm8.staticflickr.com/7308/15783866983_27160395b9_m.jpg" alt="" /></a>
+</p>
+	<!-- JS -->
+	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="jquery.fancybox.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+	      $(".fancybox1").fancybox({
+					'titleShow'     : true
+		  	});      
+    });
+	$("[data-fancybox]").fancybox({
+		// Options will go here
+	});
+</script>
+</body>
+</html>
