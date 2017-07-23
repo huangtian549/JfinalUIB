@@ -20,6 +20,15 @@
 			<% if(!isEmpty(description)){ %>
 					and description like #'%$description$%'# 
 			<% } %>	
+			<% if(!isEmpty(isPay)){ %>
+					and isPay = #'$isPay$'#
+			<% } %>
+			<% if(!isEmpty(isBuy)){ %>
+					and isBuy = #'$isBuy$'#
+			<% } %>
+			<% if(!isEmpty(isSend)){ %>
+					and isSend = #'$isSend$'#
+			<% } %>
 			order by p.ids desc	
     	]]>
 	</sql>

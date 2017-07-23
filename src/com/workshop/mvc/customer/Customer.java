@@ -62,6 +62,12 @@ public class Customer extends BaseModel<Customer> {
 	 */
 	public static final String column_version = "version";
 	
+	/**
+	 * 字段描述： 
+	 * 字段类型：varchar(32)  长度：32
+	 */
+	public static final String column_userId = "userId";
+	
 	
 	/**
 	 * sqlId : workshop.customer.splitPageFrom
@@ -75,6 +81,7 @@ public class Customer extends BaseModel<Customer> {
 	private String mobile;
 	private String address;
 	private Integer version;
+	private String userId;
 	
 	public void setIds(Integer ids){
 		set(column_ids, ids);
@@ -111,6 +118,12 @@ public class Customer extends BaseModel<Customer> {
 	}
 	public Integer getVersion() {
 		return get(column_version);
+	}
+	public void setUserId(String userId){
+		set(column_userId, userId);
+	}
+	public String getUserId() {
+		return get(column_userId);
 	}
 	
 }

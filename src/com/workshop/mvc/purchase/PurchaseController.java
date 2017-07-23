@@ -1,18 +1,17 @@
 package com.workshop.mvc.purchase;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.List;
+
+import com.jfinal.aop.Before;
+import com.jfinal.log.Log;
 import com.platform.annotation.Controller;
 import com.platform.constant.ConstantInit;
 import com.platform.mvc.base.BaseController;
 import com.platform.mvc.base.BaseModel;
-import com.platform.tools.ToolDateTime;
 import com.platform.tools.ToolString;
 import com.workshop.mvc.customer.Customer;
-import com.jfinal.log.Log;
-
-import java.sql.Date;
-import java.util.List;
-
-import com.jfinal.aop.Before;
 
 /**
  * XXX 管理	
@@ -39,7 +38,8 @@ public class PurchaseController extends BaseController {
 	 * 列表
 	 */
 	public void index() {
-		paging(ConstantInit.db_dataSource_main, splitPage, Purchase.sqlId_splitPageSelect, Purchase.sqlId_splitPageFrom);
+		Object isPay = getPara("isPay");
+		paging(ConstantInit.db_dataSource_main, splitPage, Purchase.sqlId_splitPageSelect_list, Purchase.sqlId_splitPageFrom);
 		render("/workshop/purchase/list.html");
 	}
 	
@@ -61,12 +61,29 @@ public class PurchaseController extends BaseController {
 				}
 			}
 		}
-		Integer customerIds = getParaToInt();
+		Integer customerIds = getParaToInt(0);
+		String name = getPara(1);
+		if (name != null) {
+			try {
+				name = URLDecoder.decode(name, "gbk");
+				name = URLDecoder.decode(name, "utf-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 		Customer customer = Customer.dao.findById(customerIds);
-		setAttr("address", customer.getAddress());
+		String flag = getPara(2);    //flag = 1 表示是从客户列表点击购买记录进来的
+		if (flag == null) {
+			flag = "0";
+		}
+		setAttr("customer", customer);
 		setAttr("list", list);
-		setAttr("customerIds", getPara());
+		setAttr("customerIds", customerIds);
 		setAttr("sum", sum);
+		setAttr("name", name);
+		setAttr("flag", flag);
 //		paging(ConstantInit.db_dataSource_main, splitPage, BaseModel.sqlId_splitPageSelect, Purchase.sqlId_splitPageForCustomerFrom);
 		render("/workshop/purchase/list2.html");
 	}
@@ -89,6 +106,9 @@ public class PurchaseController extends BaseController {
 	public void save() {
 		Purchase purchase = getModel(Purchase.class);
 		purchase.setPurchaseDate(new java.sql.Date(new java.util.Date().getTime()));
+		if (purchase.getPriceUS() != null) {
+			purchase.setPriceUS(purchase.getPriceUS() * 7);
+		}
 		purchase.save(true);
 		forwardAction("/workshop/purchase/listByCustomer/" + purchase.getCustomer_ids());
 	}
@@ -117,15 +137,15 @@ public class PurchaseController extends BaseController {
 	/**
 	 * 更改多个
 	 */
-	public void updateMultiPay() {
+	public void updateMultiByCustomerId() {
 		String ids = getPara("ids");
 		String column = getPara("column");
 		String[] idsArr = splitByComma(ids);
 		for (String id : idsArr) {
 			Purchase.dao.findByIdLoadColumns(id, "ids," + column).set(column, 1).update();
 		}
-		String id = getPara("customerIds") ;
-		forwardAction("/workshop/purchase/backOff");
+		String customerId = getPara("customerId") ;
+		forwardAction("/workshop/purchase/listByCustomer/" + customerId);
 			
 	}
 	public void updateMultiToAll() {
@@ -138,12 +158,25 @@ public class PurchaseController extends BaseController {
 		forwardAction("/workshop/purchase/backOff");
 	}
 	
+	public void goBack() {
+		String name = getPara(0);
+		Integer flag = getParaToInt(1);
+		if (flag == null || flag == 0) {
+			paging(ConstantInit.db_dataSource_main, splitPage, BaseModel.sqlId_splitPageSelect, Customer.sqlId_splitPageFrom);
+			render("/workshop/customer/list.html");
+			
+		}
+	}
+	
 
 	public void copy() {
-		setAttr("purchaseId", getPara());
-		Purchase purchase = Purchase.dao.findById(getPara());
-		setAttr("purchase", purchase);
-		setAttr("customerIds", purchase.getCustomer_ids());
+		String purchaseId = getPara();
+		if (purchaseId != null && purchaseId.length() > 0) {
+			setAttr("purchaseId", purchaseId);
+			Purchase purchase = Purchase.dao.findById(getPara());
+			setAttr("purchase", purchase);
+			setAttr("customerIds", purchase.getCustomer_ids());
+		}
 		render("/workshop/purchase/copy.html");
 	}
 	
@@ -168,7 +201,9 @@ public class PurchaseController extends BaseController {
 	 */
 	public void view() {
 		Purchase purchase = Purchase.dao.findById(getPara());
+		Customer customer = Customer.dao.findById(purchase.getCustomer_ids());
 		setAttr("purchase", purchase);
+		setAttr("customer", customer);
 		render("/workshop/purchase/view.html");
 	}
 	
@@ -178,8 +213,7 @@ public class PurchaseController extends BaseController {
 	public void delete() {
 		purchaseService.baseDelete(Purchase.table_name, getPara(0) == null ? ids : getPara(0));
 		String id = getPara(1) == null ? ids : getPara(1);
-		String action = "/workshop/purchase/backOff";
-		forwardAction(action);
+		forwardAction("/workshop/purchase/listByCustomer/" + id);
 	}
 	
 	/**

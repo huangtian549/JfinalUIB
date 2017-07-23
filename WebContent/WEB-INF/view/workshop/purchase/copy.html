@@ -29,11 +29,11 @@
 
 					<form id="editForm" action="${cxt!}/workshop/purchase/submitcopy" method="POST" class="form-horizontal">
 						<input type="hidden" name="csrfToken" value="${csrfToken!}">
-						<input type="text" name ="customerIds" id="customerIds" value="" />
+						<input type="hidden" name ="customerIds" id="customerIds" value="" />
 						<div class="control-group">
 							<label class="control-label">选择客户</label>
 							<div class="controls">
-								<div class="input-group" id="costomerDiv"></div>
+								<div class="input-group" ><span class="tools" id="costomerDiv">  </span></div>
 									<div class="input-group">
 										<input type="text" class="input-large" id="taobao">
 											<div class="input-group-btn">

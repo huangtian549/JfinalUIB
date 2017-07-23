@@ -59,14 +59,14 @@
 
 					<div class="widget-body">
 						<span class="tools"> 
-							<button type="button" class="btn btn-small btn-warning" onclick="common_ajax.ajaxMainPanel('/workshop/customer/toUrl?toUrl=/workshop/customer/add.html');">
+							<button type="button" class="btn btn-small btn-danger" onclick="common_ajax.ajaxMainPanel('/workshop/customer/toUrl?toUrl=/workshop/customer/add.html');">
 								<i class="icon-plus icon-white"></i>
-								添加用户
+								添加客户
 							</button> 
 							
-							<button type="button" class="btn btn-small btn-danger" data-table="dataTable" data-url="/workshop/customer/delete?csrfToken=${csrfToken!}" onclick="common_modals.deleteList(this)">
+							<button type="button" class="btn btn-small btn-warning" data-table="dataTable" data-url="/workshop/customer/delete?csrfToken=${csrfToken!}" onclick="common_modals.deleteList(this)">
 								<i class="icon-remove icon-white"></i>
-								${i18nMap["admin.common.delete"]}
+								删除客户
 							</button> 
 						</span>
 
@@ -108,25 +108,25 @@
 									<td class="hidden-phone">${escapeXml(user.wechat!) }</td>
 									<td class="hidden-phone">${user.address!}</td>
 									<td class="hidden-phone">
-											<button type="button" class="btn btn-small btn-inverse" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toAdd/${user.ids!}');">
-												<i class="icon-refresh icon-white"></i>
+											<button type="button" class="btn btn-small btn-danger" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toAdd/${user.ids!}');">
+												<i class="icon-plus icon-white"></i>
 												添加购买
 											</button> 
 											
-											<button type="button" class="btn btn-small" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/listByCustomer/${user.ids!}');">
+											<button type="button" class="btn btn-small btn-info" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/listByCustomer/${user.ids!}-${escapeXml(splitPage.queryParam["name"])}-1');">
 												<i class="icon-eye-open"></i> 
-												查看购买记录
+												购买记录
 											</button> 
 											<br/>
 										
 											<button type="button" class="btn btn-small btn-success" onclick="common_ajax.ajaxMainPanel('/workshop/customer/edit/${user.ids!}');">
-												<i class="icon-ok icon-white"></i>
+												<i class="icon-edit icon-white"></i>
 												修改客户
 											</button> 
 										
-										<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/workshop/customer/delete/${user.ids!}?csrfToken=${csrfToken!}">
+										<button type="button" class="btn btn-small btn-warning" onclick="common_modals.deleteOne(this)" data-url="/workshop/customer/delete/${user.ids!}?csrfToken=${csrfToken!}">
 											<i class="icon-remove icon-white"></i>
-											${i18nMap["admin.common.delete"]}
+											删除客户
 										</button> 
 									</td>
 								</tr>
@@ -154,4 +154,7 @@
 	jQuery(document).ready(function() {
 		
 	});
+	
+	
+
 </script>

@@ -21,8 +21,6 @@ public class Purchase extends BaseModel<Purchase> {
 	private static final Log log = Log.getLog(Purchase.class);
 	
 	public static final Purchase dao = new Purchase();
-	
-	public static final String sqlId_splitPageSelect = "workshop.purchase.splitPageSelect";
 
 	/**
 	 * 表名称
@@ -85,15 +83,33 @@ public class Purchase extends BaseModel<Purchase> {
 	
 	/**
 	 * 字段描述： 
+	 * 字段类型：int(10)  长度：null
+	 */
+	public static final String column_isBuy = "isBuy";
+	
+	/**
+	 * 字段描述： 
 	 * 字段类型：int(11)  长度：null
 	 */
 	public static final String column_isSend = "isSend";
+	
+	/**
+	 * 字段描述：国内接收点，拼邮到国内后，再分别邮寄给客户 
+	 * 字段类型：varchar(20)  长度：20
+	 */
+	public static final String column_client = "client";
 	
 	/**
 	 * 字段描述： 
 	 * 字段类型：float  长度：null
 	 */
 	public static final String column_deliverFee = "deliverFee";
+	
+	/**
+	 * 字段描述： 
+	 * 字段类型：int(11)  长度：null
+	 */
+	public static final String column_isContainFee = "isContainFee";
 	
 	/**
 	 * 字段描述： 
@@ -137,12 +153,25 @@ public class Purchase extends BaseModel<Purchase> {
 	 */
 	public static final String column_remark2 = "remark2";
 	
+	/**
+	 * 字段描述： 
+	 * 字段类型：varchar(32)  长度：32
+	 */
+	public static final String column_userId = "userId";
+	
 	
 	/**
 	 * sqlId : workshop.purchase.splitPageFrom
 	 * 描述：分页from
 	 */
 	public static final String sqlId_splitPageFrom = "workshop.purchase.splitPageFrom";
+	
+	/**
+	 * sqlId : workshop.purchase.splitPageFrom
+	 * 描述：分页from
+	 */
+	public static final String sqlId_splitPageSelect_list = "workshop.purchase.splitPageSelect";
+	
 
 	private Integer ids;
 	private Integer customer_ids;
@@ -153,8 +182,11 @@ public class Purchase extends BaseModel<Purchase> {
 	private String pic;
 	private Date purchaseDate;
 	private Integer isPay;
+	private Integer isBuy;
 	private Integer isSend;
+	private String client;
 	private Float deliverFee;
+	private Integer isContainFee;
 	private Date deliverDate;
 	private Integer isPayDeliverFee;
 	private Integer version;
@@ -162,6 +194,7 @@ public class Purchase extends BaseModel<Purchase> {
 	private String trackNum;
 	private String remark1;
 	private String remark2;
+	private String userId;
 	
 	public void setIds(Integer ids){
 		set(column_ids, ids);
@@ -217,17 +250,35 @@ public class Purchase extends BaseModel<Purchase> {
 	public Integer getIsPay() {
 		return get(column_isPay);
 	}
+	public void setIsBuy(Integer isBuy){
+		set(column_isBuy, isBuy);
+	}
+	public Integer getIsBuy() {
+		return get(column_isBuy);
+	}
 	public void setIsSend(Integer isSend){
 		set(column_isSend, isSend);
 	}
 	public Integer getIsSend() {
 		return get(column_isSend);
 	}
+	public void setClient(String client){
+		set(column_client, client);
+	}
+	public String getClient() {
+		return get(column_client);
+	}
 	public void setDeliverFee(Float deliverFee){
 		set(column_deliverFee, deliverFee);
 	}
 	public Float getDeliverFee() {
 		return get(column_deliverFee);
+	}
+	public void setIsContainFee(Integer isContainFee){
+		set(column_isContainFee, isContainFee);
+	}
+	public Integer getIsContainFee() {
+		return get(column_isContainFee);
 	}
 	public void setDeliverDate(Date deliverDate){
 		set(column_deliverDate, deliverDate);
@@ -270,6 +321,12 @@ public class Purchase extends BaseModel<Purchase> {
 	}
 	public String getRemark2() {
 		return get(column_remark2);
+	}
+	public void setUserId(String userId){
+		set(column_userId, userId);
+	}
+	public String getUserId() {
+		return get(column_userId);
 	}
 	
 }

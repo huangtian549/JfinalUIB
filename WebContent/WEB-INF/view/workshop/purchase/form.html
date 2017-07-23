@@ -2,14 +2,6 @@
 <input type="hidden" name ="purchase.customer_ids" value="${escapeXml(customerIds!)}" />
 
 <div class="control-group">
-	<label class="control-label">购买价格(美元)</label>
-	<div class="controls">
-		<input type="text" name="purchase.priceUS" value="${escapeXml(purchase.priceUS!)}" 
-			class="span3" maxlength="25" size="25" vMin="0" vType="length"  id="priceUS">
-		<span class="help-inline"></span>
-	</div>
-</div>
-<div class="control-group">
 	<label class="control-label">出售价格(人民币)</label>
 	<div class="controls">
 		<input type="text" name="purchase.priceCN" value="${escapeXml(purchase.priceCN!)}" id="priceCN"
@@ -17,7 +9,14 @@
 		<span class="help-inline"></span>
 	</div>
 </div>
-
+<div class="control-group">
+	<label class="control-label">购买价格(美元)</label>
+	<div class="controls">
+		<input type="text" name="purchase.priceUS" value="${escapeXml(purchase.priceUS!)}" 
+			class="span3" maxlength="25" size="25" vMin="0" vType="length"  id="priceUS">
+		<span class="help-inline"></span>
+	</div>
+</div>
 
 <div class="control-group">
 	<label class="control-label">是否付款</label>
@@ -33,10 +32,23 @@
 <div class="control-group">
 	<label class="control-label">是否购买</label>
 	<div class="controls">
-		<select name="purchase.isSend" class="combox">
-			<option value="1" ${purchase.isSend! == 1 ? "selected='selected'":"" }>已经购买</option>
-			<option value="0" ${purchase.isSend! != 1 ? "selected='selected'":"" }>未购买</option>
+		<select name="purchase.isBuy" class="combox">
+			<option value="1" ${purchase.isBuy! == 1 ? "selected='selected'":"" }>已经购买</option>
+			<option value="0" ${purchase.isBuy! != 1 ? "selected='selected'":"" }>未购买</option>
 		</select>
+		<span class="help-inline"></span>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">是否发货</label>
+	<div class="controls">
+		<select name="purchase.isSend" class="combox">
+			<option value="1" ${purchase.isSend! == 1 ? "selected='selected'":"" }>已经发货</option>
+			<option value="0" ${purchase.isSend! != 1 ? "selected='selected'":"" }>未发货</option>
+		</select>
+		
+		<input type="text" name="purchase.client" value="${escapeXml(purchase.client!)}" 
+			class="span3" maxlength="25" size="25" vMin="0" vType="length"  id="client" placeholder="国内代收人名字">
 		<span class="help-inline"></span>
 	</div>
 </div>
@@ -51,7 +63,12 @@
              </div>
 </div>
 
-
+<div class="control-group">
+							<label class="control-label">图片</label>
+							<div class="controls hidden-phone">
+								${ShowPic(purchase.pic!)}
+							</div>
+						</div>
                   <input type="hidden" name="purchase.pic" id="image" value="${escapeXml(purchase.pic!)}" readonly/>
 
                   

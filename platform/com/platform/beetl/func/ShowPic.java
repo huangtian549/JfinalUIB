@@ -18,7 +18,7 @@ public class ShowPic implements Function {
 				String[] imageArray = image.split(",");
 				for (String s : imageArray) {
 					if (s != null && s.length() > 0) {
-						sBuilder.append("<a class=\"fancybox1\" rel=\"group\" href=\"http://45.33.62.141").append(s).append("\">");
+						sBuilder.append("<a class=\"fancybox1\" rel=\"group\"  href=\"http://45.33.62.141").append(s).append("\">");
 						sBuilder.append("<img src=\"http://45.33.62.141").append(s).append("\"height=\"100\" width=\"100\" alt=\"\"/>");
 						sBuilder.append("</a>");
 					}

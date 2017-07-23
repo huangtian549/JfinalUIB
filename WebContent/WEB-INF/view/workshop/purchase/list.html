@@ -13,8 +13,8 @@
 						<a href="javascript:void(0)" onclick="common_ajax.ajaxMainPanel('/platform/index/content');">${i18nMap["admin.common.mainPage"]}</a>
 						<span class="divider">/</span>
 					</li>
-					<li><a href="#">用户权限</a> <span class="divider">/</span></li>
-					<li class="active">${i18nMap["admin.role.common.name"]}</li>
+					<li><a href="#">代购</a> <span class="divider">/</span></li>
+					<li class="active">购买记录</li>
 				</ul>
 				<!-- END PAGE TITLE & BREADCRUMB-->
 			</div>
@@ -26,19 +26,36 @@
 				<div class="widget yellow">
 					<div class="widget-title">
 						<h4>
-							<i class="icon-reorder"></i> ${i18nMap["admin.role.list.select"]}
+							<i class="icon-reorder"></i> 购买记录查询
 						</h4>
 						<span class="tools"> 
 							<a class="icon-chevron-down" href="javascript:;"></a>
 						</span>
 					</div>
 					<div class="widget-body form switch-form">
-						${i18nMap["admin.role.property.numbers"]}
 						<input class="medium" type="text" name="_query.description" value='${escapeXml(splitPage.queryParam["description"])}' maxlength="50">
 
-
 						<button type="button" class="btn btn-danger" onclick='common_ajax.ajaxFormMainPanel("splitPage");'>${i18nMap["admin.common.select"]}</button>
-						<button type="reset" class="btn btn-inverse">${i18nMap["admin.common.reset"]}</button>
+						
+						<% if(splitPage.queryParam["isPay"] != "0"){ %>
+						<input type="checkbox" class="form-control" name="_query.isPay"  id="check1" value="0" class="checkbox-checkable" onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 未付款
+						<% }else{ %>
+						<input type="checkbox" class="form-control" name="_query.isPay" checked="checked" id="check1" value="0" class="checkbox-checkable" onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 未付款
+						<% } %>
+						
+						<% if(splitPage.queryParam["isBuy"] != "0"){ %>
+						<input type="checkbox" name="_query.isBuy" id="check2" value="0" class="checkbox-checkable" onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 未购买
+						<% }else{ %>
+						<input type="checkbox" name="_query.isBuy" id="check2" value="0" checked="checked" class="checkbox-checkable" onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 未购买
+						<% } %>
+						
+						<% if(splitPage.queryParam["isSend"] != "0"){ %>
+						<input type="checkbox" name="_query.isSend" id="check3" value="0" class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 未邮寄
+						<% }else{ %>
+						<input type="checkbox" name="_query.isSend" id="check3" value="0" checked="checked" class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 未邮寄
+						<% } %>
+						
+						
 					</div>
 				</div>
 			</div>
@@ -60,26 +77,27 @@
 
 					<div class="widget-body">
 						<span class="tools"> 
-							<button type="button" class="btn btn-small btn-danger" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/toAdd/${customerIds!}');">
-								<i class="icon-plus icon-white"></i>
+							<button type="button" class="btn btn-small btn-danger" purchase-id="${purchase.ids!}" data-method="notice" onclick="copyRecord(this)">
+												<i class="icon-plus icon-white"></i>
 								添加购买记录
 							</button> 
-							<button type="button" class="btn btn-small btn-danger" category="isPay" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
-								<i class="icon-remove icon-white"></i>
+							<button type="button" class="btn btn-small btn-success" category="isPay" data-table="dataTable" data-url="/workshop/purchase/updateMultiToAll?csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-play-circle icon-white"></i>
 								付款
 							</button> 
 							
-							<button type="button" class="btn btn-small btn-danger" category="isSend" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
-								<i class="icon-remove icon-white"></i>
-								收到物品
+							<button type="button" class="btn btn-small btn-success" category="isBuy" data-table="dataTable" data-url="/workshop/purchase/updateMultiToAll?csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-signal icon-white"></i>
+								购买
 							</button> 
 							
-							<button type="button" class="btn btn-small btn-danger" category="isPayDeliverFee" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
-								<i class="icon-remove icon-white"></i>
-								支付运费
+							<button type="button" class="btn btn-small btn-success" category="isSend" data-table="dataTable" data-url="/workshop/purchase/updateMultiToAll?csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-tag icon-white"></i>
+								邮寄
 							</button> 
+							
 						</span>
-
+						
                        	<div class="space15"></div>
                        
 						<table class="table table-striped table-bordered" id="dataTable">
@@ -89,11 +107,14 @@
 										<input type="checkbox" class="group-checkable" name="checkAll" onchange="common_common.checkFunc('dataTable', this.checked);" class="flat-grey selectall">
 									</th>
 									<th class="hidden-phone">微信</th>
-									<th class="hidden-phone">人民币价格</th>
+									<th class="hidden-phone">购买价格</th>
+									<th class="hidden-phone">出售价格</th>
 									<th class="hidden-phone">描述</th>
 									<th class="hidden-phone">购买日期</th>
 									<th class="hidden-phone">是否付款</th>
 									<th class="hidden-phone">是否购买</th>
+									<th class="hidden-phone">是否邮寄</th>
+									<th class="hidden-phone">代收人</th>
 									<th class="hidden-phone">图片</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
@@ -105,10 +126,11 @@
 										<input type="checkbox" class="checkboxes" name="checkIds" value="${purchase.ids!}" class="flat-grey foocheck">
 									</td>
 									<td class="hidden-phone">
-										<button type="button" class="btn btn-small btn-success" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/listByCustomer/${purchase.customer_ids!}');">
+										<button type="button" class="btn btn-small btn-success" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/listByCustomer/${purchase.customer_ids!}-${escapeXml(splitPage.queryParam["description"])}');">
 												${escapeXml(purchase.wechat!) }
 											</button> 
 									</td>
+									<td class="hidden-phone">${escapeXml(purchase.priceUS!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.priceCN!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.description!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.purchaseDate!) }</td>
@@ -117,26 +139,35 @@
 									<% }else{ %>
 										<td class="hidden-phone">${purchase.isPay == 1 ? "是":"否"}</td>
 									<% } %>
-									
+									<% if(purchase.isBuy != 1){ %>
+										<td style="clear;background-color:#FF0000;" bgcolor="red">${purchase.isBuy == 1 ? "是":"否"}</td>
+									<% }else{ %>
+										<td class="hidden-phone">${purchase.isBuy == 1 ? "是":"否"}</td>
+									<% } %>
 									<% if(purchase.isSend != 1){ %>
 										<td style="clear;background-color:#00FF7F;" bgcolor="red">${purchase.isSend == 1 ? "是":"否"}</td>
 									<% }else{ %>
 										<td class="hidden-phone">${purchase.isSend == 1 ? "是":"否"}</td>
 									<% } %>
-									
+									<td class="hidden-phone">${escapeXml(purchase.client!) }</td>
 									<td class="hidden-phone">${ShowPic(purchase.pic!)}</td>
 									<td class="hidden-phone">
-											<button type="button" class="btn btn-small btn-inverse" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/edit/${escapeXml(purchase.ids!)}');">
-												<i class="icon-refresh icon-white"></i>
+											<button type="button" class="btn btn-small btn-success" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/edit/${escapeXml(purchase.ids!)}');">
+												<i class="icon-edit icon-white"></i>
 												${i18nMap["admin.common.edit"]}
 											</button> 
 											
-											<button type="button" class="btn btn-small btn-inverse" purchase-id="${purchase.ids!}" data-method="notice" onclick="copyRecord(this)">
+											<button type="button" class="btn btn-small btn-info" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/view/${escapeXml(purchase.ids!)}');">
+												<i class="icon-refresh icon-white"></i>
+												查看
+											</button> 
+											
+											<button type="button" class="btn btn-small btn-danger" purchase-id="${purchase.ids!}" data-method="notice" onclick="copyRecord(this)">
 												<i class="icon-refresh icon-white"></i>
 												复制
 											</button> 
 										
-											<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/workshop/purchase/delete/${purchase.ids!}-${customerIds!}?csrfToken=${csrfToken!}">
+											<button type="button" class="btn btn-small btn-warning" onclick="common_modals.deleteOne(this)" data-url="/workshop/purchase/delete/${purchase.ids!}-${customerIds!}?csrfToken=${csrfToken!}">
 												<i class="icon-remove icon-white"></i>
 												${i18nMap["admin.common.delete"]}
 											</button> 
@@ -184,6 +215,13 @@
 		}
 	};
 	
+	var goList = function(button) {
+		var url = $(button).attr("data-url");
+		var category = $(button).attr("category");
+		var ids = common_common.getCheckFunc(table);
+		var data = {'ids' : ids,  "column" : category};
+		common_ajax.ajaxFormMainPanel("splitPage");
+	}
 	  
 	
 	  

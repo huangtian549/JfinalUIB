@@ -10,7 +10,7 @@
 				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 				<ul class="breadcrumb">
 					<li><a href="javascript:void(0)" onclick="common_ajax.ajaxMainPanel('/platform/index/content');">${i18nMap["admin.common.mainPage"]}</a> <span class="divider">/</span></li>
-				<li><a href="#">客户管理</a> <span class="divider">/</span></li>
+				<li><a href="#">代购</a> <span class="divider">/</span></li>
 				<li><a href="javascript:void(0)" onclick="common_ajax.ajaxMainPanel('/workshop/customer/backOff');">客户列表</a> <span class="divider">/</span></li>
 				<li class="active">购买记录</li>
 				</ul>
@@ -30,8 +30,7 @@
 
 
 					<div class="widget-title">
-						<h4>
-							<i class="icon-reorder"></i> ${i18nMap["admin.role.list.table"]}
+						<h4><i class="icon-user"></i>${escapeXml(customer.name!) }     <i class="icon-facebook"></i>${escapeXml(customer.wechat!) }      <i class="icon-flag"></i> ${customer.address!}
 						</h4>
 					</div>
 
@@ -41,49 +40,50 @@
 								<i class="icon-plus icon-white"></i>
 								添加购买记录
 							</button> 
-							<button type="button" class="btn btn-small btn-info" category="isPay" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
-								<i class="icon-remove icon-white"></i>
+							<button type="button" class="btn btn-small btn-success" category="isPay" data-table="dataTable" data-url="/workshop/purchase/updateMultiByCustomerId?customerId=${customerIds!}&csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-play-circle icon-white"></i>
 								付款
 							</button> 
 							
-							<button type="button" class="btn btn-small btn-info" category="isSend" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
-								<i class="icon-remove icon-white"></i>
-								收到物品
+							<button type="button" class="btn btn-small btn-success" category="isBuy" data-table="dataTable" data-url="/workshop/purchase/updateMultiByCustomerId?customerId=${customerIds!}&csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-signal icon-white"></i>
+								购买
 							</button> 
 							
-							<button type="button" class="btn btn-small btn-info" category="isPayDeliverFee" data-table="dataTable" data-url="/workshop/purchase/updateMultiPay?csrfToken=${csrfToken!}" onclick="updateList(this)">
-								<i class="icon-remove icon-white"></i>
-								支付运费
+							<button type="button" class="btn btn-small btn-success" category="isSend" data-table="dataTable" data-url="/workshop/purchase/updateMultiByCustomerId?customerId=${customerIds!}&csrfToken=${csrfToken!}" onclick="updateList(this)">
+								<i class="icon-tag icon-white"></i>
+								邮寄
 							</button> 
 							
+								<span class="label label-important " >待付款项${escapeXml(sum!) }</span>
 							
-								<span class="label label-important">待付款项${escapeXml(sum!) }</span>
-								
-								<span class="label label-success">${escapeXml(address!) }</span>
+							<input class="medium" type="hidden" name="_query.description" value='${name!}' maxlength="50">
+							
+							<% if(flag == "0"){ %>
+								<button type="button" class="btn btn-inverse" style="float:right" onclick="common_ajax.ajaxFormMainPanel('splitPage');">后退</button>
+							<% }else{ %>
+								<button type="button" class="btn btn-inverse" style="float:right" onclick="goCustomerList()">后退</button>
+							<% } %>
 								
 							
 						</span>
 
                        	<div class="space15"></div>
-                       
+                     
 						<table class="table table-striped table-bordered" id="dataTable">
 							<thead>
 								<tr>
 									<th style="width: 8px;">
 										<input type="checkbox" class="group-checkable" name="checkAll" onchange="common_common.checkFunc('dataTable', this.checked);" class="flat-grey selectall">
 									</th>
-									<th class="hidden-phone">网址</th>
-									<th class="hidden-phone">美元价格</th>
-									<th class="hidden-phone">人民币价格</th>
+									<th class="hidden-phone">购买价格</th>
+									<th class="hidden-phone">出售价格</th>
 									<th class="hidden-phone">描述</th>
 									<th class="hidden-phone">购买日期</th>
 									<th class="hidden-phone">是否付款</th>
-									<th class="hidden-phone">是否收到</th>
-									<th class="hidden-phone">快递费</th>
-									<th class="hidden-phone">快递日期</th>
-									<th class="hidden-phone">是否支付运费</th>
-									<th class="hidden-phone">快递方式</th>
-									<th class="hidden-phone">单号</th>
+									<th class="hidden-phone">是否购买</th>
+									<th class="hidden-phone">是否邮寄</th>
+									<th class="hidden-phone">代收人</th>
 									<th class="hidden-phone">图片</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
@@ -94,9 +94,6 @@
 									<td>
 										<input type="checkbox" class="checkboxes" name="checkIds" value="${purchase.ids!}" class="flat-grey foocheck">
 									</td>
-									<td class="hidden-phone">
-										<span class="label label-success">${escapeXml(purchase.website!) }</span>
-									</td>
 									<td class="hidden-phone">${escapeXml(purchase.priceUS!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.priceCN!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.description!) }</td>
@@ -106,33 +103,29 @@
 									<% }else{ %>
 										<td class="hidden-phone">${purchase.isPay == 1 ? "是":"否"}</td>
 									<% } %>
-									
+									<% if(purchase.isBuy != 1){ %>
+										<td style="clear;background-color:#FF0000;" bgcolor="red">${purchase.isBuy == 1 ? "是":"否"}</td>
+									<% }else{ %>
+										<td class="hidden-phone">${purchase.isBuy == 1 ? "是":"否"}</td>
+									<% } %>
 									<% if(purchase.isSend != 1){ %>
 										<td style="clear;background-color:#00FF7F;" bgcolor="red">${purchase.isSend == 1 ? "是":"否"}</td>
 									<% }else{ %>
 										<td class="hidden-phone">${purchase.isSend == 1 ? "是":"否"}</td>
 									<% } %>
 									
-									<td class="hidden-phone">${escapeXml(purchase.deliverFee!) }</td>
-									<td class="hidden-phone">${escapeXml(purchase.deliverDate!) }</td>
-									<td class="hidden-phone">
-									<% if(purchase.isPayDeliverFee == 0){ %>
-										未支付
-									<% }else if(purchase.isPayDeliverFee == 1){ %>
-										支付
-									<% }else{ %>
-										包邮
-									<% } %>
-									</td>
-									<td class="hidden-phone">${escapeXml(purchase.deliverMethod!) }</td>
-									<td class="hidden-phone">${escapeXml(purchase.trackNum!) }</td>
+									<td class="hidden-phone">${escapeXml(purchase.client!) }</td>
 									<td class="hidden-phone">${ShowPic(purchase.pic!)}</td>
 									<td class="hidden-phone">
-											<button type="button" class="btn btn-small btn-inverse" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/edit/${escapeXml(purchase.ids!)}');">
-												<i class="icon-refresh icon-white"></i>
+											<button type="button" class="btn btn-small btn-success" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/edit/${escapeXml(purchase.ids!)}');">
+												<i class="icon-edit icon-white"></i>
 												${i18nMap["admin.common.edit"]}
 											</button> 
-										
+											
+											<button type="button" class="btn btn-small btn-info" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/view/${escapeXml(purchase.ids!)}');">
+												<i class="icon-refresh icon-white"></i>
+												查看
+											</button> 
 										
 											<button type="button" class="btn btn-small btn-danger" onclick="common_modals.deleteOne(this)" data-url="/workshop/purchase/delete/${purchase.ids!}-${customerIds!}?csrfToken=${csrfToken!}">
 												<i class="icon-remove icon-white"></i>
@@ -178,5 +171,16 @@
 			//"请选择操作数据！"
 		}
 	};
+	
+	
+	
 </script>
 
+<script type="text/javascript">
+function goCustomerList() {
+	var url = "/workshop/customer";
+	var data = {'_query.name' : '${name!}', 'pageNumber' : 0, "pageSize" : 50};
+	common_ajax.ajaxMainPanel(url, data);
+		
+}
+</script>
