@@ -17,6 +17,7 @@
 package com.jfinal.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Enumeration;
@@ -36,6 +37,8 @@ import com.jfinal.render.Render;
 import com.jfinal.render.RenderFactory;
 import com.jfinal.upload.MultipartRequest;
 import com.jfinal.upload.UploadFile;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 /**
  * Controller
@@ -729,6 +732,23 @@ public abstract class Controller {
 	// TODO public <T> List<T> getModels(Class<T> modelClass, String modelName) {}
 	
 	// --------
+	
+	public void createSmallPic(UploadFile uploadFile) {
+		String fileName = uploadFile.getUploadPath() + File.separator + uploadFile.getFileName();
+		File fromPic=new File(fileName);  
+		String[] arr = fileName.split("\\.");
+		String smallPicName = arr[0] + "_100*100." + arr[1];
+		String largePicName = arr[0] + "_800*600." + arr[1];
+        File smallPic=new File(smallPicName);
+        File largePic = new File(largePicName);
+        try {
+        		Thumbnails.of(fromPic).size(100,100).toFile(smallPic);//变为100*100,遵循原图比例缩或放到100*某个高度  
+			Thumbnails.of(fromPic).scale(1f).outputQuality(0.25f).toFile(largePic);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+	}
 	
 	/**
 	 * Get upload file from multipart request.

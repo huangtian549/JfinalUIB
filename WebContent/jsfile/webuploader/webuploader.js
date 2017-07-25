@@ -2119,7 +2119,7 @@
                 width: 110,
                 height: 110,
                 quality: 70,
-                allowMagnify: true,
+                allowMagnify: false,
                 crop: true,
                 preserveHeaders: false,
     
@@ -2167,10 +2167,12 @@
             compress: {
                 width: 1600,
                 height: 1600,
-                quality: 90,
+                quality: 60,
                 allowMagnify: false,
                 crop: false,
-                preserveHeaders: true
+                preserveHeaders: true,
+                noCompressIfLarger: false,
+                compressSize: 100000
             }
         });
     
