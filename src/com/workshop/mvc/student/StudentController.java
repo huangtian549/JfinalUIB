@@ -63,9 +63,15 @@ public class StudentController extends BaseController {
 		String dateString = ToolDateTime.getDateString(new Date(), ToolDateTime.SHORT_DATE_FORMAT_NO_DASH);
 		dateString = "workshop/"  + dateString;
 		
-		List<UploadFile> files = getFiles("/home/data/" + dateString + File.separator, 10 * 1024 * 1024, ToolString.encoding); // 10M
+//		String prefix = "/Users/huangyao/git/";
+		String prefix = "/home/data/";
+		List<UploadFile> files = getFiles(prefix + dateString + File.separator, 10 * 1024 * 1024, ToolString.encoding); // 10M
 		if (files != null) {
 			log.info("size:" + files.size());
+			for (UploadFile uploadFile2 : files) {
+				createSmallPic(uploadFile2);
+				
+			}
 		}
 		String filePath = files.get(0).getUploadPath() + files.get(0).getFileName() + ",";
 		filePath = filePath.replaceFirst("/home", "");
