@@ -1,0 +1,150 @@
+
+<!-- BEGIN PAGE CONTAINER-->
+<div class="container-fluid">
+
+	<!-- BEGIN PAGE HEADER-->
+	<div class="row-fluid">
+		<div class="span12">
+			<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+			<ul class="breadcrumb">
+				<li><a href="javascript:void(0)" onclick="common_ajax.ajaxMainPanel('/platform/index/content');">${i18nMap["admin.common.mainPage"]}</a> <span class="divider">/</span></li>
+				<li><a href="#">代购</a> <span class="divider">/</span></li>
+				<li><a href="javascript:void(0)" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/backOff');">购买记录</a> <span class="divider">/</span></li>
+				<li class="active">查看</li>
+			</ul>
+			<!-- END PAGE TITLE & BREADCRUMB-->
+		</div>
+	</div>
+	<!-- END PAGE HEADER-->
+
+	<!-- BEGIN PAGE CONTENT-->
+	<div class="row-fluid">
+		<div class="span12">
+			<!-- BEGIN VALIDATION STATES-->
+			<div class="widget red">
+				<div class="widget-title">
+					<h4>
+						<i class=" icon-key"></i> 查看购买记录
+					</h4>
+				</div>
+				<div class="widget-body form">	
+			
+					<form role="form" class="form-horizontal">
+						
+						<div class="control-group">
+							<label class="control-label">微信</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${escapeXml(customer.wechat!)}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">购买价格</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${escapeXml(purchase.priceUS!)}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">出售价格</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${escapeXml(purchase.priceCN!)}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">描述</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${escapeXml(purchase.description!)}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">图片</label>
+							<div class="controls hidden-phone">
+								${ShowPic(purchase.pic!)}
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">购买日期</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${escapeXml(purchase.purchaseDate!)}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">是否付款</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${purchase.isPay == 1 ? "是":"否"}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">是否购买</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${purchase.isBuy == 1 ? "是":"否"}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">是否邮寄</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${purchase.isSend == 1 ? "是":"否"}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">快递方式</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${escapeXml(purchase.deliverMethod!)}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">跟踪单号</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value='${purchase.trackNum!}'>
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">快递日期</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value="${purchase.deliverDate!, dateFormat="yyyy-MM-dd"}">
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">运费</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value='${purchase.DeliverFee!}'>
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">是否支付运费</label>
+							<div class="controls">
+								<input type="text" class="span8" readonly="readonly" value='<% if(purchase.isPayDeliverFee == 0){ %>未支付<% }else if(purchase.isPayDeliverFee == 1){ %>支付<% }else{ %>包邮
+									<% } %>'>
+							</div>
+						</div>
+						
+					</form>
+			
+				</div>
+			</div>
+			<!-- END VALIDATION STATES-->
+		</div>
+	</div>
+
+	<!-- END PAGE CONTAINER-->
+</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		$(".fancybox1").fancybox({
+			'titleShow'     : true
+  		});   
+	});
+</script>
