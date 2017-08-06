@@ -33,6 +33,10 @@ public class LoginController extends BaseController {
 			render("/platform/login/login.html");
 		}
 	}
+	
+	public void resetPass() {
+		
+	}
 
 	/**
 	 * 第三方系统P3P登陆

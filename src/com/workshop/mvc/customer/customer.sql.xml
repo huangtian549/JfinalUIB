@@ -8,7 +8,7 @@
         	from 
         		dg_customer
 			
-			where 1=1 
+			where  userId = #'$userId$'#
 			<% if(!isEmpty(name)){ %>
 					and (name like #'%$name$%'# or wechat like #'%$name$%'# or address like #'%$name$%'#)
 			<% } %>	
@@ -18,7 +18,7 @@
 	
 	<sql id="search">
 		<![CDATA[ 
-        	select ids,name,wechat,address from dg_customer where 100 = 100 and name like CONCAT('%', ?, '%') or wechat like CONCAT('%', ?, '%')
+        	select ids,name,wechat,address from dg_customer where userId =? and name like CONCAT('%', ?, '%') or wechat like CONCAT('%', ?, '%')
     	]]>
 	</sql>
 </sql-statement>

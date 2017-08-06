@@ -17,6 +17,7 @@
         		dg_purchase p, dg_customer c
 			
 			where p.customer_ids = c.ids 
+			and p.userId = #'$userId$'#
 			<% if(!isEmpty(description)){ %>
 					and description like #'%$description$%'# 
 			<% } %>	
@@ -36,7 +37,7 @@
 	
 	<sql id="listByCustomer">
 		<![CDATA[ 
-        	select * from dg_purchase where customer_ids = ? order by ids desc
+        	select * from dg_purchase where userId = ? and customer_ids = ? order by ids desc
     	]]>
 	</sql>
 	
