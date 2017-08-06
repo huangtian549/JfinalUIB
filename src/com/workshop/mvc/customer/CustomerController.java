@@ -5,6 +5,7 @@ import com.platform.constant.ConstantInit;
 import com.platform.mvc.base.BaseController;
 import com.platform.mvc.base.BaseModel;
 import com.platform.mvc.dept.Department;
+import com.platform.mvc.user.User;
 import com.jfinal.log.Log;
 
 import java.util.HashMap;
@@ -76,7 +77,9 @@ public class CustomerController extends BaseController {
 	 */
 	@Before(CustomerValidator.class)
 	public void save() {
-		getModel(Customer.class).save(true);
+		Customer customer = getModel(Customer.class);
+		customer.setUserId(this.getCUserIds());
+		customer.save(true);
 		forwardAction("/workshop/customer/backOff");
 	}
 	

@@ -112,6 +112,7 @@ public class PurchaseController extends BaseController {
 		if (purchase.getPriceUS() != null) {
 			purchase.setPriceUS(purchase.getPriceUS() * 7);
 		}
+		purchase.setUserId(this.getCUserIds());
 		purchase.save(true);
 		forwardAction("/workshop/purchase/listByCustomer/" + purchase.getCustomer_ids());
 	}
