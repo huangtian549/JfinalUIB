@@ -1,6 +1,8 @@
 package com.platform.mvc.user;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import com.jfinal.aop.Before;
@@ -55,6 +57,28 @@ public class UserController extends BaseController {
 		userService.save(ids, user, password, userInfo);
 
 		forwardAction("/platform/user/backOff");
+	}
+	
+	
+	/**
+	 * 保存新增用户
+	 */
+	public void reg() {
+		String ids = ToolRandoms.getUuid(true);
+		
+		String username = getPara("username");
+		String password = getPara("password");
+		User user = getModel(User.class);
+		user.setUsername(username);
+		user.setDepartmentids("002be6310d8a46ec8a314b3c1fb9c82f");
+		user.setStationids("a5c8effa0971437b9f440cfd8e662bb3");
+		user.setStopdate(new Timestamp(System.currentTimeMillis()) );
+		UserInfo userInfo = getModel(UserInfo.class);
+		
+		userService.save(ids, user, password, userInfo);
+		
+		renderText("1");;
+
 	}
 	
 	/**

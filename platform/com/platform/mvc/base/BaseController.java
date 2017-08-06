@@ -76,7 +76,7 @@ public abstract class BaseController extends Controller {
 	 * @return
 	 */
 	protected Map<String, String> getI18nMap() {
-		String localePram = getAttr(ConstantWebContext.request_localePram);
+		String localePram = "zh_CN"; //(ConstantWebContext.request_localePram);
 		return I18NPlugin.get(localePram);
 	}
 

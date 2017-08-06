@@ -12,22 +12,76 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 <meta content="" name="description" />
 <meta content="" name="author" />
-<link rel="stylesheet" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap.min.css" />
+<!-- start: common js -->
+<script type="text/javascript">
+	var cxt = "${cxt!}"; // 上下文基础路径
+	var localePram = "${localePram!}"; // 用户选择的语言环境，或者默认展示的语言环境
+</script>
 <link rel="stylesheet" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" href="${cxt!}/ui/metrolab/assets/font-awesome/css/font-awesome.css" />
-<link rel="stylesheet" href="${cxt!}/ui/metrolab/css/style.css" />
 <link rel="stylesheet" href="${cxt!}/ui/metrolab/css/style-responsive.css" />
 <link rel="stylesheet" href="${cxt!}/ui/metrolab/css/style-default.css" id="style_color" />
+
+<link rel="stylesheet" href="${cxt!}/jsfile/login/css/login2.css" />
+
 
 <!-- start: artdialog -->
 <link rel="stylesheet" href="${cxt!}/jsfile/artdialog/css/ui-dialog.css" type="text/css"/>
 <!-- end: artdialog -->
-
+<% include("/platform/index/i18n.html"){} %>
 <script type="text/javascript" src="${cxt!}/jsfile/jquery/jquery-1.12.4.min.js"></script>
 
 <script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/ajax.js"></script>
 <script type="text/javascript" src="${cxt!}/jsfile/artdialog/dist/dialog-min.js"></script>
 <script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/modals.js"></script>
+<script type="text/javascript" src="${cxt!}/jsfile/login/images/login.js"></script>
+
+	<script type="text/javascript" src="${cxt!}/jsfile/jquery/jquery-1.12.4.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/jquery/bootstrap-suggest.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/jquery/jquery.form.js"></script>
+	<script type="text/javascript" src="${cxt!}/ui/metrolab/js/jquery.nicescroll.js"></script>
+	<script type="text/javascript" src="${cxt!}/ui/metrolab/js/toastr.min.js"></script>
+	<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/bootstrap/js/bootstrap.min.js"></script>
+	
+	
+
+	<!-- ie8 fixes -->
+	<!--[if lt IE 9]>
+   	<script type="text/javascript" src="${cxt!}/ui/metrolab/js/excanvas.js"></script>
+   	<script type="text/javascript" src="${cxt!}/ui/metrolab/js/respond.js"></script>
+   	<![endif]-->
+
+
+
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/string.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/ajax.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/common.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/splitPage.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/verify.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/artdialog/dist/dialog-min.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/modals.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/metrolab/common/windows.js"></script>
+	
+	<!-- ztree -->
+	<script type="text/javascript" src="${cxt!}/jsfile/ztree/js/jquery.ztree.core.min.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/ztree/js/jquery.ztree.excheck.min.js"></script>
+	<script type="text/javascript" src="${cxt!}/jsfile/ztree/js/jquery.ztree.exedit.min.js"></script>
+
+	<script src="//cdn.bootcss.com/tether/1.2.0/js/tether.min.js"></script>
+	
+	
+	<!-- echarts -->
+	<script type="text/javascript" src="${cxt!}/jsfile/echarts/echarts.min.js"></script>
+	
+	<!-- datetimepicker 
+	<link rel="stylesheet" href="${cxt!}/ui/metrolab/assets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" media="screen">
+	<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	-->
+	
+	<!-- My97DatePicker -->
+	<script type="text/javascript" src="${cxt!}/jsfile/my97datepicker/WdatePicker.js"></script>
+	<script type="text/javascript" src="${cxt!}/ui/layer/layer.js"></script>
 
 <!-- start: common js -->
 <script type="text/javascript">
@@ -41,96 +95,151 @@
 <!-- BEGIN BODY -->
 <body class="lock">
 
-	<div class="lock-header">
-		<!-- BEGIN LOGO -->
-		<a class="center" id="logo" href="${cxt!}/platform/index"> 
-			JFinalUIBV3
-			<% /** %>
-			<img class="center" alt="logo" src="${cxt!}/ui/metrolab/img/logo.png">
-			<% **/ %>
-		</a>
-		<!-- END LOGO -->
-	</div>
+	
+	<h1>代购客户管理系统<sup>V2016</sup></h1>
 
-	<form id="loginForm" action="${cxt!}/platform/login/vali" method="post">
+<div class="login" style="margin-top:50px;">
+    
+    <div class="header">
+        <div class="switch" id="switch"><a class="switch_btn_focus" id="switch_qlogin" href="javascript:void(0);" tabindex="7">快速登录</a>
+			<a class="switch_btn" id="switch_login" href="javascript:void(0);" tabindex="8">快速注册</a><div class="switch_bottom" id="switch_bottom" style="position: absolute; width: 64px; left: 0px;"></div>
+        </div>
+    </div>    
+  
+    <form id="loginForm" action="${cxt!}/platform/login/vali" method="post">
+    <div class="web_qr_login" id="web_qr_login" style="display: block; height: 335px;">    
 
-		<div class="login-wrap">
-			<div class="metro single-size red">
-				<div class="locked">
-					<i class="icon-lock"></i> <span>后台登录</span>
-				</div>
-			</div>
-
-			<div class="metro double-size green">
-				<div class="input-append lock-input">
-					<input type="text" placeholder="账号" id="login_username"
-						name="username" value="${cookieMap.userName.value!}">
-				</div>
-			</div>
-			<div class="metro double-size yellow">
-				<div class="input-append lock-input">
-					<input type="password" placeholder="密码" id="login_password"
-						name="password">
-				</div>
-			</div>
-			<div class="metro double-size navy-blue">
-				<div class="input-append lock-input">
-					<input type="text" id="login_authCode" name="authCode"
-						placeholder="验证码">
-				</div>
-			</div>
-			<div class="metro double-size purple">
-				<div class="input-append lock-input">
-					<a href="javascript:void(0)" id="login_authCodeHref"
+            <!--登录-->
+            <div class="web_login" id="web_login">
+               
+               
+               <div class="login-box">
+    
+            
+			<div class="login_form">
+               <input type="hidden" name="to" value="log"/>
+                <div class="uinArea" id="uinArea">
+                <label class="input-tips" for="u">帐号：</label>
+                <div class="inputOuter" id="uArea">
+                    
+                    <input type="text" placeholder="账号" id="login_username"
+						name="username" value="${cookieMap.userName.value!}" class="inputstyle" vType="letterNumber" onblur="platform_verify.onblurVali(this);" placeholder="5-16位字母数字"/>
+                   		<span class="help-inline" style="color:red"></span>
+                </div>
+                </div>
+                <div class="pwdArea" id="pwdArea">
+               <label class="input-tips" for="p">密码：</label> 
+               <div class="inputOuter" id="pArea">
+                    
+                    <input type="password" placeholder="密码" id="login_password"
+						name="password" class="inputstyle"maxlength="18" vMin='6' 
+						vType="letterNumber" onblur="platform_verify.onblurVali(this);" placeholder="6-18位字母数字"/>
+						<span class="help-inline" style="color:red"></span>
+                </div>
+                </div>
+               
+               <div class="pwdArea" id="valicode">
+               <label class="input-tips" for="p">					</label> 
+               <div class="inputOuter" >
+                    
+                   <input type="text" id="login_authCode" name="authCode"
+						placeholder="验证码" class="inputstyle"/>
+						<a href="javascript:void(0)" id="login_authCodeHref"
 						onclick="showImage(this);">${i18nMap["admin.login.clickAuthCode"]}</a>
-				</div>
-			</div>
-			<div class="metro single-size terques login">
-				<button type="button" onclick="submitFunc();" class="btn login-btn">
-					提交 <i class=" icon-long-arrow-right"></i>
-				</button>
-			</div>
-
-			<% /** %>
-			<div class="metro double-size navy-blue ">
-				<a href="index.html" class="social-link"> <i
-					class="icon-facebook-sign"></i> <span>Facebook Login</span>
-				</a>
-			</div>
-			<div class="metro single-size deep-red">
-				<a href="index.html" class="social-link"> <i
-					class="icon-google-plus-sign"></i> <span>Google Login</span>
-				</a>
-			</div>
-			<div class="metro double-size blue">
-				<a href="index.html" class="social-link"> <i
-					class="icon-twitter-sign"></i> <span>Twitter Login</span>
-				</a>
-			</div>
-			<div class="metro single-size purple">
-				<a href="index.html" class="social-link"> <i class="icon-skype"></i>
-					<span>Skype Login</span>
-				</a>
-			</div>
-			<% **/ %>
-
-			<div class="login-footer">
-				<div class="remember-hint pull-left">
-					<input type="checkbox" id="remember" name="remember" value="1">
+                </div>
+                </div>
+                
+                <div style="padding-left:50px;margin-top:40px;">
+				<input type="button" onclick="submitFunc();" value="登 录" style="width:150px;z-index:999" class="button_blue">
+                </div>
+              
+               <label class="input-tips" for="p"></label> 
+               <div class="inputOuter" id="pArea">
+                    
+                    <input type="checkbox" id="remember" name="remember" value="1">
 					记住我
+					
+					<div class="forgot-hint pull-right">
+					<a id="forget-password" class="" href="javascript:resetPass();">忘记密码？</a>
 				</div>
-				<div class="forgot-hint pull-right">
-					<a id="forget-password" class="" href="javascript:;">忘记密码？</a>
-				</div>
-			</div>
-		</div>
-
-	</form>
+                </div>
+              
+           </div>
+           
+            	</div>
+               
+            </div>
+            <!--登录end-->
+  </div>
+</form>
+  <!--注册-->
+    <div class="qlogin" id="qlogin" style="display: none; ">
+   
+    <div class="web_login"><form name="form2" id="regUser" accept-charset="utf-8"  action="${cxt!}/platform/user/reg" method="post">
+        <ul class="reg_form" id="reg-ul">
+                <li>
+                	
+                    <label for="user"  class="input-tips2">用户名：</label>
+                    <div class="inputOuter2">
+                        <input type="text" id="usernameId" name="username" maxlength="16" class="inputstyle2" vType="letterNumber" onblur="platform_verify.onblurVali(this);" placeholder="5-16位字母数字"/>
+                   		<span class="help-inline" style="color:red"></span>
+                    </div>
+                    
+                </li>
+                
+                <li>
+                <label for="passwd" class="input-tips2">密码：</label>
+                    <div class="inputOuter2">
+                        <input type="password" name="password" id="pass1Id" class="inputstyle2" autocomplete="off"
+						maxlength="18" vMin='6' 
+						vType="letterNumber" onblur="platform_verify.onblurVali(this);" placeholder="6-18位字母数字">
+						<span class="help-inline" style="color:red"></span>
+                    </div>
+                    
+                </li>
+                <li>
+                <label for="passwd2" class="input-tips2">确认密码：</label>
+                    <div class="inputOuter2">
+                        <input type="password" id="pass2Id" class="inputstyle2" autocomplete="off"
+						maxlength="18" vMin='6' 
+						vType="letterNumber" onblur="platform_verify.onblurVali(this);" placeholder="6-18位字母数字">
+						<span class="help-inline" style="color:red"></span>
+                    </div>
+                    
+                </li>
+                
+                <li>
+                 <label for="qq" class="input-tips2">邮箱：</label>
+                    <div class="inputOuter2">
+                       
+                        <input type="text" class="inputstyle2" id="mailboxId" name="user.email" value="" 
+			maxlength="30" vMin="6" vType="email" onblur="platform_verify.onblurVali(this);" placeholder="6-30位邮箱规则">
+						<span class="help-inline" style="color:red"></span>
+                    </div>
+                   
+                </li>
+                
+                <li>
+                    <div class="inputArea">
+                        <input type="button" id="reg"  style="margin-top:10px;margin-left:85px;" class="button_blue" value="同意协议并注册" onclick="dataVali();"/> <a href="#" class="zcxy" target="_blank">注册协议</a>
+                    </div>
+                    
+                </li><div class="cl"></div>
+            </ul></form>
+           
+    
+    </div>
+   
+    
+    </div>
+    <!--注册end-->
+</div>
+<div class="jianyi">*推荐使用Chrome浏览器访问本站</div>
 
 	<script type="text/javascript">
 
 		function showImage(node) {
-			var imageHtml = '<a href="javascript:void(0)" onclick="showImage(this);"><img id="yanZhengMa" src="${cxt!}/platform/authImg?rand=' + Math.random() + '" width="120" height="25"/></a>';
+			var imageHtml = '<a href="javascript:void(0)" onclick="showImage(this);"><img id="yanZhengMa" src="${cxt!}/platform/authImg?rand=' + Math.random() + '" width="150" height="40"/></a>';
 			$(node).replaceWith(imageHtml);
 		}
 		
@@ -141,6 +250,17 @@
 				common_modals.alert("请输入登录账号");
 				return;
 			}
+			var passWord = $("#login_password").val();
+			if (passWord == "") {
+				common_modals.alert("请输入登录密码");
+				return;
+			}
+			var login_authCode = $("#login_authCode").val();
+			if (login_authCode == "") {
+				common_modals.alert("请输入验证码");
+				return;
+			}
+			
 			/* 
 			var param = {"userName" : userName};
 			var result = common_ajax.ajaxFunc("/platform/login/valiUserName", param);
@@ -152,6 +272,10 @@
 
 			// 提交表单
 			$("#loginForm").submit();
+		}
+		function submitFunc3(){
+			// 验证账号是否存在
+			alert("dd");
 		}
 
 		jQuery(document).ready(function() {
@@ -180,6 +304,96 @@
 			});
 		});
 
+		
+		/**
+		 * 用户添加和编辑页面js
+		 */
+			
+			/**
+			 * 验证用户名是否存在
+			 * @param userName
+			 */
+			var valiUserName = function(userName, userIds){
+				var param = {"userName" : userName, "userIds" : userIds};
+				var result = common_ajax.ajaxFunc("/platform/login/valiUserName", param);
+				return result;
+			}
+			
+			/**
+			 * 验证邮箱是否存在
+			 * @param mailBox
+			 */
+			var valiMailBox = function(mailBox, userInfoIds){
+				var param = {"mailBox" : mailBox, "userInfoIds" : userInfoIds};
+				var result = common_ajax.ajaxFunc("/platform/login/valiMailBox", param);
+				return result;
+			}
+			
+			
+			
+			var dataVali = function (form, isAdd){
+				var usernameNode = $("#usernameId");
+				var mailboxNode = $("#mailboxId");
+				
+				var usernameId = usernameNode.val();
+				var mailboxId = mailboxNode.val();
+				var pass1Node = $("#pass1Id");
+				var pass2Node = $("#pass2Id");
+				
+				if (usernameId == "") {
+					common_modals.alert("请输入登录账号");
+					return;
+				} 
+				if (pass1Node.val() == "") {
+					common_modals.alert("请输入登录密码");
+					return;
+				}
+				if (mailboxId == "") {
+					common_modals.alert("请输入邮箱");
+					return;
+				}
+				
+					if(usernameId != "" && valiUserName(usernameId) != "true"){
+						usernameNode.next().html("账号不可用！请更换一个");
+				 		return false;
+					}
+				
+					if(mailboxId != "" && valiMailBox(mailboxId) != "true"){
+						mailboxNode.next().html("邮箱不可用！请更换一个");
+				 		return false;
+					}
+					
+				
+					
+					var pass1Id = pass1Node.val();
+					var pass2Id = pass2Node.val();
+					if(pass1Id != pass2Id){
+						pass1Node.next().html("两次输入密码不一致！");
+						pass2Node.next().html("两次输入密码不一致！");
+				 		return false;
+					}
+					
+					
+					// 提交表单
+					common_ajax.ajaxForm('regUser', null, callback);
+				
+			}
+			
+			var callback = function(button) {
+				window.location.reload();
+			};
+			
+			
+			function resetPass(){
+				layer.prompt({title: '输入邮箱，重置密码', formType: 3}, function(text, index){
+					var url = "/platform/login/resetPass";
+					var data = { "email" : text };
+					
+					var reData = common_ajax.ajaxFunc(url, data);
+				    layer.close(index);
+				    layer.msg('新密码已经发送到你的邮箱：'+text);
+				  });
+			}
 	</script>
 
 </body>

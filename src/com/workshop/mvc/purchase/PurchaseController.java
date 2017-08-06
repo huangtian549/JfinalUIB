@@ -3,6 +3,7 @@ package com.workshop.mvc.purchase;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.aop.Before;
 import com.jfinal.log.Log;
@@ -38,7 +39,9 @@ public class PurchaseController extends BaseController {
 	 * 列表
 	 */
 	public void index() {
-		Object isPay = getPara("isPay");
+		Map<String, Object> queryParam = splitPage.getQueryParam();
+		queryParam.put("userId", this.getCUserIds());
+		splitPage.setQueryParam(queryParam);
 		paging(ConstantInit.db_dataSource_main, splitPage, Purchase.sqlId_splitPageSelect_list, Purchase.sqlId_splitPageFrom);
 		render("/workshop/purchase/list.html");
 	}
@@ -49,7 +52,7 @@ public class PurchaseController extends BaseController {
 	 */
 	public void listByCustomer() {
 		String sql = getSql("workshop.purchase.listByCustomer");
-		List<Purchase> list = Purchase.dao.find(sql, getPara());
+		List<Purchase> list = Purchase.dao.find(sql, getCUserIds(), getPara(0));
 		Float sum = 0f;
 		if (list != null) {
 			for (Purchase purchase : list) {

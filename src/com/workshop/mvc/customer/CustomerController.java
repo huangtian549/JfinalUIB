@@ -39,6 +39,9 @@ public class CustomerController extends BaseController {
 	 * 列表
 	 */
 	public void index() {
+		Map<String, Object> queryParam = splitPage.getQueryParam();
+		queryParam.put("userId", this.getCUserIds());
+		splitPage.setQueryParam(queryParam);
 		paging(ConstantInit.db_dataSource_main, splitPage, BaseModel.sqlId_splitPageSelect, Customer.sqlId_splitPageFrom);
 		render("/workshop/customer/list.html");
 	}
@@ -48,7 +51,7 @@ public class CustomerController extends BaseController {
 		String name = getPara("name");
 		String callback = getPara("callback");
 		String sql = getSql("workshop.customer.search");
-		List<Customer> customerList = Customer.dao.find(sql, name, name);
+		List<Customer> customerList = Customer.dao.find(sql, this.getCUserIds(),name, name);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (customerList != null) {
 			String customers[ ][ ] = new String[customerList.size()][4];

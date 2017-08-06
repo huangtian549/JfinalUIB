@@ -34,7 +34,7 @@ public class IndexController extends BaseController {
 			String sql = getSql(Systems.sqlId_all);
 			systemsList = Systems.dao.find(sql);
 			if(null == ids || ids.isEmpty()){ // 默认系统
-				ids = "8a40c0353fa828a6013fa898d4ac0020";
+				ids = "b56cd813b3ac49698464c57a3c6a2afd";
 			}
 			menuList = indexService.menu(ids, user, geti18nColumnSuffix());
 			render("/platform/index/index.html");
