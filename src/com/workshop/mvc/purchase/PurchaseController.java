@@ -130,7 +130,7 @@ public class PurchaseController extends BaseController {
 	public void update() {
 		Purchase purchase = getModel(Purchase.class);
 		purchase.update();
-		forwardAction("/workshop/purchase/listByCustomer/" + purchase.getCustomer_ids());
+		forwardAction("/workshop/purchase/backOff");
 	}
 	
 	
@@ -213,7 +213,7 @@ public class PurchaseController extends BaseController {
 	public void delete() {
 		purchaseService.baseDelete(Purchase.table_name, getPara(0) == null ? ids : getPara(0));
 		String id = getPara(1) == null ? ids : getPara(1);
-		forwardAction("/workshop/purchase/listByCustomer/" + id);
+		forwardAction("/workshop/purchase/backOff");
 	}
 	
 	/**
