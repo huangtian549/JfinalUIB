@@ -146,6 +146,10 @@ public class UserController extends BaseController {
 		renderJson(list);
 	}
 	
+	public void toChangePass() {
+		render("/platform/user/passChange.html");
+	}
+	
 	/**
 	 * 验证旧密码是否正确
 	 */
