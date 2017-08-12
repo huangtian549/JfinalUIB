@@ -380,7 +380,9 @@
 			}
 			
 			var callback = function(button) {
-				window.location.reload();
+				common_modals.alert("注册成功，请登录");
+				setTimeout("window.location.reload();", 3000 );
+				
 			};
 			
 			
