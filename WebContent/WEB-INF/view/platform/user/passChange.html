@@ -34,8 +34,9 @@
 		<div class="control-group">
 			<label class="control-label">${i18nMap["admin.user.passChange.oldPass"]}</label>
 			<div class="controls">
-				<input type="password" id="oldPass" name="passOld" class="span8" autocomplete="off" 
+				<input type="password" id="oldPass" class="span8" name="passOld"
 					maxlength="18" vMin='6' vType="letterNumber" onblur="platform_verify.onblurVali(this);">
+				<span class="help-inline"></span>
 			</div>
 			<span class="help-inline">6-18位字母数字</span>
 		</div>
@@ -43,8 +44,9 @@
 		<div class="control-group">
 			<label class="control-label">${i18nMap["admin.user.passChange.newPass"]}</label>
 			<div class="controls">
-				<input type="password" id="newPass1" name="passNew" class="span8" autocomplete="off" 
+				<input type="password" id="newPass1" class="span8" name="passNew"
 					maxlength="18" vMin='6' vType="letterNumber" onblur="platform_verify.onblurVali(this);">
+				<span class="help-inline"></span>
 			</div>
 			<span class="help-inline">6-18位字母数字</span>
 		</div>

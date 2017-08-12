@@ -150,7 +150,7 @@
 										<td class="hidden-phone">${purchase.isSend == 1 ? "是":"否"}</td>
 									<% } %>
 									<td class="hidden-phone">${escapeXml(purchase.client!) }</td>
-									<td class="hidden-phone">${ShowPic(purchase.pic!)}</td>
+									<td class="hidden-phone">${ShowPic(purchase.pic!,purchase.purchaseDate!)}</td>
 									<td class="hidden-phone">
 											<button type="button" class="btn btn-small btn-success" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/edit/${escapeXml(purchase.ids!)}');">
 												<i class="icon-edit icon-white"></i>
