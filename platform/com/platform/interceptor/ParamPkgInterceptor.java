@@ -125,7 +125,7 @@ public class ParamPkgInterceptor implements Interceptor {
 			Map<String, Object> queryParam = new HashMap<String, Object>();
 			
 			// 国际化相关参数
-			String localePram = controller.getAttr(ConstantWebContext.request_localePram);
+			String localePram = "zh_CN";//controller.getAttr(ConstantWebContext.request_localePram);
 			queryParam.put(ConstantWebContext.request_localePram, localePram); // 设置国际化当前语言环境
 			queryParam.put(ConstantWebContext.request_i18nColumnSuffix, I18NPlugin.columnSuffix(localePram)); // 设置国际化动态列后缀
 			

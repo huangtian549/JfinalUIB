@@ -15,7 +15,7 @@
 <!-- start: common js -->
 <script type="text/javascript">
 	var cxt = "${cxt!}"; // 上下文基础路径
-	var localePram = "${localePram!}"; // 用户选择的语言环境，或者默认展示的语言环境
+	var localePram = "zh_CN"; // 用户选择的语言环境，或者默认展示的语言环境
 </script>
 <link rel="stylesheet" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" href="${cxt!}/ui/metrolab/assets/font-awesome/css/font-awesome.css" />
@@ -388,6 +388,11 @@
 			
 			function resetPass(){
 				layer.prompt({title: '输入邮箱，重置密码', formType: 3}, function(text, index){
+					if(!isEmail(text)){
+						layer.msg('邮箱格式不正确：'+text);
+						return;
+					}
+					
 					var url = "/platform/login/resetPass";
 					var data = { "email" : text };
 					
@@ -395,6 +400,11 @@
 				    layer.close(index);
 				    layer.msg('新密码已经发送到你的邮箱：'+text);
 				  });
+			}
+			
+			function isEmail(str){
+				 var reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+				 return reg.test(str);
 			}
 	</script>
 

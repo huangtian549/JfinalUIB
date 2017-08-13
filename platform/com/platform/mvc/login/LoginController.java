@@ -28,14 +28,16 @@ public class LoginController extends BaseController {
 	public void index() {
 		User user = getCUser(); // cookie认证自动登陆处理
 		if(null != user){//后台
-			redirect("/platform/index?localePram=" + getI18nLocalePram());
+			redirect("/platform/index?localePram=zh_CN");
 		}else{
 			render("/platform/login/login.html");
 		}
 	}
 	
 	public void resetPass() {
-		
+		String email = getPara("email");
+		int result = loginService.resetPass(email);
+		renderText(result + "");
 	}
 
 	/**
@@ -133,13 +135,13 @@ public class LoginController extends BaseController {
 				
 				int result = loginService.login(getRequest(), getResponse(), username, password, autoLogin);
 				if(result == ConstantLogin.login_info_3){ // 登陆验证成功
-					redirect("/platform/index?localePram=" + getI18nLocalePram());
+					redirect("/platform/index?localePram=zh_CN");
 					return;
 				}
 			}
 		}
 		
-		redirect("/platform/login?localePram=" + getI18nLocalePram());
+		redirect("/platform/login?localePram=zh_CN");
 	}
 
 	/**
@@ -169,7 +171,7 @@ public class LoginController extends BaseController {
 		}
 		
 		ToolWeb.addCookie(getResponse(), "", cxtPath, true, ConstantWebContext.cookie_authmark, null, 0);
-		redirect("/platform/login?localePram=" + getI18nLocalePram());
+		redirect("/platform/login?localePram=zh_CN");
 	}
 
 }

@@ -12,7 +12,6 @@
 			<% if(!isEmpty(name)){ %>
 					and (name like #'%$name$%'# or wechat like #'%$name$%'# or address like #'%$name$%'#)
 			<% } %>	
-			order by ids desc
     	]]>
 	</sql>
 	

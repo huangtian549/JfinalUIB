@@ -285,7 +285,7 @@ public class JFinalConfig extends com.jfinal.config.JFinalConfig {
 		ThreadSysLog.startSaveDBThread();
 
 		log.info("afterJFinalStart 系统负载");
-		QuartzPlugin.addJob("ResourcesJob", "0 0/2 * * * ?", ResourcesJob.class);
+//		QuartzPlugin.addJob("ResourcesJob", "0 0/2 * * * ?", ResourcesJob.class);
 
 		log.info("afterJFinalStart 数据清理");
 		QuartzPlugin.addJob("DataClearJob", "0 0 2 * * ?", DataClearJob.class);
