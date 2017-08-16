@@ -16,8 +16,14 @@
 	 		return false;
 		}
 		
-		common_ajax.ajaxForm("passChangeForm");
+		common_ajax.ajaxForm("passChangeForm", null, callback);
 	}
+	
+	var callback = function(button) {
+		common_modals.alert("修改成功");
+		setTimeout("window.location.reload();", 3000 );
+		
+	};
 	
 </script>
 

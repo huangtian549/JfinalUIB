@@ -35,6 +35,8 @@ public class LoginController extends BaseController {
 	}
 	
 	public void resetPass() {
+		String userId = this.getCUserIds();
+		
 		
 	}
 
