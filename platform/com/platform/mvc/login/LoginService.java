@@ -260,7 +260,7 @@ public class LoginService extends BaseService {
 				return 0;
 			}
 			
-			String newPass = ToolRandoms.getAuthCodeAll(6);
+			String newPass = ToolRandoms.getAuthCodeAll(6).toLowerCase();
 				byte[] saltNew = ToolPbkdf2.generateSalt();// 密码盐
 				byte[] encryptedPasswordNew = ToolPbkdf2.getEncryptedPassword(newPass, saltNew);
 				user.set(User.column_salt, Base64.encodeBase64String(saltNew));

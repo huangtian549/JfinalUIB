@@ -12,7 +12,6 @@ public class Run {
 	 * 		2. idea 中运行webAppDir路径可能需要适当调整
 	 */
 	public static void main(String[] args) {
-		System.setProperty("java.net.preferIPv4Stack", "true");
 		JFinal.start("WebContent", 8899, "/", 5);
 	}
 	
