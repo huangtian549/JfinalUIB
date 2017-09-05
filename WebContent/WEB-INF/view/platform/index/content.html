@@ -18,69 +18,59 @@
 	<!-- BEGIN PAGE CONTENT-->
 	<div class="row-fluid">
 
-		<div class="span5">
-			
-			<div class="widget green">
-				<div class="widget-title">
-					<h4>
-						<i class="icon-calendar"></i> Draggable Events
-					</h4>
-				</div>
 				
-				<div class="widget-body">
-					<div id='external-events'>
-						<div class='external-event label'>My Event 1</div>
-						<div class='external-event label'>My Event 2</div>
-						<div class='external-event label'>My Event 3</div>
-						<div class='external-event label'>My Event 4</div>
-						<div class='external-event label'>My Event 5</div>
-						<div class='external-event label'>My Event 6</div>
-						<div class='external-event label'>My Event 7</div>
-						<div class='external-event label'>My Event 8</div>
-						<div class='external-event label'>My Event 9</div>
-						<div class='external-event label'>My Event 10</div>
-						<p>
-							<input type='checkbox' id='drop-remove' /> remove after drop
-						</p>
-					</div>
-				</div>
-			</div>
+				<div class="row-fluid">
+                    <div class="span12">
+                        <div class="widget">
+                            <div class="widget-title">
+                                <h4><i class="icon-th-large"></i> 待处理内容 </h4>
+                           <span class="tools">
+                               <a href="javascript:;" class="icon-chevron-down"></a>
+                               <a href="javascript:;" class="icon-remove"></a>
+                           </span>
+                            </div>
+                            <div class="widget-body">
+                                <!--BEGIN METRO STATES-->
+                                <div class="metro-nav">
+                                    <div class="metro-nav-block nav-block-orange">
+                                        <a data-original-title="" href="#" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/filterIndex?param=isPay');">
+                                            <i class="icon-user"></i>
+                                            <div class="info">${unPay!}</div>
+                                            <div class="status">等待付款</div>
+                                        </a>
+                                    </div>
+                                    <div class="metro-nav-block nav-block-blue">
+                                        <a data-original-title="" href="#" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/filterIndex?param=isBuy');">
+                                            <i class="icon-tags"></i>
+                                            <div class="info">${unBuy!}</div>
+                                            <div class="status">等待购买</div>
+                                        </a>
+                                    </div>
+                                    <div class="metro-nav-block nav-block-yellow">
+                                        <a data-original-title="" href="#" onclick="common_ajax.ajaxMainPanel('/workshop/purchase/filterIndex?param=isSend');">
+                                            <i class="icon-signout"></i>
+                                            <div class="info">${unSend!}</div>
+                                            <div class="status">等待邮寄</div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <!--END METRO STATES-->
+                            </div>
+                        </div>
+                    </div>
 			
             <div class="widget red">
-                <img alt="捐助" src="${cxt!}/files/images/alipay.jpg" style="width: 300px;">
-                <img alt="捐助" src="${cxt!}/files/images/wechat.jpg" style="width: 300px;">
+                <!-- <img alt="捐助" src="${cxt!}/files/images/alipay.jpg" style="width: 300px;">
+                <img alt="捐助" src="${cxt!}/files/images/wechat.jpg" style="width: 300px;"> -->
             </div>
             
 		</div>
 
-		<div class="span7 responsive" data-tablet="span7 fix-margin" data-desktop="span7">
-			<!-- BEGIN CALENDAR PORTLET-->
-			<div class="widget yellow">
-				<div class="widget-title">
-					<h4>
-						<i class="icon-calendar"></i> 日历
-					</h4>
-					<span class="tools"> 
-						<a href="javascript:;" class="icon-chevron-down"></a> 
-						<a href="javascript:;" class="icon-remove"></a>
-					</span>
-				</div>
-				
-				<div class="widget-body">
-					<div id="calendar" class="has-toolbar"></div>
-				</div>
-			</div>
-			<!-- END CALENDAR PORTLET-->
 			
-			<br>
-			<button class="btn btn-large btn-success" type="button" onclick="window.open('${cxt!}/jsfile/ueditor/index.jsp');">ueditor富文本编辑示例</button>
-            <button class="btn btn-large btn-success" type="button" onclick="window.open('${cxt!}/jsfile/webuploader/index.jsp');">webuploader文件上传示例</button>
-            <button class="btn btn-large btn-success" type="button" onclick="window.open('${cxt!}/jsfile/webuploader/slice.jsp');">webuploader文件分片上传示例</button>
-			<br>
 			
 		</div>
 		
-	</div>
 	<!-- END PAGE CONTENT-->
 
 </div>

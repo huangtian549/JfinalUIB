@@ -118,6 +118,7 @@
             
 			<div class="login_form">
                <input type="hidden" name="to" value="log"/>
+               <span  class="span3" style="color:red">${escapeXml(msg!)}</span>
                 <div class="uinArea" id="uinArea">
                 <label class="input-tips" for="u">帐号：</label>
                 <div class="inputOuter" id="uArea">
@@ -138,7 +139,7 @@
                 </div>
                 </div>
                
-               <div class="pwdArea" id="valicode">
+              <!--  <div class="pwdArea" id="valicode">
                <label class="input-tips" for="p">					</label> 
                <div class="inputOuter" >
                     
@@ -147,7 +148,7 @@
 						<a href="javascript:void(0)" id="login_authCodeHref"
 						onclick="showImage(this);">${i18nMap["admin.login.clickAuthCode"]}</a>
                 </div>
-                </div>
+                </div> -->
                 
                 <div style="padding-left:50px;margin-top:40px;">
 				<input type="button" onclick="submitFunc();" value="登 录" style="width:150px;z-index:999" class="button_blue">
@@ -255,11 +256,11 @@
 				common_modals.alert("请输入登录密码");
 				return;
 			}
-			var login_authCode = $("#login_authCode").val();
+			/* var login_authCode = $("#login_authCode").val();
 			if (login_authCode == "") {
 				common_modals.alert("请输入验证码");
 				return;
-			}
+			} */
 			
 			/* 
 			var param = {"userName" : userName};
@@ -286,11 +287,11 @@
 				userName.focus();
 			} else if (passWord.val() == "") {
 				passWord.focus();
-			} else {
+			} /* else {
 				$("#login_authCode").focus();
-			}
+			} */
 
-			showImage($("#login_authCodeHref"));
+			/* showImage($("#login_authCodeHref")); */
 
 			// 键盘回车事件
 			var tds = $("html");

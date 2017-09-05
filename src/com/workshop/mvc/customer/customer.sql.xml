@@ -20,4 +20,6 @@
         	select ids,name,wechat,address from dg_customer where userId =? and name like CONCAT('%', ?, '%') or wechat like CONCAT('%', ?, '%')
     	]]>
 	</sql>
+	
+	
 </sql-statement>

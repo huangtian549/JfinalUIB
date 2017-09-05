@@ -118,6 +118,7 @@ public class LoginController extends BaseController {
 		String remember = getPara("remember");
 		String returnJson = getPara("returnText");
 
+		String msg = "";  //登录页显示错误信息
 		// 如果是httpclient登陆就不处理验证码，不用担心密码暴力破解，因为init文件有密码错误次数限制
 		if(null != returnJson && !returnJson.isEmpty()){
 			int result = loginService.login(getRequest(), getResponse(), username, password, false);
@@ -126,7 +127,7 @@ public class LoginController extends BaseController {
 				return;
 			}
 		}else{
-			boolean authCode = authCode(); // 验证验证码
+			boolean authCode = true; //authCode(); // 验证验证码
 			if(authCode){
 				boolean autoLogin = false;
 				if(null != remember && remember.equals("1")){ // 是否选中记住密码自动登陆
@@ -137,11 +138,21 @@ public class LoginController extends BaseController {
 				if(result == ConstantLogin.login_info_3){ // 登陆验证成功
 					redirect("/platform/index?localePram=zh_CN");
 					return;
+				}else if (result == ConstantLogin.login_info_2) {
+					msg = "密码错误次数超限，请等待一个小时后登录";
+				}else if (result == ConstantLogin.login_info_4) {
+					msg = "用户名和密码不匹配";
+				}else if (result == ConstantLogin.login_info_0) {
+					msg = "用户名不存在";
+				}else {
+					msg = "系统遇到问题，请联系管理员";
 				}
 			}
 		}
 		
-		redirect("/platform/login?localePram=zh_CN");
+		
+		setAttr("msg", msg);
+		render("/platform/login/login.html");
 	}
 
 	/**

@@ -46,6 +46,16 @@ public class PurchaseController extends BaseController {
 		render("/workshop/purchase/list.html");
 	}
 	
+	public void filterIndex() {
+		Map<String, Object> queryParam = splitPage.getQueryParam();
+		queryParam.put("userId", this.getCUserIds());
+		String param = getPara("param");
+		queryParam.put(param, "0");
+		splitPage.setQueryParam(queryParam);
+		paging(ConstantInit.db_dataSource_main, splitPage, Purchase.sqlId_splitPageSelect_list, Purchase.sqlId_splitPageFrom);
+		render("/workshop/purchase/list.html");
+	}
+	
 	
 	/**
 	 * 列表

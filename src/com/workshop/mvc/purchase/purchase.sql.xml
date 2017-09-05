@@ -34,6 +34,23 @@
     	]]>
 	</sql>
 	
+	<sql id="getTotalUnpay">
+		<![CDATA[ 
+        	select count(1) from dg_purchase where userId =? and isPay = 0
+    	]]>
+	</sql>
+	
+	<sql id="getTotalUnBuy">
+		<![CDATA[ 
+        	select count(1) from dg_purchase where userId =? and isBuy = 0
+    	]]>
+	</sql>
+	
+	<sql id="getTotalUnSend">
+		<![CDATA[ 
+        	select count(1) from dg_purchase where userId =? and isSend = 0
+    	]]>
+	</sql>
 	
 	<sql id="listByCustomer">
 		<![CDATA[ 
