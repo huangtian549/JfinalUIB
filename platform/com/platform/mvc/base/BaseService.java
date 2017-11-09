@@ -137,6 +137,10 @@ public class BaseService {
 		String orderMode = splitPage.getOrderMode();
 		if(null != orderColunm && !orderColunm.isEmpty() && null != orderMode && !orderMode.isEmpty()){
 			formSqlSb.append(" order by ").append(orderColunm).append(" ").append(orderMode);
+		}else {
+			if(formSqlSb.indexOf("order") < 0) {
+				formSqlSb.append("order by ids desc");
+			}
 		}
 		
 		String formSql = formSqlSb.toString();

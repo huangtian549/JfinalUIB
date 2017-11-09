@@ -32,7 +32,6 @@
 						</span>
 					</div>
 					<div class="widget-body form switch-form">
-						${i18nMap["admin.user.property.userName"]} 
 						<input class="medium" type="text" name="_query.name" value='${escapeXml(splitPage.queryParam["name"])}' maxlength="20">
 
 						<button type="button" class="btn btn-danger" onclick='common_ajax.ajaxFormMainPanel("splitPage");'>${i18nMap["admin.common.select"]}</button>
@@ -90,7 +89,7 @@
 										微信
 										${orderBy("wechat")}
 									</th>
-									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'address')">
+									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'address')" width="50%">
 										地址 
 										${orderBy("address")}
 									</th>

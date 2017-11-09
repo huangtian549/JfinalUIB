@@ -15,7 +15,7 @@
 <!-- start: common js -->
 <script type="text/javascript">
 	var cxt = "${cxt!}"; // 上下文基础路径
-	var localePram = "${localePram!}"; // 用户选择的语言环境，或者默认展示的语言环境
+	var localePram = "zh_CN"; // 用户选择的语言环境，或者默认展示的语言环境
 </script>
 <link rel="stylesheet" href="${cxt!}/ui/metrolab/assets/bootstrap/css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" href="${cxt!}/ui/metrolab/assets/font-awesome/css/font-awesome.css" />
@@ -118,6 +118,7 @@
             
 			<div class="login_form">
                <input type="hidden" name="to" value="log"/>
+               <span  class="span3" style="color:red">${escapeXml(msg!)}</span>
                 <div class="uinArea" id="uinArea">
                 <label class="input-tips" for="u">帐号：</label>
                 <div class="inputOuter" id="uArea">
@@ -138,7 +139,7 @@
                 </div>
                 </div>
                
-               <div class="pwdArea" id="valicode">
+              <!--  <div class="pwdArea" id="valicode">
                <label class="input-tips" for="p">					</label> 
                <div class="inputOuter" >
                     
@@ -147,7 +148,7 @@
 						<a href="javascript:void(0)" id="login_authCodeHref"
 						onclick="showImage(this);">${i18nMap["admin.login.clickAuthCode"]}</a>
                 </div>
-                </div>
+                </div> -->
                 
                 <div style="padding-left:50px;margin-top:40px;">
 				<input type="button" onclick="submitFunc();" value="登 录" style="width:150px;z-index:999" class="button_blue">
@@ -255,11 +256,11 @@
 				common_modals.alert("请输入登录密码");
 				return;
 			}
-			var login_authCode = $("#login_authCode").val();
+			/* var login_authCode = $("#login_authCode").val();
 			if (login_authCode == "") {
 				common_modals.alert("请输入验证码");
 				return;
-			}
+			} */
 			
 			/* 
 			var param = {"userName" : userName};
@@ -286,11 +287,11 @@
 				userName.focus();
 			} else if (passWord.val() == "") {
 				passWord.focus();
-			} else {
+			} /* else {
 				$("#login_authCode").focus();
-			}
+			} */
 
-			showImage($("#login_authCodeHref"));
+			/* showImage($("#login_authCodeHref")); */
 
 			// 键盘回车事件
 			var tds = $("html");
@@ -388,6 +389,11 @@
 			
 			function resetPass(){
 				layer.prompt({title: '输入邮箱，重置密码', formType: 3}, function(text, index){
+					if(!isEmail(text)){
+						layer.msg('邮箱格式不正确：'+text);
+						return;
+					}
+					
 					var url = "/platform/login/resetPass";
 					var data = { "email" : text };
 					
@@ -395,6 +401,11 @@
 				    layer.close(index);
 				    layer.msg('新密码已经发送到你的邮箱：'+text);
 				  });
+			}
+			
+			function isEmail(str){
+				 var reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+				 return reg.test(str);
 			}
 	</script>
 

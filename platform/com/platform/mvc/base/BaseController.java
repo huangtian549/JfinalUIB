@@ -95,7 +95,7 @@ public abstract class BaseController extends Controller {
 	 * @return
 	 */
 	protected String geti18nColumnSuffix(){
-		String localePram = getAttr(ConstantWebContext.request_localePram);
+		String localePram = "zh_CN";
 		return I18NPlugin.columnSuffix(localePram);
 	}
 	

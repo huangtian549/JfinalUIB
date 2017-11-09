@@ -2,6 +2,7 @@ package com.platform.mvc.menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -177,12 +178,14 @@ public class MenuService extends BaseService {
 		String operatorSql = getSql("platform.menu.findByModuleAndRoleIds");
 		
 		List<Record> smList = (List<Record>) splitPage.getList();
-		for (Record sm : smList) {
+		for (Iterator<Record> it = smList.iterator(); it.hasNext();) {
+			Record sm = it.next();
 			String mids = sm.getStr("mids");
 			List<Record> olist = Db.find(operatorSql, menuIds, mids);
 			if(olist != null && olist.size() != 0){
 				sm.set("list", olist);
 			}else{
+				it.remove();
 				smList.remove(sm);
 			}
 		}

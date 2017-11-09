@@ -87,15 +87,16 @@ public class ToolMail {
 	}
 	
 	public static void main(String[] args) {
-		String host = "smtp.163.com";		// 发送邮件的服务器的IP
+		System.setProperty("java.net.preferIPv4Stack", "true");
+		String host = "smtp.gmail.com";		// 发送邮件的服务器的IP
 		String port = "25";	// 发送邮件的服务器的端口
 		
-		String from = "dongcb678@163.com";		// 邮件发送者的地址
-		String userName = "dongcb678@163.com";	// 登陆邮件发送服务器的用户名
-		String password = "xxx";	// 登陆邮件发送服务器的密码
+		String from = "huagntian549@gmail.com";		// 邮件发送者的地址
+		String userName = "huangtian549@gmail.com";	// 登陆邮件发送服务器的用户名
+		String password = "hy198665";	// 登陆邮件发送服务器的密码
 		
 		List<String> to = new ArrayList<String>();			// 邮件接收者的地址
-		to.add("150584428@qq.com");
+		to.add("onlyforhillary@gmail.com.com");
 		
 		boolean validate = true;	// 是否需要身份验证
 		
@@ -103,7 +104,7 @@ public class ToolMail {
 		String content = "内容test111";		// 邮件的文本内容
 		String[] attachFileNames = new String[]{"D:/code.jpg"};	// 邮件附件的文件名
 		
-		sendTextMail(host, port, validate, userName, password, from, to, subject, content, attachFileNames);
+		sendTextMail(host, port, validate, userName, password, from, to, subject, content, null);
 	}
 
 }
@@ -236,16 +237,18 @@ class SendMail extends Thread {
             multipart.addBodyPart(mbp);     
             
             // 附件
-			for (String attachFile : attachFileNames) {
-				mbp = new MimeBodyPart();   
-                FileDataSource fds = new FileDataSource(attachFile); //得到数据源   
-                
-                mbp.setDataHandler(new DataHandler(fds)); //得到附件本身并至入BodyPart   
-                String filename = MimeUtility.encodeText(fds.getName()); // 解决附件乱码
-                mbp.setFileName(filename);  //得到文件名同样至入BodyPart   
-                
-                multipart.addBodyPart(mbp); 
-			}
+            if(attachFileNames != null) {
+				for (String attachFile : attachFileNames) {
+					mbp = new MimeBodyPart();   
+	                FileDataSource fds = new FileDataSource(attachFile); //得到数据源   
+	                
+	                mbp.setDataHandler(new DataHandler(fds)); //得到附件本身并至入BodyPart   
+	                String filename = MimeUtility.encodeText(fds.getName()); // 解决附件乱码
+	                mbp.setFileName(filename);  //得到文件名同样至入BodyPart   
+	                
+	                multipart.addBodyPart(mbp); 
+				}
+            }
 			
 			// 设置邮件消息的主要内容
 			mailMessage.setContent(multipart);
@@ -273,9 +276,7 @@ class SendMail extends Thread {
 		MailAuthenticator authenticator = null;
 		Properties pro = getProperties();
 		// 如果需要身份认证，则创建一个密码验证器
-		if (isValidate()) {
 			authenticator = new MailAuthenticator(getUserName(), getPassword());
-		}
 		// 根据邮件会话属性和密码验证器构造一个发送邮件的session
 		Session sendMailSession = Session.getInstance(pro, authenticator);// getDefaultInstance
 		try {

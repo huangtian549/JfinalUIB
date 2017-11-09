@@ -2,11 +2,22 @@ package com.platform.mvc.login;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +33,8 @@ import com.platform.interceptor.AuthInterceptor;
 import com.platform.mvc.base.BaseService;
 import com.platform.mvc.user.User;
 import com.platform.tools.ToolDateTime;
+import com.platform.tools.ToolMail;
+import com.platform.tools.ToolRandoms;
 import com.platform.tools.security.ToolPbkdf2;
 
 @Service(name = LoginService.serviceName)
@@ -234,6 +247,85 @@ public class LoginService extends BaseService {
 			User.cacheAdd(user.getPKValue());
 			return ConstantLogin.login_info_4;
 		}
+	}
+	
+	public int resetPass(String email) {
+		try {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("column", User.column_email);
+			String sql = getSqlByBeetl(User.sqlId_column, param);
+			User user = User.dao.findFirst(sql, email);
+			
+			if(user == null) {
+				return 0;
+			}
+			
+			String newPass = ToolRandoms.getAuthCodeAll(6).toLowerCase();
+				byte[] saltNew = ToolPbkdf2.generateSalt();// 密码盐
+				byte[] encryptedPasswordNew = ToolPbkdf2.getEncryptedPassword(newPass, saltNew);
+				user.set(User.column_salt, Base64.encodeBase64String(saltNew));
+				user.set(User.column_password, Base64.encodeBase64String(encryptedPasswordNew));
+				// 更新用户
+				user.update();
+				// 缓存
+				User.cacheAdd(user.getPKValue());
+				
+				
+			String content = "你好，你的密码已经重置为" + newPass +",请尽快登录后修改密码";
+			sendEmail(ToolMail.sendType_text, email, "代购系统重置密码", content);
+			return 1;
+		} catch (Exception e) {
+			log.error("发送邮件重置密码出现异常，邮箱是：" + email, e);
+			return 2;
+		}
+	}
+	
+	private void sendEmail(String sendType, String to, String subject, String content) {
+		String  d_email = "huangtian549@gmail.com",
+	            d_uname = "huangtian549@gmail.com",
+	            d_password = "hy198665",
+	            d_host = "smtp.gmail.com",
+	            d_port  = "465";
+	    Properties props = new Properties();
+	    props.put("mail.smtp.user", d_email);
+	    props.put("mail.smtp.host", d_host);
+	    props.put("mail.smtp.port", d_port);
+	    props.put("mail.smtp.starttls.enable","true");
+	    props.put("mail.smtp.debug", "true");
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.socketFactory.port", d_port);
+	    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+	    props.put("mail.smtp.socketFactory.fallback", "false");
+
+	    Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                // 用户名、密码
+                String userName = props.getProperty("huangtian549@gmail.com");
+                String password = props.getProperty("hy198665");
+                return new PasswordAuthentication(userName, password);
+            }
+        };
+	    Session session = Session.getInstance(props, authenticator);
+	    session.setDebug(true);
+
+	    MimeMessage msg = new MimeMessage(session);
+	    try {
+	        msg.setSubject(subject);
+	        msg.setFrom(new InternetAddress(d_email));
+	        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+	        msg.setText(content);
+
+	        	Transport transport = session.getTransport("smtps");
+	            transport.connect(d_host, Integer.valueOf(d_port), d_uname, d_password);
+	            transport.sendMessage(msg, msg.getAllRecipients());
+	            transport.close();
+
+	        } catch (AddressException e) {
+	            e.printStackTrace();
+	        } catch (MessagingException e) {
+	            e.printStackTrace();
+	        }
 	}
 
 }
