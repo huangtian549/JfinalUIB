@@ -10,12 +10,6 @@
 	</div>
 </div>
 
-<div class="control-group">
-    <label class="control-label">物品描述</label>
-            <div class="controls">
-                  <textarea class="input-xxlarge" rows="3" name ="inventory.description">${escapeXml(inventory.description!)}</textarea>
-             </div>
-</div>
 
 <div class="control-group">
 	<label class="control-label">数量</label>
@@ -36,7 +30,7 @@
 </div>
 
 <div class="control-group">
-	<label class="control-label">代理价格</label>
+	<label class="control-label">代发价格</label>
 	<div class="controls">
 		<input type="text" name="inventory.daili_price" value="${escapeXml(inventory.daili_price!)}" 
 			class="span3" maxlength="25" size="25" vMin="0" vType="length"  id="priceUS">
@@ -45,15 +39,30 @@
 </div>
 
 <div class="control-group">
-	<label class="control-label">代购价格</label>
+	<label class="control-label">库存</label>
 	<div class="controls">
-		<input type="text" name="inventory.daigou_price" value="${escapeXml(inventory.daigou_price!)}" 
-			class="span3" maxlength="25" size="25" vMin="0" vType="length"  id="priceUS">
-		<span class="help-inline"></span>
+			<select name="inventory.type">
+				<option value ="2" ${inventory.type! == 2 ? "selected='selected'":"" }>中国库存</option>
+				<option value ="1" ${inventory.type! == 1 ? "selected='selected'":"" }>美国库存</option>
+			</select>
 	</div>
-</div>
+</div>		
+<div class="control-group">
+	<label class="control-label">类别</label>
+	<div class="controls">		
+						<select name="inventory.category">			
+							  <option value ="1" ${inventory.category! == 1 ? "selected='selected'":"" }>包</option>
+							 
+							  <option value ="2" ${inventory.category! == 2 ? "selected='selected'":"" }>化妆品</option>
+							 
+							  <option value ="3" ${inventory.category! == 3 ? "selected='selected'":"" }>保健品</option>
+							  <option value ="4" ${inventory.category! == 4 ? "selected='selected'":"" }>饰品</option>
+							  <option value ="5" ${inventory.category! == 5 ? "selected='selected'":"" }>手表</option>
+							  <option value ="6" ${inventory.category! == 6 ? "selected='selected'":"" }>杂货</option>
+							</select>
 
-
+	</div>
+</div>	
 
 
 

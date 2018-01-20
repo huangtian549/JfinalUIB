@@ -70,7 +70,7 @@ public class Inventory extends BaseModel<Inventory> {
 	
 	/**
 	 * 字段描述： 
-	 * 字段类型：varchar(32)  长度：32
+	 * 字段类型：varchar(50)  长度：50
 	 */
 	public static final String column_userId = "userId";
 	
@@ -79,6 +79,18 @@ public class Inventory extends BaseModel<Inventory> {
 	 * 字段类型：varchar(200)  长度：200
 	 */
 	public static final String column_pic = "pic";
+	
+	/**
+	 * 字段描述： 
+	 * 字段类型：int(11)  长度：null
+	 */
+	public static final String column_category = "category";
+	
+	/**
+	 * 字段描述： 
+	 * 字段类型：int(11)  长度：null
+	 */
+	public static final String column_type = "type";
 	
 	
 	/**
@@ -96,6 +108,8 @@ public class Inventory extends BaseModel<Inventory> {
 	private Integer customer_price;
 	private String userId;
 	private String pic;
+	private Integer category;
+	private Integer type;
 	
 	public void setIds(Integer ids){
 		set(column_ids, ids);
@@ -139,19 +153,29 @@ public class Inventory extends BaseModel<Inventory> {
 	public Integer getCustomer_price() {
 		return get(column_customer_price);
 	}
-	
 	public void setUserId(String userId){
 		set(column_userId, userId);
 	}
 	public String getUserId() {
 		return get(column_userId);
 	}
-	
 	public void setPic(String pic){
 		set(column_pic, pic);
 	}
 	public String getPic() {
 		return get(column_pic);
+	}
+	public void setCategory(Integer category){
+		set(column_category, category);
+	}
+	public Integer getCategory() {
+		return get(column_category);
+	}
+	public void setType(Integer type){
+		set(column_type, type);
+	}
+	public Integer getType() {
+		return get(column_type);
 	}
 	
 }

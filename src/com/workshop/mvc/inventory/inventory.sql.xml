@@ -12,13 +12,22 @@
 			<% if(!isEmpty(name)){ %>
 					and (name like #'%$name$%'# or  description like #'%$name$%'#)
 			<% } %>	
+			<% if(!isEmpty(type)){ %>
+					and type = #'$type$'#
+			<% } %>
+			
+			<% if(!isEmpty(category)){ %>
+					and category = #'$category$'#
+			<% } %>
+			
 			order by ids desc
     	]]>
 	</sql>
 	
 	<sql id="search">
 		<![CDATA[ 
-        	select ids,name,wechat,address from dg_customer where userId =? and name like CONCAT('%', ?, '%') or wechat like CONCAT('%', ?, '%')
+        	select ids,name,wechat,address from dg_customer where userId =? and 
+        	name like CONCAT('%', ?, '%') or wechat like CONCAT('%', ?, '%')
     	]]>
 	</sql>
 </sql-statement>
