@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql-statement namespace="workshop.buy">
+	
+	
+	<!-- 分页查询：from -->
+	<sql id="splitPageFrom">
+		<![CDATA[ 
+        	from 
+        		dg_buy
+			
+			where  userId = #'$userId$'#
+			<% if(!isEmpty(description)){ %>
+					and ( description like #'%$description$%'# or wechat like #'%$description$%'# or address like #'%$description$%'#)
+			<% } %>	
+			<% if(!isEmpty(isSend)){ %>
+					and isSend = #'$isSend$'#
+			<% } %>
+			
+			<% if(!isEmpty(isPay)){ %>
+					and isPay = #'$isPay$'#
+			<% } %>
+			
+			<% if(!isEmpty(startdate_start)){ %>
+					and purchaseDate >= str_to_date(#'$startdate_start$'#, '%Y-%m-%d') 
+			<% } %>
+			
+			<% if(!isEmpty(startdate_end)){ %>
+					and purchaseDate <= str_to_date(#'$startdate_end$'#, '%Y-%m-%d')
+			<% } %>
+    	]]>
+	</sql>
+	
+	<!-- 统计营业额：from -->
+	<sql id="tongjiAllFrom">
+		<![CDATA[ 
+        	select sum(priceCn) as sum
+        	
+        	from 
+        		dg_buy
+			
+			where  userId = ?
+					
+			
+					and purchaseDate >= str_to_date(?, '%Y-%m-%d') 
+			
+					and purchaseDate <= str_to_date(?, '%Y-%m-%d')
+    	]]>
+	</sql>
+	
+	<!-- 统计营业额：from -->
+	<sql id="tongjiFrom">
+		<![CDATA[ 
+        	select sum(priceCn) as sum
+        	
+        	from 
+        		dg_buy
+			
+			where  userId = ?
+					
+					and isPay = ?
+			
+					and purchaseDate >= str_to_date(?, '%Y-%m-%d') 
+			
+					and purchaseDate <= str_to_date(?, '%Y-%m-%d')
+    	]]>
+	</sql>
+	
+</sql-statement>
