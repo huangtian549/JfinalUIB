@@ -1,0 +1,147 @@
+
+<div class="control-group">
+	<label class="control-label">微信</label>
+	<div class="controls">
+		<input type="text" name="buy.wechat" value="${escapeXml(buy.wechat!)}" id="wechat"
+			class="span3" maxlength="25"  >
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+
+<div class="control-group">
+	<label class="control-label">出售价格(人民币)</label>
+	<div class="controls">
+		<input type="text" name="buy.priceCN" value="${escapeXml(buy.priceCN!)}" id="priceCN"
+			class="span3" maxlength="25" vMin="0" vType="length"  >
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+
+<div class="control-group">
+	<label class="control-label">是否发货</label>
+	<div class="controls">
+		<select name="buy.isSend" class="combox">
+			<option value="1" ${buy.isSend! == 1 ? "selected='selected'":"" }>已经发货</option>
+			<option value="0" ${buy.isSend! != 1 ? "selected='selected'":"" }>未发货</option>
+		</select>
+		
+		<span class="help-inline"></span>
+	</div>
+</div>
+
+
+
+
+<div class="control-group">
+    <label class="control-label">物品描述</label>
+            <div class="controls">
+                  <textarea class="input-xxlarge" rows="3" name ="buy.description">${escapeXml(buy.description!)}</textarea>
+             </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">地址</label>
+            <div class="controls">
+                  <textarea class="input-xxlarge" rows="3" name ="buy.address">${escapeXml(buy.address!)}</textarea>
+             </div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">操作人</label>
+	<div class="controls">
+		<select name="buy.isPay" class="combox">
+			<option value="0" ${buy.isPay! == 0 ? "selected='selected'":"" }>熊坚强</option>
+			<option value="1" ${buy.isPay! == 1 ? "selected='selected'":"" }>amy</option>
+			<option value="2" ${buy.isPay! == 2 ? "selected='selected'":"" }>乃坤</option>
+			
+		</select>
+		
+		
+	</div>
+</div>
+
+<div class="control-group">
+							<label class="control-label">图片</label>
+							<div class="controls hidden-phone">
+								${ShowPic(buy.pic!,buy.purchaseDate!)}
+							</div>
+						</div>
+                  <input type="hidden" name="buy.pic" id="image" value="${escapeXml(buy.pic!)}" readonly/>
+
+                  
+                 <div class="control-group" >
+                 	  <label class="control-label">上传图片</label>
+                 	  
+                  		<div class="controls" >
+                               <div class="ibox-content" >
+                            <div id="uploader" class="wu-example">
+                                <div class="queueList">
+                                    <div id="dndArea" class="placeholder" >
+                                        <div id="filePicker" ></div>
+                                        <p>有三种方式添加图片：
+                                        1.使用"点击选择图片按钮" 
+                                        2.把图片拖到这个方框中 
+                                        3.复制图片或者用截图软件截取图片，点击这个方框中粘贴(ctr+v)</p>
+                                    </div>
+                                </div>
+                                <div class="statusBar" style="display:none;">
+                                    <div class="progress">
+                                        <span class="text">0%</span>
+                                        <span class="percentage"></span>
+                                    </div>
+                                    <div class="info"></div>
+                                    <div class="btns">
+                                        <div id="filePicker2"></div>
+                                        <div class="uploadBtn">开始上传</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                 </div>
+                 
+			
+
+        <script type="text/javascript">
+	     var BASE_URL = "${cxt!}/jsfile/webuploader";
+	     
+	     $(document).ready(function(){
+	    	 $("#additionDiv").hide();
+	    	  $("#show").show();
+	    	  $("#hide").hide();
+	     });
+	     
+	     $("#hide").click(function(){
+	    	  $("#additionDiv").hide();
+	    	  $("#show").show();
+	    	  $("#hide").hide();
+	    	});
+
+	    	$("#show").click(function(){
+	    	  $("#additionDiv").show();
+	    	  $("#hide").show();
+	    	  $("#show").hide();
+	    	});
+	     
+	     function addTax(){
+	    	 var priceUS = $("#priceUS").val();
+	    	 if(priceUS != null){
+	    		 priceUS = priceUS * 1.053;
+	    		 priceUS = priceUS.toFixed(2);
+	    		 $("#priceUS").val(priceUS);
+	    	 }
+	     }
+	     
+	     function addFee(){
+	    	 var priceUS = $("#priceUS").val();
+	    	 var huilv = $("#huilv").val();
+	    	 var priceCN = priceUS * huilv;
+	    	 priceCN = priceCN.toFixed(2);
+	    	 $("#priceCN").val(priceCN);
+	     }
+        </script>
+        <script src="${cxt!}/jsfile/webuploader/webuploader.js"></script>
+
+        <script src="${cxt!}/jsfile/webuploader/upload.js"></script>

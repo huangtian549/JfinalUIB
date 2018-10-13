@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql-statement namespace="workshop.junan_inventory">
+	
+	<!-- 分页查询：from -->
+	<sql id="splitPageFrom">
+		<![CDATA[ 
+        	from 
+        		dg_junan_inventory
+			
+			where  userId = #'$userId$'#
+			<% if(!isEmpty(name)){ %>
+					and (name like #'%$name$%'# or  description like #'%$name$%'#)
+			<% } %>	
+			order by ids desc
+    	]]>
+	</sql>
+	
+	<sql id="search">
+		<![CDATA[ 
+        	select ids,name,wechat,address from dg_customer where userId =? and name like CONCAT('%', ?, '%') or wechat like CONCAT('%', ?, '%')
+    	]]>
+	</sql>
+</sql-statement>
