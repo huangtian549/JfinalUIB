@@ -1,5 +1,6 @@
 package com.workshop.mvc.inventory;
 
+
 import com.jfinal.aop.Before;
 import com.jfinal.log.Log;
 import com.platform.annotation.Controller;
@@ -33,6 +34,42 @@ public class InventoryController
     setAttr("category", category);
     paging("main", this.splitPage, "platform.baseModel.splitPageSelect", "workshop.inventory.splitPageFrom");
     render("/workshop/inventory/list.html");
+  }
+  
+  public void showDaili()
+  {
+    Object typeObject = this.splitPage.getQueryParam().get("type");
+    Object categoryObject = this.splitPage.getQueryParam().get("category");
+    String type = (String)typeObject;
+    if (type == null) {
+      type = "0";
+    }
+    setAttr("type", type);
+    String category = (String)categoryObject;
+    if (category == null) {
+      category = "0";
+    }
+    setAttr("category", category);
+    paging("main", this.splitPage, "platform.baseModel.splitPageSelect", "workshop.inventory.splitPageFrom2");
+    render("/workshop/inventory/list_daili.html");
+  }
+  
+  public void show()
+  {
+    Object typeObject = this.splitPage.getQueryParam().get("type");
+    Object categoryObject = this.splitPage.getQueryParam().get("category");
+    String type = (String)typeObject;
+    if (type == null) {
+      type = "0";
+    }
+    setAttr("type", type);
+    String category = (String)categoryObject;
+    if (category == null) {
+      category = "0";
+    }
+    setAttr("category", category);
+    paging("main", this.splitPage, "platform.baseModel.splitPageSelect", "workshop.inventory.splitPageFrom2");
+    render("/workshop/inventory/list_show.html");
   }
   
   @Before({InventoryValidator.class})

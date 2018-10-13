@@ -110,8 +110,10 @@
 									<th class="hidden-phone">购买价格</th>
 									<th class="hidden-phone">出售价格</th>
 									<th class="hidden-phone">描述</th>
+									<th class="hidden-phone">地址述</th>
 									<th class="hidden-phone">购买日期</th>
 									<th class="hidden-phone">是否邮寄</th>
+									<th class="hidden-phone">操作人</th>
 									<th class="hidden-phone">图片</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
@@ -130,11 +132,17 @@
 									<td class="hidden-phone">${escapeXml(purchase.priceUS!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.priceCN!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.description!) }</td>
+									<td class="hidden-phone">${escapeXml(purchase.address!) }</td>
 									<td class="hidden-phone">${escapeXml(purchase.purchaseDate!) }</td>
 									<% if(purchase.isSend != 1){ %>
 										<td style="clear;background-color:#00FF7F;" bgcolor="red">${purchase.isSend == 1 ? "是":"否"}</td>
 									<% }else{ %>
 										<td class="hidden-phone">${purchase.isSend == 1 ? "是":"否"}</td>
+									<% } %>
+									<% if(purchase.isPay != 1){ %>
+										<td style="clear;background-color:#00FF7F;" bgcolor="red">熊坚强</td>
+									<% }else{ %>
+										<td class="hidden-phone">amy</td>
 									<% } %>
 									<td class="hidden-phone">${ShowPic(purchase.pic!)}</td>
 									<td class="hidden-phone">

@@ -48,6 +48,12 @@ public class Inventory extends BaseModel<Inventory> {
 	 * 字段描述： 
 	 * 字段类型：int(11)  长度：null
 	 */
+	public static final String column_count_all = "count_all";
+	
+	/**
+	 * 字段描述： 
+	 * 字段类型：int(11)  长度：null
+	 */
 	public static final String column_count = "count";
 	
 	/**
@@ -102,6 +108,7 @@ public class Inventory extends BaseModel<Inventory> {
 	private Integer ids;
 	private String name;
 	private String description;
+	private Integer count_all;
 	private Integer count;
 	private Integer daigou_price;
 	private Integer daili_price;
@@ -128,6 +135,12 @@ public class Inventory extends BaseModel<Inventory> {
 	}
 	public String getDescription() {
 		return get(column_description);
+	}
+	public void setCount_all(Integer count_all){
+		set(column_count_all, count_all);
+	}
+	public Integer getCount_all() {
+		return get(column_count_all);
 	}
 	public void setCount(Integer count){
 		set(column_count, count);

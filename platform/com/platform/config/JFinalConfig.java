@@ -142,13 +142,13 @@ public class JFinalConfig extends com.jfinal.config.JFinalConfig {
 			
 			log.info("configPlugin 配置Druid数据库连接池过滤器配制");
 			druidPlugin.addFilter(new StatFilter());
-			WallFilter wall = new WallFilter();
-			wall.setDbType(db_type);
-			WallConfig config = new WallConfig();
-			config.setFunctionCheck(false); // 支持数据库函数
-			wall.setConfig(config);
-			druidPlugin.addFilter(wall);
-			
+//			WallFilter wall = new WallFilter();
+//			wall.setDbType(db_type);
+//			WallConfig config = new WallConfig();
+//			config.setFunctionCheck(false); // 支持数据库函数
+//			wall.setConfig(config);
+//			druidPlugin.addFilter(wall);
+//			
 			log.info("configPlugin 配置ActiveRecordPlugin插件");
 			ActiveRecordPlugin arp = new ActiveRecordPlugin(name, druidPlugin);
 			/**

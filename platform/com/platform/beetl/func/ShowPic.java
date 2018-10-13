@@ -25,8 +25,8 @@ public class ShowPic implements Function {
 						String[] arr = s.split("\\.");
 						String smallPicName = arr[0] + "_100*100." + arr[1];
 						String largePicName = arr[0] + "_800*600." + arr[1]; 
-							sBuilder.append("<a class=\"fancybox1\" rel=\"group\"  href=\"http://45.33.62.141").append(largePicName).append("\">");
-							sBuilder.append("<img src=\"http://45.33.62.141").append(smallPicName).append("\"height=\"100\" width=\"100\" alt=\"\"/>");
+							sBuilder.append("<a class=\"fancybox1\" rel=\"group\"  href=\"http://www.daigoutop.com").append(largePicName).append("\">");
+							sBuilder.append("<img src=\"http://www.daigoutop.com").append(smallPicName).append("\"height=\"150\" width=\"150\" alt=\"\"/>");
 							sBuilder.append("</a>");
 					}
 				}

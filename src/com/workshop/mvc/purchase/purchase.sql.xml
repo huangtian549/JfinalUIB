@@ -6,7 +6,7 @@
 	<sql id="splitPageSelect">
 		<![CDATA[ 
         	select 
-				p.*, c.wechat
+				p.*, c.wechat, c.address
     	]]>
 	</sql>
 	
@@ -19,7 +19,7 @@
 			where p.customer_ids = c.ids 
 			and p.userId = #'$userId$'#
 			<% if(!isEmpty(description)){ %>
-					and description like #'%$description$%'# 
+					and ( description like #'%$description$%'# or c.wechat like #'%$description$%'# or c.name like #'%$description$%'#)
 			<% } %>	
 			<% if(!isEmpty(isPay)){ %>
 					and isPay = #'$isPay$'#

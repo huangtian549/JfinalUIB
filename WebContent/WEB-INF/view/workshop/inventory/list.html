@@ -52,20 +52,24 @@
 					<div class="widget-body form switch-form">
 						名称
 						<input class="medium" type="text" name="_query.name" value='${escapeXml(splitPage.queryParam["name"])}' maxlength="20">
+						<input class="medium" type="text" name="_query.name2" value='${escapeXml(splitPage.queryParam["name2"])}' maxlength="20">
 						<select name="_query.type">
 							  <option value ="">所有的</option>
-							  <option value ="1" ${escapeXml(splitPage.queryParam["type"]) == "1" ? "selected='selected'":"" }>美国库存${escapeXml(splitPage.queryParam["type"])}</option>
+							  <option value ="1" ${escapeXml(splitPage.queryParam["type"]) == "1" ? "selected='selected'":"" } >美国库存</option>
 							  <option value ="2" ${escapeXml(splitPage.queryParam["type"]) == "2" ? "selected='selected'":"" } >中国库存</option>
+							  <option value ="3" ${escapeXml(splitPage.queryParam["type"]) == "3" ? "selected='selected'":"" } >在途</option>
 							</select>
 							
 							<select name="_query.category">
 							  <option value ="">所有的</option>
-							  <option value ="1" ${escapeXml(splitPage.queryParam["category"]) == "1" ? "selected='selected'":"" }>1包</option>
-							  <option value ="2" ${escapeXml(splitPage.queryParam["category"]) == "2" ? "selected='selected'":"" }>2化妆品</option>
-							  <option value ="3" ${escapeXml(splitPage.queryParam["category"]) == "3" ? "selected='selected'":"" }>3保健品</option>
-							  <option value ="4" ${escapeXml(splitPage.queryParam["category"]) == "4" ? "selected='selected'":"" }>4饰品</option>
-							  <option value ="5" ${escapeXml(splitPage.queryParam["category"]) == "5" ? "selected='selected'":"" }>5手表</option>
-							  <option value ="6" ${escapeXml(splitPage.queryParam["category"]) == "6" ? "selected='selected'":"" }>6杂货</option>
+							  <option value ="1" ${escapeXml(splitPage.queryParam["category"]) == "1" ? "selected='selected'":"" }>包</option>
+							  <option value ="2" ${escapeXml(splitPage.queryParam["category"]) == "2" ? "selected='selected'":"" }>化妆品</option>
+							  <option value ="3" ${escapeXml(splitPage.queryParam["category"]) == "3" ? "selected='selected'":"" }>保健品</option>
+							  <option value ="4" ${escapeXml(splitPage.queryParam["category"]) == "4" ? "selected='selected'":"" }>饰品</option>
+							  <option value ="5" ${escapeXml(splitPage.queryParam["category"]) == "5" ? "selected='selected'":"" }>手表</option>
+							  <option value ="6" ${escapeXml(splitPage.queryParam["category"]) == "6" ? "selected='selected'":"" }>杂货</option>
+							  <option value ="7" ${escapeXml(splitPage.queryParam["category"]) == "7" ? "selected='selected'":"" }>钱包</option>
+							  <option value ="8" ${escapeXml(splitPage.queryParam["category"]) == "8" ? "selected='selected'":"" }>鞋</option>
 							</select>
 						<button type="button" class="btn btn-danger" onclick='common_ajax.ajaxFormMainPanel("splitPage");'>${i18nMap["admin.common.select"]}</button>
 						<button type="reset" class="btn btn-inverse">${i18nMap["admin.common.reset"]}</button>
@@ -119,21 +123,25 @@
 									</th>
 									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'name')">
 										名称
-										${orderBy("d.name")}</th>
-									<th class="hidden-phone" >
+										${orderBy("name")}</th>
+									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'count')">
 										数量
+										${orderBy("count")}
 									</th>
-									<th class="hidden-phone" >
+									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'count')">
+										总数量
+										${orderBy("count")}
+									</th>
+									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'customer_price')">
 										客户价格 
+										${orderBy("customer_price")}
 									</th>
-									<th class="hidden-phone" >
+									<th class="hidden-phone" onclick="common_splitPage.orderbyFun('main-content', 'splitPage', 'daili_price')">
 										代发价格 
+										${orderBy("daili_price")}
 									</th>
 									<th class="hidden-phone" >
 										库存地点 
-									</th>
-									<th class="hidden-phone" >
-										类别 
 									</th>
 									<th class="hidden-phone" >
 										图片 
@@ -152,10 +160,15 @@
 									<td class="hidden-phone">
 										<div class="i_box"><a href="javascript:;" class="J_minus">-</a><input type="text" value="${inventory.count}" ids="${escapeXml(inventory.ids!) }" class="J_input" /><a href="javascript:;" class="J_add">+</a></div>
 									</td>
+									<td class="hidden-phone">${inventory.count_all!}</td>
 									<td class="hidden-phone">${inventory.customer_price!}</td>
 									<td class="hidden-phone">${inventory.daili_price!}</td>
-									<td class="hidden-phone">${inventory.type == 1 ? "美国":"中国"}</td>
-									<td class="hidden-phone">${inventory.category}</td>
+									<% if(inventory.type == 3){ %>
+										<td class="hidden-phone">在途</td>
+									<% }else{ %>
+										<td class="hidden-phone">${inventory.type == 1 ? "美国":"中国"}</td>
+									<% } %>
+									
 									<td class="hidden-phone">${ShowPic(inventory.pic!)}</td>
 									<td class="hidden-phone">
 										
@@ -191,9 +204,16 @@
 
 </form>
 
+<script type="text/javascript" src="${cxt!}/ui/metrolab/assets/fancybox/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="${cxt!}/ui/layer/layer.js"/>
 <script type="text/javascript">
+
+
+
 	jQuery(document).ready(function() {
-		
+		$(".fancybox1").fancybox({
+			'titleShow'     : true
+  		});  
 	});
 	
 	function updateCount(count, ids){

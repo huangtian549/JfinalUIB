@@ -12,6 +12,30 @@
 			<% if(!isEmpty(name)){ %>
 					and (name like #'%$name$%'# or  description like #'%$name$%'#)
 			<% } %>	
+					<% if(!isEmpty(name2)){ %>
+					and (name like #'%$name2$%'# or  description like #'%$name2$%'#)
+					<% } %>	
+			<% if(!isEmpty(type)){ %>
+					and type = #'$type$'#
+			<% } %>
+			
+			<% if(!isEmpty(category)){ %>
+					and category = #'$category$'#
+			<% } %>
+			
+    	]]>
+	</sql>
+	
+	<!-- 分页查询：from -->
+	<sql id="splitPageFrom2">
+		<![CDATA[ 
+        	from 
+        		dg_inventory
+			
+			where  count > 0
+			<% if(!isEmpty(name)){ %>
+					and (name like #'%$name$%'# or  description like #'%$name$%'#)
+			<% } %>	
 			<% if(!isEmpty(type)){ %>
 					and type = #'$type$'#
 			<% } %>

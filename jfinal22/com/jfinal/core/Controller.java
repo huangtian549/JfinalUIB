@@ -742,7 +742,7 @@ public abstract class Controller {
         File smallPic=new File(smallPicName);
         File largePic = new File(largePicName);
         try {
-        		Thumbnails.of(fromPic).size(100,100).toFile(smallPic);//变为100*100,遵循原图比例缩或放到100*某个高度  
+        		Thumbnails.of(fromPic).size(200,200).toFile(smallPic);//变为100*100,遵循原图比例缩或放到100*某个高度  
 			Thumbnails.of(fromPic).scale(1f).outputQuality(0.25f).toFile(largePic);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
