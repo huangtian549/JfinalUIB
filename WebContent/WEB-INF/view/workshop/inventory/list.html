@@ -58,6 +58,7 @@
 							  <option value ="1" ${escapeXml(splitPage.queryParam["type"]) == "1" ? "selected='selected'":"" } >美国库存</option>
 							  <option value ="2" ${escapeXml(splitPage.queryParam["type"]) == "2" ? "selected='selected'":"" } >中国库存</option>
 							  <option value ="3" ${escapeXml(splitPage.queryParam["type"]) == "3" ? "selected='selected'":"" } >在途</option>
+							  <option value ="4" ${escapeXml(splitPage.queryParam["type"]) == "4" ? "selected='selected'":"" } >美国库存2</option>
 							</select>
 							
 							<select name="_query.category">
@@ -143,7 +144,7 @@
 									<th class="hidden-phone" >
 										库存地点 
 									</th>
-									<th class="hidden-phone" >
+									<th class="hidden-phone"  >
 										图片 
 									</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
@@ -163,8 +164,8 @@
 									<td class="hidden-phone">${inventory.count_all!}</td>
 									<td class="hidden-phone">${inventory.customer_price!}</td>
 									<td class="hidden-phone">${inventory.daili_price!}</td>
-									<% if(inventory.type == 3){ %>
-										<td class="hidden-phone">在途</td>
+									<% if(inventory.type == 4){ %>
+										<td class="hidden-phone">美国2</td>
 									<% }else{ %>
 										<td class="hidden-phone">${inventory.type == 1 ? "美国":"中国"}</td>
 									<% } %>
@@ -238,7 +239,7 @@
 
 		 */
 
-		iSet=$.extend({Minus:$('.J_minus'),Add:$('.J_add'),Input:$('.J_input'),Min:0,Max:100},iSet);
+		iSet=$.extend({Minus:$('.J_minus'),Add:$('.J_add'),Input:$('.J_input'),Min:-10,Max:100},iSet);
 
 		var C=null,O=null;
 
@@ -267,7 +268,7 @@
 		iSet.Minus.each(function(i){
 			$(this).click(function(){
 				O=parseInt(iSet.Input.eq(i).val());
-				O-1<iSet.Min ? iSet.Input.eq(i).val(iSet.Min) : iSet.Input.eq(i).val(O-1);
+				 iSet.Input.eq(i).val(O-1);
 				$CB.val=iSet.Input.eq(i).val();
 				$CB.index=iSet.Input.eq(i).attr("ids");;
 				//回调函数
@@ -332,9 +333,6 @@
 			}
 		}
 
-		if(O<iSet.Min){
-			$(this).val(iSet.Min);
-		}
 
 		//输出当前改变后的值
 

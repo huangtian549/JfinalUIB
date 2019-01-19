@@ -61,6 +61,18 @@
 						<input type="radio" name="_query.isPay" id="check3" value="1"  class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> Amy
 						<% } %>
 						
+						<% if(splitPage.queryParam["isPay"] == "2"){ %>
+						<input type="radio" name="_query.isPay" id="check3" value="2" checked="checked" class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 乃坤
+						<% }else{ %>
+						<input type="radio" name="_query.isPay" id="check3" value="2"  class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 乃坤
+						<% } %>
+						
+						<% if(splitPage.queryParam["isPay"] == "3"){ %>
+						<input type="radio" name="_query.isPay" id="check3" value="3" checked="checked" class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> Air
+						<% }else{ %>
+						<input type="radio" name="_query.isPay" id="check3" value="3"  class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 甜点
+						<% } %>
+						
 						
 					</div>
 				</div>
@@ -110,15 +122,16 @@
 									<th style="width: 8px;">
 										<input type="checkbox" class="group-checkable" name="checkAll" onchange="common_common.checkFunc('dataTable', this.checked);" class="flat-grey selectall">
 									</th>
+									<th class="hidden-phone">ID</th>
 									<th class="hidden-phone">微信</th>
-									<th class="hidden-phone">价格</th>
 									<th class="hidden-phone">描述</th>
+									<th class="hidden-phone">价格</th>
 									<th class="hidden-phone">地址</th>
 									<th class="hidden-phone">购买日期</th>
 									<th class="hidden-phone">是否邮寄</th>
 									
 									<th class="hidden-phone">操作人</th>
-									<th class="hidden-phone">图片</th>
+									<th class="hidden-phone" width="100">图片</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
 							</thead>
@@ -128,11 +141,12 @@
 									<td>
 										<input type="checkbox" class="checkboxes" name="checkIds" value="${buy.ids!}" class="flat-grey foocheck">
 									</td>
+									<td class="hidden-phone">${escapeXml(buy.ids!) }</td>
 									<td class="hidden-phone">
 												${escapeXml(buy.wechat!) }
 									</td>
-									<td class="hidden-phone">${escapeXml(buy.priceCN!) }</td>
 									<td class="hidden-phone">${escapeXml(buy.description!) }</td>
+									<td class="hidden-phone">${escapeXml(buy.priceCN!) }</td>
 									<td class="hidden-phone">${escapeXml(buy.address!) }</td>
 									<td class="hidden-phone">${escapeXml(buy.purchaseDate!) }</td>
 									<% if(buy.isSend != 1){ %>
@@ -144,6 +158,8 @@
 										<td style="clear;background-color:#ffd966;" bgcolor="red">熊坚强</td>
 									<% }else if(buy.isPay == 1){ %>
 										<td class="hidden-phone">amy</td>
+									<% }else if(buy.isPay == 3){ %>
+										<td class="hidden-phone">air</td>
 									<% }else{ %>
 										<td class="hidden-phone">乃坤</td>
 									<% } %>

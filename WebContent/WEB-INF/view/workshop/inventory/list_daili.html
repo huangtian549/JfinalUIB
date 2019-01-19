@@ -129,9 +129,10 @@
 						<input class="medium" type="text" name="_query.name" value='${escapeXml(splitPage.queryParam["name"])}' maxlength="20">
 						<select name="_query.type">
 							  <option value ="">所有的</option>
-							  <option value ="1" ${escapeXml(splitPage.queryParam["type"]) == "1" ? "selected='selected'":"" }>美国库存${escapeXml(splitPage.queryParam["type"])}</option>
+							  <option value ="1" ${escapeXml(splitPage.queryParam["type"]) == "1" ? "selected='selected'":"" } >美国库存</option>
 							  <option value ="2" ${escapeXml(splitPage.queryParam["type"]) == "2" ? "selected='selected'":"" } >中国库存</option>
 							  <option value ="3" ${escapeXml(splitPage.queryParam["type"]) == "3" ? "selected='selected'":"" } >在途</option>
+							  <option value ="4" ${escapeXml(splitPage.queryParam["type"]) == "4" ? "selected='selected'":"" } >美国库存2</option>
 							</select>
 							
 							<select name="_query.category">
@@ -198,8 +199,9 @@
 								<tr class="odd gradeX">
 									<td class="hidden-phone">${escapeXml(inventory.name!) }</td>
 									<td class="hidden-phone">${inventory.daili_price!}</td>
-									<% if(inventory.type == 3){ %>
-										<td class="hidden-phone">在途</td>
+									
+									<% if(inventory.type == 4){ %>
+										<td class="hidden-phone">美国库存2</td>
 									<% }else{ %>
 										<td class="hidden-phone">${inventory.type == 1 ? "美国":"中国"}</td>
 									<% } %>

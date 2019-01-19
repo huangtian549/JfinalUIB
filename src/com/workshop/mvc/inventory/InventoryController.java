@@ -54,6 +54,24 @@ public class InventoryController
     render("/workshop/inventory/list_daili.html");
   }
   
+  public void showDaili2()
+  {
+    Object typeObject = this.splitPage.getQueryParam().get("type");
+    Object categoryObject = this.splitPage.getQueryParam().get("category");
+    String type = (String)typeObject;
+    if (type == null) {
+      type = "0";
+    }
+    setAttr("type", type);
+    String category = (String)categoryObject;
+    if (category == null) {
+      category = "0";
+    }
+    setAttr("category", category);
+    paging("main", this.splitPage, "platform.baseModel.splitPageSelect", "workshop.inventory.splitPageFrom2");
+    render("/workshop/inventory/list_daili2.html");
+  }
+  
   public void show()
   {
     Object typeObject = this.splitPage.getQueryParam().get("type");
