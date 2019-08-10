@@ -8,6 +8,15 @@
 	</div>
 </div>
 
+<div class="control-group">
+	<label class="control-label">收件人名字</label>
+	<div class="controls">
+		<input type="text" name="buy.name" value="${escapeXml(buy.name!)}" id="name"
+			class="span3" maxlength="25"  >
+		<span class="help-inline"></span>
+	</div>
+</div>
+
 
 <div class="control-group">
 	<label class="control-label">出售价格(人民币)</label>
@@ -24,7 +33,7 @@
 	<div class="controls">
 		<select name="buy.isSend" class="combox">
 			<option value="1" ${buy.isSend! == 1 ? "selected='selected'":"" }>已经发货</option>
-			<option value="0" ${buy.isSend! != 1 ? "selected='selected'":"" }>未发货</option>
+			<option value="0" ${buy.isSend! == 0 ? "selected='selected'":"" }>未发货</option>
 		</select>
 		
 		<span class="help-inline"></span>
@@ -54,8 +63,10 @@
 		<select name="buy.isPay" class="combox">
 			<option value="0" ${buy.isPay! == 0 ? "selected='selected'":"" }>熊坚强</option>
 			<option value="1" ${buy.isPay! == 1 ? "selected='selected'":"" }>amy</option>
-			<option value="3" ${buy.isPay! == 3 ? "selected='selected'":"" }>air</option>
+			<option value="3" ${buy.isPay! == 3 ? "selected='selected'":"" }>甜点</option>
 			<option value="2" ${buy.isPay! == 2 ? "selected='selected'":"" }>乃坤</option>
+			<option value="4" ${buy.isPay! == 4 ? "selected='selected'":"" }>艳子</option>
+			<option value="5" ${buy.isPay! == 5 ? "selected='selected'":"" }>飞儿</option>
 		</select>
 		
 		

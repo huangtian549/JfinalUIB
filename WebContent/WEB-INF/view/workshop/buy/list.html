@@ -40,8 +40,13 @@
 		                <input class="medium" type="text" name="_query.startdate_end" value='${escapeXml(splitPage.queryParam["startdate_end"])}' 
 		                	id="endDate" onClick="WdatePicker({dateFmt: 'yyyy-MM-dd', minDate:'#F{$dp.$D(\'startDate\')}', maxDate:'%y-%M-%d'})" style="width: 135px" readonly>
 						<button type="button" class="btn btn-danger" onclick='common_ajax.ajaxFormMainPanel("splitPage");'>${i18nMap["admin.common.select"]}</button>
+						<button type="button" class="btn btn-danger" onclick='exportFile()'>导出</button>
 						
-						
+						<% if(splitPage.queryParam["isBuy"] != "0"){ %>
+						<input type="checkbox" name="_query.isBuy" id="check3" value="0" class="checkbox-checkable"  > 导出Excel
+						<% }else{ %>
+						<input type="checkbox" name="_query.isBuy" id="check3" value="0" checked="checked" class="checkbox-checkable"  > 导出Excel
+						<% } %>
 						
 						<% if(splitPage.queryParam["isSend"] != "0"){ %>
 						<input type="checkbox" name="_query.isSend" id="check3" value="0" class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 未邮寄
@@ -73,6 +78,17 @@
 						<input type="radio" name="_query.isPay" id="check3" value="3"  class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 甜点
 						<% } %>
 						
+						<% if(splitPage.queryParam["isPay"] == "4"){ %>
+						<input type="radio" name="_query.isPay" id="check3" value="4" checked="checked" class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 艳子
+						<% }else{ %>
+						<input type="radio" name="_query.isPay" id="check3" value="4"  class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 艳子
+						<% } %>
+						
+						% if(splitPage.queryParam["isPay"] == "5"){ %>
+						<input type="radio" name="_query.isPay" id="check3" value="5" checked="checked" class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 飞儿
+						<% }else{ %>
+						<input type="radio" name="_query.isPay" id="check3" value="5"  class="checkbox-checkable"  onclick="common_ajax.ajaxFormMainPanel('splitPage');"> 飞儿
+						<% } %>
 						
 					</div>
 				</div>
@@ -122,15 +138,15 @@
 									<th style="width: 8px;">
 										<input type="checkbox" class="group-checkable" name="checkAll" onchange="common_common.checkFunc('dataTable', this.checked);" class="flat-grey selectall">
 									</th>
-									<th class="hidden-phone">ID</th>
-									<th class="hidden-phone">微信</th>
-									<th class="hidden-phone">描述</th>
-									<th class="hidden-phone">价格</th>
-									<th class="hidden-phone">地址</th>
-									<th class="hidden-phone">购买日期</th>
-									<th class="hidden-phone">是否邮寄</th>
+									<th class="hidden-phone" style="width:30px">姓名</th>
+									<th class="hidden-phone" style="width:30px">微信</th>
+									<th class="hidden-phone" style="width:150px">描述</th>
+									<th class="hidden-phone" style="width:30px">价格</th>
+									<th class="hidden-phone" style="width:150px">地址</th>
+									<th class="hidden-phone" style="width:50px">购买日期</th>
+									<th class="hidden-phone" style="width:30px">是否邮寄</th>
 									
-									<th class="hidden-phone">操作人</th>
+									<th class="hidden-phone" style="width:30px">操作人</th>
 									<th class="hidden-phone" width="100">图片</th>
 									<th class="hidden-phone">${i18nMap["admin.common.operation"]}</th>
 								</tr>
@@ -138,10 +154,8 @@
 							<tbody>
 								<% for(buy in splitPage.list){ %>
 								<tr class="odd gradeX">
-									<td>
-										<input type="checkbox" class="checkboxes" name="checkIds" value="${buy.ids!}" class="flat-grey foocheck">
-									</td>
 									<td class="hidden-phone">${escapeXml(buy.ids!) }</td>
+									<td class="hidden-phone">${escapeXml(buy.name!) }</td>
 									<td class="hidden-phone">
 												${escapeXml(buy.wechat!) }
 									</td>
@@ -160,6 +174,8 @@
 										<td class="hidden-phone">amy</td>
 									<% }else if(buy.isPay == 3){ %>
 										<td class="hidden-phone">air</td>
+									<% }else if(buy.isPay == 5){ %>
+										<td class="hidden-phone">飞儿</td>
 									<% }else{ %>
 										<td class="hidden-phone">乃坤</td>
 									<% } %>
@@ -232,6 +248,9 @@
 		common_ajax.ajaxFormMainPanel("splitPage");
 	}
 	  
+	function exportFile(){
+		$("#splitPage").submit();
+	}
 	
 	  
 	var copyRecord = function(button) {
